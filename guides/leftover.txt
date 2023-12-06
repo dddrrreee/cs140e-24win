@@ -1,0 +1,59 @@
+
+(In my opinion it's also partly because many of the most interesting
+devices simply don't make much sense in the context of a general system or
+can't even be attached to it so it's not so interesting to write about.)
+
+
+(At risk of whining too much: while FIFOs help the common case, you can
+argue they actually make the system harder to get correct because by
+making discarded  more rare but not never, they make it harder to test
+this code.)
+
+
+(Rather than, say, do what professors do and
+try to trick a student into doing the work that they no longer can in
+their dotage.) 
+
+
+    If you are using DMA or memory to communicate with the device and
+    start getting weird results: immediately think caching issues.
+    But it could also be that the device does weird things.  E.g., the
+    GPU on the r/pi uses the L2 cache as its own memory.  If you don't
+    know this you can use the L2 yourself, leading to weird corruptions.
+
+     (My mild hypothesis is that this passive voice is a remnant of
+     the fact that back in the day many hardware jocks were washed out
+     physicists and this is how physics papers are written.  Not sure.)
+
+
+In addition to passive voice, its the rare datasheet that has
+    examples.
+
+
+    Almost the same idea: a reasonable habit when you do things: lean
+    on why you did them.  When you do A and then B --- why do you think
+    this order is ok?  Would B and then A also work?  Just A?
+
+blog posts.
+it's usually a bad idea to look at stackoverflow or
+script kiddy cut and paste fo stuff you don't understdand.
+but its where the device manufactuer might say what they did.
+
+
+cache issues.   it appears when the response comes back, it's not
+tagged with the address.  so the CPU assumes it was for the
+last one.
+
+    if you load and store to a single device: they work as you would
+    expect
+
+    loads and stores to a single device occur as ordered
+
+    loads and stores to two diff
+
+    * AH: should have them measure the read and write for gpio
+
+if it has N it won't have inf.
+
+known values.  or reference.   often some calibration.
+
