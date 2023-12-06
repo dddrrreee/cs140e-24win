@@ -43,11 +43,3 @@ using my Stanford salary.  As the class size grows, this expense is on
 track to be an noticeable portion of my take-home Salary.  E.g., even
 with cheap domino's pizza with all coupons the food budget is going to
 be around $500 a week.  (So about 5k a quarter.)
-
-You would think Stanford would pay for food and equipment, but they
-do not.    
-
-In any case, the students have to get fed and equip'd, so please donate
-if you find the material useful.
-
-
