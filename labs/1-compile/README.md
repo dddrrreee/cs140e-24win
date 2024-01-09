@@ -1,4 +1,4 @@
-## Compilation lab
+# Compilation lab
 
 Unlike all subsequent labs, our first two don't use hardware.  They should
 give a good feel for whether the class works for you without requiring
@@ -16,10 +16,10 @@ this lab was by far the favorite in the class post mortem.
 
 What to do:
 
-  0. Check out the class repository from github and setup the gcc
+  1. Check out the class repository from github and setup the gcc
      cross-compiler.  See below.
 
-  1. Read through the note on 
+  2. Read through the note on 
      [using gcc to figure out assembly code](../../notes/using-gcc-for-asm/README.md) and work through the examples.
 
      The ability to look at assembly to see how the compiler transformed
@@ -35,7 +35,7 @@ What to do:
      versus passively sitting and thinking will save you a bunch of time
      (not just in this class.)
 
-  2. Read through the note on observability and compiler optimization:
+  3. Read through the note on observability and compiler optimization:
      [observability](../../notes/observability/README.md) and work
      through the examples in `examples-pointer` and `examples-volatile`
      and then answer a few questions below.
@@ -50,18 +50,17 @@ What to do:
   
 Checkoff:
 
-  1. Write good makefiles for `examples-volatile` and `examples-pointer`.
-     These should use wildcards and automatic dependencies.  After
-     compiling a `.c` into a `.o` they should disassemble the result.
--------------------------------------------------------------------
-### 0. install the gcc tool chain
+  - the sections below have some questions you should answer.
 
-#### macOS
+-------------------------------------------------------------------
+## 1. install the gcc tool chain
+
+### macOS
 
 Use the [cs107e install notes](http://cs107e.github.io/guides/install/mac/).
 Note: do not install the python stuff. We will use their custom brew formula!
 
-#### Linux
+### Linux
 
 For [ubuntu/linux](https://askubuntu.com/questions/1243252/how-to-install-arm-none-eabi-gdb-on-ubuntu-20-04-lts-focal-fossa), ARM recently
 changed their method for distributing the tool change. Now you
@@ -97,7 +96,7 @@ If gcc can't find header files, try:
        sudo apt-get install libnewlib-arm-none-eabi
 
 -------------------------------------------------------------------
-### 1. Use `gcc` to figure out assembly.
+## 2. Use `gcc` to figure out assembly.
 
 You should answer these questions for checkoff and be prepared to show
 how you figured them out using the compiler and C code:
@@ -132,9 +131,9 @@ Finally:
      it compiles.
 
 -------------------------------------------------------------------
-### 2. Observability.
+## 3. Observability.
 
-##### Questions about example-volatile.
+### Questions about example-volatile.
 
 For each of the following: make a copy of the file in question, do
 the modification and be able to explain how the machine code shows
@@ -145,7 +144,7 @@ you are right:
      have a problem?  What is it?  If one does and not the other, why?
      Give a fix.
 
-##### Questions about example-pointer.
+### Questions about example-pointer.
 
 For all the files, make sure you can answer the questions in comments
 using the generated machine code and explain why.
