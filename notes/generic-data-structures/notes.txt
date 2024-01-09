@@ -1,0 +1,10 @@
+seems like want two of them:
+   1. one where client supplies the type,
+   2. one where it defines the type (and can call (1))
+
+will figure out the pattern as things get used.
+
+bunch of useful examples at:
+
+engler-ThinkPad-T580:~/class/cs340lx-20aut/labs/data-structures % vi set.c
+
