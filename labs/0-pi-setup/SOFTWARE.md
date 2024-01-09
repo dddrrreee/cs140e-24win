@@ -1,5 +1,8 @@
 # Software Installation
 
+Below describes how to install the drivers and compiler you'll need for
+the pi on Linux and MacOS.
+
 ## Drivers
 
 ### macOS
