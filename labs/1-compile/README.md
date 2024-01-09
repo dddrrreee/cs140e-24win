@@ -98,25 +98,28 @@ If gcc can't find header files, try:
 -------------------------------------------------------------------
 ## 2. Use `gcc` to figure out assembly.
 
-You should answer these questions for checkoff and be prepared to show
-how you figured them out using the compiler and C code:
-  1. What register holds a pointer return value?
+
+You should answer these questions for checkoff.  In each case: 
+write a bit of C code, and be prepared to explain how the machine code
+it produces shows your answer is correct.
+  1. What register holds a pointer (not integer) return value?
   2. What register holds the third pointer argument to a routine?
-  3. If register r1 holds a pointer, what instruction do you use to store
-     an 8-bit integer to that location?
-  4. If register r1 holds a pointer, what instruction do you use to load
-     an 8-bit integer to that location?
+  3. If register `r1` holds a memory address (a pointer), 
+     what instruction do you use to store an 8-bit integer to that location?
+  4. Same as (3) but for load?
   5. Load/store 16-bit?
   6. Load/store 32-bit?
   7. Write some C code that will cause the compiler to emit a `bx`
      instruction that *is not* a function return.
-  8. What does an infinite loop look like?
+  8. What does an infinite loop look like?  Why?
   9. How do you call a routine whose address is in a register rather
-     than a constant?
+     than a constant?  (You'll use this in the threads lab.)
 
-Finally:
-  1. Implement the routine `unsigned GET32(void *addr)` in assembly that
-     does a 32-bit load of the memory pointed to by the address `addr`
+Finally implement the following routines. (Note: you should cheat by 
+using the compiler as above!)
+
+  1. Implement a an assembly routine `unsigned GET32(void *addr)` that
+     does a 32-bit load of the memory pointed to by address `addr`
      and returns it.  Put your implementation in a `mem-op.S` assembly
      file and make sure it compiles with your `arm-none-eabi-gcc`.
 
@@ -124,11 +127,16 @@ Finally:
             % arm-none-eabi-gcc -c mem-op.S
             # disassemble.
             % arm-none-eabi-objdump -d mem-op.o
+ 
+  2. Also implement `GET16` and `GET8`.
 
-  2. Also write a `void PUT32(void *addr, unsigned val)` in assembly
+  3. Similarly, write an assembly routine 
+     `void PUT32(void *addr, unsigned val)` 
      that stores the 32-bit quantity `val` into the memory pointed
      to by address `addr`.  Also put this in `mem-op.S` and make sure
      it compiles.
+
+  4. Also implement `PUT16` and `PUT8`.
 
 -------------------------------------------------------------------
 ## 3. Observability.
