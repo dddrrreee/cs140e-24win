@@ -4,11 +4,11 @@ Unlike all subsequent labs, our first two don't use hardware.  They should
 give a good feel for whether the class works for you without requiring
 a hardware investment.
 
-Today's short lab focuses on what happens when you compile code.
-How to automate compilation with `make`.  How to see how the compiler
-translated your C code by examining the machine code it produced.
-And some some of the subtle rules for how the compiler can do this
-translation.  What we cover will apply to every lab this quarter.
+Today's short lab focuses on what happens when you compile code.  How to
+see how the compiler translated your C code by examining the machine code
+it produced.  And some some of the subtle rules for how the compiler can
+do this translation.  What we cover will apply to every lab this quarter.
+   - The `docs` directory has useful, further readings.
 
 The next lab will dive into subtle inductive magic tricks that
 arise when you compile a compiler using itself.  FWIW: in the past,
@@ -16,7 +16,7 @@ this lab was by far the favorite in the class post mortem.
 
 What to do:
   0. Check out the class repository from github and setup the gcc
-     cross-compiler.  See [how to setup the toolchain](./SOFTWARE.md)
+     cross-compiler.  See below.
 
   1. Read through the note on 
      [using gcc to figure out assembly code](../../notes/using-gcc-for-asm/README.md) and work through the examples.
@@ -46,19 +46,57 @@ What to do:
      arise in the class (and IRL) come from ignorance of how and why
      these violations cause problems.
 
-  3. Read through [makefile writeup](../../notes/makefiles/README.md) and go
-     through the examples. 
-
-The `docs` diretory has useful, further readings.
   
 Checkoff:
 
   1. Write good makefiles for `examples-volatile` and `examples-pointer`.
      These should use wildcards and automatic dependencies.  After
      compiling a `.c` into a `.o` they should disassemble the result.
+-------------------------------------------------------------------
+### 0. install the gcc tool chain
+
+#### macOS
+
+Use the [cs107e install notes](http://cs107e.github.io/guides/install/mac/).
+Note: do not install the python stuff. We will use their custom brew formula!
+
+#### Linux
+
+For [ubuntu/linux](https://askubuntu.com/questions/1243252/how-to-install-arm-none-eabi-gdb-on-ubuntu-20-04-lts-focal-fossa), ARM recently
+changed their method for distributing the tool change. Now you
+must manually install. As of this lab, the following works:
+
+        wget https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
+
+        sudo tar xjf gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 -C /usr/opt/
+
+We want to get these binaries on our `$PATH` so we don't have to type the
+full path to them every time. There's a fast and messy option, or a slower
+and cleaner option.
+
+The fast and messy option is to add symlinks to these in your system `bin`
+folder:
+
+        sudo ln -s /usr/opt/gcc-arm-none-eabi-10.3-2021.10/bin/* /usr/bin/
+
+The cleaner option is to add `/usr/opt/gcc-arm-none-eabi-10.3-2021.10/bin` to
+your `$PATH` variable in your shell configuration file (e.g., `.zshrc` or
+`.bashrc`), save it, and `source` the configuration. When you run:
+
+        arm-none-eabi-gcc
+        arm-none-eabi-ar
+        arm-none-eabi-objdump
+
+You should not get a "Command not found" error.
+
+You may also have to add your username to the `dialout` group.
+
+If gcc can't find header files, try:
+
+       sudo apt-get install libnewlib-arm-none-eabi
 
 -------------------------------------------------------------------
-### 1. using gcc to figure out assembly.
+### 1. Use `gcc` to figure out assembly.
 
 You should answer these questions for checkoff and be prepared to show
 how you figured them out using the compiler and C code:
@@ -72,6 +110,9 @@ how you figured them out using the compiler and C code:
   6. Load/store 32-bit?
   7. Write some C code that will cause the compiler to emit a `bx`
      instruction that *is not* a function return.
+  8. What does an infinite loop look like?
+  9. How do you call a routine whose address is in a register rather
+     than a constant?
 
 Finally:
   1. Implement the routine `unsigned GET32(void *addr)` in assembly that
@@ -92,40 +133,59 @@ Finally:
 -------------------------------------------------------------------
 ### 2. Observability.
 
-Questions about the volatile examples:
+##### Questions about example-volatile.
 
--------------------------------------------------------------------
-### 2. write good makefiles for `notes/observability/examples-*`
+For each of the following: make a copy of the file in question, do
+the modification and be able to explain how the machine code shows
+you are right:
 
-If you look at the makefiles in these subdirectories in
-`../../notes/observability' they are awful. You will fix them.
+  1. Give two different fixes for `2-wait.c` and check that they work.
+  2. Which of the two files `4-fb.c` and `5-fb.c` (or: both, neither) 
+     have a problem?  What is it?  If one does and not the other, why?
+     Give a fix.
 
-  1. Make copies of these directories in in the current lab.
-  2.  Rewrite both `volatile/examples-pointer/Makefile` and `volatile/examples-volatile/Makefile` from scratch using the methods from:
+##### Questions about example-pointer.
 
-      - [simple concrete makefiles](http://nuclear.mutantstargoat.com/articles/make/).
+For all the files, make sure you can answer the questions in comments
+using the generated machine code and explain why.
 
-  3.  At the end of this lab, when you type `make` in your copies of
-  `volatile/examples-pointer` or `volatile/examples-volatile`, all
-  `.c`'s should be compiled into `.o`'s and corresponding disassembled
-  `.dis`'s should be generated.
 
-In particular:
-  - Use wildcard patterns to get all the `.c` files from 
-    the current directory and generate `.o` files from them.
-  - Have a `CFLAGS`, `DIS` and `CC` variables so you can 
-    switch between compiler, disassembly, and compiler options.
-      - `CC` should be the name of your compiler (either `gcc`, `clang`, or `arm-none-eabi-gcc`)
-      - `DIS` should be the name of your disassembler (either `objdump` or `arm-none-eabi-objdump`)
-  - In the custom `%.o` rule you define, disassemble the resultant
-    `.o`.
-  - Use the built in make variables `$@` and and `$<`
-  - Install the ARM compiler and make sure your makefile can correctly use it.
+Additional:
 
-Note: `make` has some automatic rules to make `.o` files from `.c` files; make sure it's using your rules and not the built-in ones.
+  1.  Which (if any) assignments can the compiler remove from the code
+      in this file?
+    
+            /* foo.c start */
+            static int lock = 0, cnt = 0;
 
-Additional reading:
-  - [The wikipedia page gives a reasonable overview](https://en.wikipedia.org/wiki/Make_(software))
-  - [cheatsheet](https://devhints.io/makefile)
+            void bar(void);
 
-Once you think you're done, please check in with one of the CA's (this is typical for labs--at the end of each lab you'll want to "check off" your work with a CA).
+            void foo(int *p) {              
+                cnt++;                      // line 1
+                lock = 1;                   // line 2
+                bar();                      // line 3
+                lock = 0;                   // line 4
+                return;                
+            }
+            /* foo.c end */
+
+
+   2. The compiler analyzes `foo` in isolation, can it
+      reorder or remove any of the following assignments?
+
+        void foo(int *p, int *q) {
+            *q = 1;
+            *p = 2;
+            *q = 3;
+            return;
+        }
+
+
+    3. How much of this code can \v{gcc} remove?  (Give your intuition!)
+
+        #include <stdlib.h>
+        int main(void) {
+            int *p = malloc(4);
+            *p = 10;
+            return 0;
+        }
