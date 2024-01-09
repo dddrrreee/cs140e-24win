@@ -50,7 +50,15 @@ What to do:
   
 Checkoff:
 
-  - the sections below have some questions you should answer.
+  - Sections 2 and 3 below have some questions you should answer and check
+    off with a CA.
+
+  - Feel free to work with another person and checkoff as a team, but
+    you should both have code written on your own laptops and be able
+    to answer each on your own.
+
+  - Simple extension: write some C examples that show the compiler
+    doing something interesting / surprising.
 
 -------------------------------------------------------------------
 ## 1. install the gcc tool chain
@@ -88,8 +96,6 @@ your `$PATH` variable in your shell configuration file (e.g., `.zshrc` or
         arm-none-eabi-objdump
 
 You should not get a "Command not found" error.
-
-You may also have to add your username to the `dialout` group.
 
 If gcc can't find header files, try:
 
