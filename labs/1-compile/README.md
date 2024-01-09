@@ -4,15 +4,15 @@ Unlike all subsequent labs, our first two don't use hardware.  They should
 give a good feel for whether the class works for you without requiring
 a hardware investment.
 
-  - Today's short lab focuses on what happens when you compile code.
-    How to automate compilation with `make`.  How to see how the compiler
-    translated your C code by examining the machine code it produced.
-    And some some of the subtle rules for how the compiler can do this
-    translation.  What we cover will apply to every lab this quarter.
+Today's short lab focuses on what happens when you compile code.
+How to automate compilation with `make`.  How to see how the compiler
+translated your C code by examining the machine code it produced.
+And some some of the subtle rules for how the compiler can do this
+translation.  What we cover will apply to every lab this quarter.
 
-  - The next lab will dive into subtle inductive magic tricks that
-    arise when you compile a compiler using itself.  FWIW: in the past,
-    this lab was by far the favorite in the class post mortem.
+The next lab will dive into subtle inductive magic tricks that
+arise when you compile a compiler using itself.  FWIW: in the past,
+this lab was by far the favorite in the class post mortem.
 
 What to do:
   0. Check out the class repository from github and setup the gcc
@@ -59,6 +59,24 @@ Checkoff:
 
 -------------------------------------------------------------------
 ### 1. using gcc to figure out assembly.
+
+Questions:
+  1. What register holds a pointer return value?
+  2. What register holds the third pointer argument to a routine?
+  3. If register r1 holds a pointer, what instruction do you use to store
+     an 8-bit integer to that location?
+  4. If register r1 holds a pointer, what instruction do you use to load
+     an 8-bit integer to that location?
+  5. Load/store 16-bit?
+  6. Load/store 32-bit?
+  7. Write some C code that will cause the compiler to emit a `bx`
+     instruction that *is not* a function return.
+
+-------------------------------------------------------------------
+### 2. Observability.
+
+
+Questions about the volatile examples:
 
 -------------------------------------------------------------------
 ### 2. write good makefiles for `notes/observability/examples-*`
