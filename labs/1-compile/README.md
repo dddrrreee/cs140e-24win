@@ -15,6 +15,7 @@ arise when you compile a compiler using itself.  FWIW: in the past,
 this lab was by far the favorite in the class post mortem.
 
 What to do:
+
   0. Check out the class repository from github and setup the gcc
      cross-compiler.  See below.
 
