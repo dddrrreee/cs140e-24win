@@ -158,7 +158,8 @@ For all the files, make sure you can answer the questions in comments
 using the generated machine code and explain why.
 
 
-Additional:
+In addition, you should be able to answer the following questions from
+a previous 240 exam:
 
   1.  Which (if any) assignments can the compiler remove from the code
       in this file?
@@ -181,19 +182,19 @@ Additional:
    2. The compiler analyzes `foo` in isolation, can it
       reorder or remove any of the following assignments?
 
-        void foo(int *p, int *q) {
-            *q = 1;
-            *p = 2;
-            *q = 3;
-            return;
-        }
+            void foo(int *p, int *q) {
+                *q = 1;
+                *p = 2;
+                *q = 3;
+                return;
+            }
 
 
-    3. How much of this code can \v{gcc} remove?  (Give your intuition!)
+    3. How much of this code can gcc remove?  (Give your intuition!)
 
-        #include <stdlib.h>
-        int main(void) {
-            int *p = malloc(4);
-            *p = 10;
-            return 0;
-        }
+            #include <stdlib.h>
+            int main(void) {
+                int *p = malloc(4);
+                *p = 10;
+                return 0;
+            }
