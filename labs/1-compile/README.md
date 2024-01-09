@@ -60,7 +60,8 @@ Checkoff:
 -------------------------------------------------------------------
 ### 1. using gcc to figure out assembly.
 
-Questions:
+You should answer these questions for checkoff and be prepared to show
+how you figured them out using the compiler and C code:
   1. What register holds a pointer return value?
   2. What register holds the third pointer argument to a routine?
   3. If register r1 holds a pointer, what instruction do you use to store
@@ -72,9 +73,24 @@ Questions:
   7. Write some C code that will cause the compiler to emit a `bx`
      instruction that *is not* a function return.
 
+Finally:
+  1. Implement the routine `unsigned GET32(void *addr)` in assembly that
+     does a 32-bit load of the memory pointed to by the address `addr`
+     and returns it.  Put your implementation in a `mem-op.S` assembly
+     file and make sure it compiles with your `arm-none-eabi-gcc`.
+
+            # compile but don't link
+            % arm-none-eabi-gcc -c mem-op.S
+            # disassemble.
+            % arm-none-eabi-objdump -d mem-op.o
+
+  2. Also write a `void PUT32(void *addr, unsigned val)` in assembly
+     that stores the 32-bit quantity `val` into the memory pointed
+     to by address `addr`.  Also put this in `mem-op.S` and make sure
+     it compiles.
+
 -------------------------------------------------------------------
 ### 2. Observability.
-
 
 Questions about the volatile examples:
 
