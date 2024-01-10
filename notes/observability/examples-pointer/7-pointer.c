@@ -1,3 +1,4 @@
+// you don't need this for lab 1-compile.
 #include <stdlib.h>
 
 // as far as gcc concerned: opaque functions.

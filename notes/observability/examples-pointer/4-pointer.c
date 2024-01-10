@@ -1,5 +1,6 @@
 // local function.
 static int x;
+
 void bar(void) {
 }
 
