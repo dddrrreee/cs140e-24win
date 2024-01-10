@@ -1,31 +1,17 @@
-
-
-/*
-00000000 <mul>:
-   0:	e1a03000 	mov	r3, r0
-   4:	e3a0c000 	mov	ip, #0
-   8:	e0000192 	mul	r0, r2, r1
-   c:	e583c000 	str	ip, [r3]
-  10:	e12fff1e 	bx	lr
-*/
-
-#define gcc_mb() asm volatile ("" : : : "memory")
-// simple routine to time multiplication.
+// we went to measure the overhead of a mul instruction:
+// 1. read clock at address 0x20003004
+// 2. do the multiply
+// 3. read clock at address 0x20003004
+// 4. write the diff.
+//
+// what happens?
 int mul(int *time, int a, int b) {
-	unsigned start = *(volatile unsigned *) 0x20003004;
+	unsigned start = *(unsigned *) 0x20003004;
 
-    asm volatile ("" : : : "memory");
 	int c = a * b;
-    asm volatile ("" : : : "memory");
 
-    unsigned end = *(volatile unsigned *) 0x20003004;
+    unsigned end = *(unsigned *) 0x20003004;
 
 	*time = end - start;
 	return c;
-}
-
-void x(volatile int * xx) {
-    *xx;
-    *xx;
-    *xx;
 }

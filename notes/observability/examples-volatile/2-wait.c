@@ -1,3 +1,9 @@
+// common patten: 
+//  1. Before doing an operation, spin on status flag
+//     in device memory (magic address) until it is "ready".
+//  2. Once the device is ready, do the operation.
+//
+//  problem: compiler does not know the device can write memory.
 typedef struct {
   unsigned read;
   unsigned padding[3];
