@@ -58,7 +58,8 @@ Checkoff:
     to answer each on your own.
 
   - Simple extension: write some C examples that show the compiler
-    doing something interesting / surprising.
+    doing something interesting / surprising.  E.g., write C code
+    that shows off fancy optimizations the compiler does.
 
 -------------------------------------------------------------------
 ## 1. install the gcc tool chain
