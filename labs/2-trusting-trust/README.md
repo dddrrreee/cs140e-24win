@@ -39,15 +39,15 @@ Everyone I've met above a certain age in systems has read this paper
 and they all seem to think they understand it.  However, I've not met
 a single one that had ever written the code to do it.  There is a big
 difference between passively nodding to nouns and verbs and being able
-to actively construct an implementation of an idea.
+to predict the next token to type so you can build it.
 
-This is a pretty commmon pattern both in systems in general and this class
-in particular: you (especially I) can read a bunch of prose, think you
-understand, and then when you fire up the editor to type out the first
-line of code, realize you actually don't know what to type at all,
-and the apparent understanding was fake.  Fortunately, the brute force
-solution is easy: just keep writing the code, and when you're done,
-you'll understand much more deeply in a way that cannot be faked.
+This is a pretty commmon pattern both in systems in general and this
+class in particular: you (especially I) can read a bunch of prose,
+think you understand, and then when you fire up the editor to type out
+the first line of code, realize you actually don't know what to type at
+all, and the apparent understanding was fake.  Fortunately, the brute
+force solution is easy: just keep writing the code, and when you're
+done, you'll understand much more deeply in a way that cannot be faked.
 (Hence this class.)
 
 For this lab you will write code to implement Thompson's hack in three
@@ -80,6 +80,8 @@ Extensions:
   - Inject attacks into a binary program rather than source code.
   - Attack a different program (this could be a minor or major extension
     depending.)
+  - Some other neat trick in the spirit of the paper!  We'll add your
+    hack for subsequent class years.
 
 -------------------------------------------------------------------
 ### Intuition: self-replicating attack injection
@@ -135,18 +137,37 @@ we have three single-file programs:
 
     Because the compiler automatically injects the backdoor into `login.c`
     during compilation, it is impossible to inspect `login.c` to see
-    the attack.  (Note: we ignore the fact that `login` would be 
-    for remote access so that the transcripts are easier.)
+    the attack.  (Note: we assume `login` is for local rather than
+    remote access so that the transcripts are easier.)
 
     This is cool, but not that tricky to follow.  The big leap that
-    requires some thought is that `trojan-compiler.c` contains the code
-    to *also* automatically injects its entire set of attacks into a clean
-    `compiler.c` during compilation.  (I.e., self-replicate its attack.)
+    requires some thought is that Ken's `trojan-compiler.c` contains
+    the code to *also* automatically inject its entire set of attacks
+    into a clean `compiler.c` during compilation.  (I.e., self-replicate
+    its attack.)
 
     When this means is that after you compile `compiler.c` with 
     `trojan-compiler` you get the following magic trick:
 
+            # ken's trojan-compiler.c injects two 
+            # attacks (1) the ken backdoor in <login>
+            # and (2) the code to inject (1) into 
+            # <compiler>.  
+            #
+            # this means we can do the following:
+            #
+            # 1. bootstrap an infected <compiler>
+            % compiler trojan-compiler.c -o trojan-compiler
             % trojan-compiler compiler.c -o compiler
+            # <compiler> now has both attacks (make sure
+            # you understand this: is the key to the lab)
+
+            # 2. the infected <compiler> binary will now 
+            # infect on its own.
+            % compiler compiler.c -o compiler
+
+            # 3. the infected <compiler> will also 
+            # infect <login>
             % compiler login.c -o login
             % login
             username: ken
@@ -154,9 +175,9 @@ we have three single-file programs:
 
     In other words, during compilation the `trojan-compiler` binary
     essentially turns `compiler.c` into `trojan-compiler.c` and generates
-    a binary from it. This new hacked `compile` binary will now inject attacks
-    both into `login.c` and `compiler.c` just as `trojan-compiler` does.
-    Further, the hacked `compiler` binary also self-replicates the
+    a binary from it. This new hacked `compile` binary will now inject
+    attacks both into `login.c` and `compiler.c` just as `trojan-compiler`
+    does.  Further, the hacked `compiler` binary also self-replicates the
     attack when used to compile itself *even though the attack is not in
     `compiler.c`*!  (Think about this weirdness: it's as close to a koan
     as I know in systems.)
@@ -246,7 +267,7 @@ itself.  This will be the code as shown at the beginning of Figure 1.
 	    # 1. Generate the paper's quine from seed.c
 	    % ./quine-gen < seed.c > quine.c
 	    # 2. Use quine.c to generate itself
-	    % cc quine.c -o quine
+	    % gcc quine.c -o quine
 	    % ./quine > quine-out.c
 	    # 3. Check generated quine-out.c matches quine.c
 	    % diff quine.c quine-out.c
@@ -363,7 +384,7 @@ The basic approach:
 ##### Details of attacking `compiler`
 
 Before doing the fancy Thompson trick we'll just make sure everyting
-works by injecting a dumb "attack" into the `complile()` routine
+works by injecting a dumb "attack" into the `compile()` routine
 in `compiler.c` that will cause it to add the `printf`:
 
         printf("%s:%d: could have run your attack here!!\n\", 
@@ -516,5 +537,3 @@ You have now replicated Thompon's hack.  Startlingly, there seem to be
 only a few people that have ever done so, and most that believe they
 understand the paper woulnd't actually be able to write out the code.
 You can probably really stand out at parties by explaining what you did.
-
-***Lab food paid for by: Michelle J!***

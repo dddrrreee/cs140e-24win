@@ -1,3 +1,4 @@
+# see README.md for discussion of what to do.
 CC =gcc
 CFLAGS = -Og -g -Wall
 
