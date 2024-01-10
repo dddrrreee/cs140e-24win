@@ -9,10 +9,6 @@ This repository contains all material for CS140E, winter 2024.
 Tl;dr:
   - It's a lab class, so [jump right to the labs](./labs/README.md).
 
-  - If you find the material useful,
-    [please consider donating](./donate.md) --- all donated funds go
-    entirely to buy food and equipment for the 2024 lab students.
-
 CS140E is an introductory operating systems course. It roughly covers
 the same high-level material as [CS 212][cs212] (formerly CS 140), but
 with a focus on embedded systems, interacting directly with hardware,
@@ -28,6 +24,8 @@ Staff:
   - Dawson Engler (engler);
   - Daniel Rebelsky (rebelsky);
   - Joe Tan (dghosef)
+  - Tina Rogers
+  - Parthiv Krishna
 
 ------------------------------------------------------------------------
 ### Details
