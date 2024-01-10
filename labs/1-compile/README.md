@@ -66,7 +66,7 @@ Checkoff:
 
 ### macOS
 
-Use the [cs107e install notes](http://cs107e.github.io/guides/install/mac/).
+Use the [cs107e install notes](https://web.archive.org/web/20210414133806/http://cs107e.github.io/guides/install/mac/).
 Note: do not install the python stuff. We will use their custom brew formula!
 
 ### Linux
