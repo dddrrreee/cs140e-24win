@@ -48,3 +48,7 @@ a hardware investment.
     did powerful things.   We will reimplement a simplified version of a crazy
     hack he described in his Turing award lecture that let him log into any
     Unix system in a way hidden even from careful code inspection.
+
+<p align="center">
+  <img src="bug.jpg" width="400" />
+</p>
