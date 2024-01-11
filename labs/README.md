@@ -1,7 +1,7 @@
 ## The labs
 
 <p align="center">
-  <img src="coding.jpg" width="450" />
+  <img src="coding.jpg" width="400" />
 </p>
 
 Below describes where we're going and why.   The labs themselves have a
