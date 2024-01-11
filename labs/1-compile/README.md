@@ -205,3 +205,11 @@ a previous 240 exam:
                 *p = 10;
                 return 0;
             }
+
+-------------------------------------------------------------------
+## Post-script
+
+<p align="center">
+  <img src="docs/compiler.jpg" width="450" />
+</p>
+
