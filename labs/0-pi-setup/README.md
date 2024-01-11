@@ -1,17 +1,97 @@
-### Raspberry Pi Setup: make sure r/pi hardware and its toolchain works.
+## Setup r/pi hardware and its toolchain
 
-This is relatively trivial, but will make sure your r/pi (Model 1 A+ or Model
-Zero) and ARM toolchain works.
+<p align="center">
+  <img src="images/resistor.jpg" width="450" />
+</p>
 
-- **Make sure you do the [prelab](../PRELAB.md) first!**
-- In addition, there is now a [HINTS file](HINTS.md) that lists out many of the
-  common solutions to problems that people ran into
-- Look at [the checkoff guide](../CHECKOFF.md) to see what the deliverables for
-  this portion will be.
+
+
+This lab gives the steps to setting up and making sure the 
+your r/pi (Model 1 A+ or Model Zero) and ARM toolchain works.
+ - [HINTS file](HINTS.md) lists solutions to common problems people
+   run into.
+
+ - This writeup assumes the use of Parthiv's breakout board rather than
+   a standalone tty-usb device --- If you use the latter, the 2023 140E
+   writeup explains how to do so.
 
 There's a lot of fiddly little details in getting a pi working, and this
 lab is many people's first time working with hardware, so we break the
 lab down into many (perhaps too-many) small steps.
+
+The steps:
+  1. Make sure the hardware works.
+  2. Copy the bootloader and setup your PATH correctly.
+  3. Setup the `140E_CS140E_2024` environment variable.
+  4. Setup a blinky LED light.
+
+
+### Crucial: Life and death rules for pi hardware.
+
+*Before doing anything: always obey the first rule of PI-CLUB*:
+
+- **_IF YOUR PI GETS HOT TO THE TOUCH: UNPLUG IT_**
+- **_IF YOUR PI GETS HOT TO THE TOUCH: UNPLUG IT_**
+- **_IF YOUR PI GETS HOT TO THE TOUCH: UNPLUG IT_**
+- **_IF YOUR PI GETS HOT TO THE TOUCH: UNPLUG IT_**
+- **_IF YOUR PI GETS HOT TO THE TOUCH: UNPLUG IT_**
+
+If anything ever gets hot to the touch --- the serial device, the pi ---
+**_DISCONNECT_**! Sometimes devices have manufacturing errors (welcome
+to hardware), sometimes you've made a mistake.  Any of these can lead
+to frying the device or, in the worst case, your laptop. So don't assume
+you have a safety net: it's up to you to avert disaster.
+
+In addition:
+
+1. Whenever you make a hardware change --- messing with wires,
+   pulling the SD card in/out --- **_make sure pi is disconnected
+   from your laptop_**. It's too easy to short something and fry
+   your hardware. Also, pulling the SD card out while under power
+   sometimes causes corruption when some bytes have been written out
+   by your laptop and others have not.
+
+2. While the pi has its own unique features, it's also like all other
+   computers you've worked with: if it's not responding, "reboot"
+   and retry by unplugging it (to remove power) and reconnect.
+
+-------------------------------------------------------------------
+#### 0. Make sure you have everything.
+
+You should have:
+
+1. a R/PI A+ (or Zero);
+2. a microSD card and adapter;
+3. Parthiv's breakout board `parthiv-pi`.  (As mentioned in class,
+   he designed this board as his 240lx final project.)
+4. a bunch of LEDs
+5. a bunch of female-female jumpers;
+
+Parthiv's board has a bunch of nice features:
+ 1. There is a small button to reset power vs having to unplug
+    a USB cable.
+ 2. It plugs directly into the pi using a solid header
+    rather than using jumper wires, which are both messy and can easily
+    be too-loose or come loose while visually looking fine.
+ 3. It reorganizes the pins on the pi and labels them.
+ 4. It has two headers for NRF RF transcievers (used later inthe quarter)
+    along with an I2S mic and a sonar device.
+
+<table><tr><td>
+  <img src="images/pi-start.jpg"/>
+</td></tr></table>
+
+You can see the raw pi GPIO pin layout in:
+<table><tr><td>
+  <img src="images/../../docs/gpio.png"/>
+</td></tr></table>
+The pi is oriented with the two rows of pins on the right of the board.
+
+The pi provides multiple ground pins and both 5v and 3.3v outputs.
+The GPIO pins themselves put out 3.3v.
+
+--------------------------------------------------------------------
+### 1.  Make sure hardware is working.
 
 We'll use different variations of a blinky light using GPIO pin 20
 (second from bottom on the right):
@@ -34,62 +114,26 @@ benefit from your insight!
 
 ---
 
-### Crucial: Life and death rules for pi hardware.
-
-**Always**:
-
-1. Whenever you make a hardware change --- messing with wires,
-   pulling the SD card in/out --- **_make sure pi is disconnected
-   from your laptop_**. It's too easy to short something and fry
-   your hardware. Also, pulling the SD card out while under power
-   sometimes causes corruption when some bytes have been written out
-   by your laptop and others have not.
-
-2. If anything ever gets hot to the touch --- the serial device,
-   the pi --- **_DISCONNECT_**! Sometimes devices have manufacturing
-   errors (welcome to hardware), sometimes you've made a mistake.
-   Any of these can lead to frying the device or, in the worst case,
-   your laptop. So don't assume you have a safety net: it's up to you
-   to avert disaster.
-
-3. While the pi has its own unique features, it's also like all other
-   computers you've worked with: if it's not responding, "reboot"
-   and retry by unplugging it (to remove power) and reconnect.
-
----
-
-#### 0. Make sure you have everything.
-
-You should have:
-
-1. a R/PI A+ (or Zero);
-2. a microSD card and adapter;
-3. Parthiv's breakout board or a CP2102 USB-TTL adapter;
-4. a bunch of LEDs
-5. a bunch of female-female jumpers;
-6. printout of the pi's pins (digital is okay, but a printout will be
-   more convenient).
-
-<table><tr><td>
-  <img src="images/pi-start.jpg"/>
-</td></tr></table>
-
-The pi is oriented with the two rows of pins on the right of the board.
-The two pins at the top of the rightmost row are 5v, the top left 3v.
-When connecting things I usually try to use the bottom left ground pin,
-and the bottom right GPIO 21 pin, since these are impossible to miscount.
 
 ---
 
 #### 1. Make sure hardware is working:
 
 Before we mess with software that will control hardware, we first make
-sure the hardware works: When doing something for the first time,
-you always want to isolate into small pieces.
+sure the hardware works: 
+  1. When doing something for the first time, you always want to isolate
+     into small pieces.  The smaller the piece, the easier it is to
+     isolate and diagnose the piece that is broken.
 
-So as our first step, we will use the USB-TTY to power the pi, and
-use the pi's power to directly turn on an LED. This tests some basic
-hardware and that you know how to wire.
+  2. Similarly, when we do anything with both hardware and software,
+     you always want to test the hardware in isolation first, if at all
+     possible.  If you don't, and things don't work, you'll immediately
+     be wasting time because you don't know if the bug is in software
+     problem or a hardware (or, worse, both).
+
+So as our first step, we will use the parthiv-pi board to power the pi,
+and use one of the  pi's 3.3v power pins and a ground pin to directly turn
+on an LED. This tests some basic hardware and that you know how to wire.
 
 <table><tr><td>
   <img src="../../docs/gpio.png"/>
@@ -151,6 +195,7 @@ Success looks like the following photos:
 </p>
 
 ---
+
 
 #### 2. Make sure you're able to install firmware, etc:
 
