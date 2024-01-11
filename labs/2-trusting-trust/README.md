@@ -423,6 +423,10 @@ the programs you want.
 --------------------------------------------------------------------------
 #### step3: inject an attack that will inject an attack into the compiler.
 
+<p align="center">
+  <img src="docs/observe.jpg" width="450" />
+</p>
+
 Clearly we have to develop the compiler injection "attack" since it only
 prints an annoying message rather than doing something evil.  But what
 exactly does it have to do?   Our problem is that we need the attack to
