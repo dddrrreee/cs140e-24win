@@ -92,7 +92,7 @@ Extensions:
 ### Intuition: self-replicating attack injection
 
 <p align="center">
-  <img src="docs/observe.jpg" width="300" />
+  <img src="docs/observe.jpg" width="450" />
 </p>
 
 What is interesting about his hack:
