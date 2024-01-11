@@ -91,9 +91,6 @@ Extensions:
 -------------------------------------------------------------------
 ### Intuition: self-replicating attack injection
 
-<p align="center">
-  <img src="docs/observe.jpg" width="450" />
-</p>
 
 What is interesting about his hack:
 
@@ -542,6 +539,10 @@ Note:
 	
 -----------------------------------------------------------------------
 #### Postscript
+
+<p align="center">
+  <img src="docs/observe.jpg" width="450" />
+</p>
 
 You have now replicated Thompon's hack.  Startlingly, there seem to be
 only a few people that have ever done so, and most that believe they
