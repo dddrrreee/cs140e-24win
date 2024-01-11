@@ -313,7 +313,7 @@ We give you:
 
 What you should do:
 
-  0. Before modifying anything make sure the code works.
+  1. Before modifying anything make sure the code works.
      When you run `make` you should see something like:
 
         % make
@@ -327,7 +327,7 @@ What you should do:
         diff login.out out
         success: compiler compiled login correctly!
 
-  1. Modify the `compile()` routine in `trojan-compiler.c` so that it
+  2. Modify the `compile()` routine in `trojan-compiler.c` so that it
      scans its input looking for the start of the `login()` routine in
      `login.c`.  If it finds a match, it should inject a backdoor that
      lets user `ken` in without a password.  This should be fairly
@@ -344,7 +344,7 @@ What you should do:
             username: ken
             successful login: <ken>
 
-  2. Finally, also modify the `compile()` routine in
+  3. Finally, also modify the `compile()` routine in
     `trojan-compiler.c` so that it scans its input for the `compile()`
     routine in `compiler.c` and, if it finds it, injects a simple print
     statement that will print each time `compile()` runs --- this is
