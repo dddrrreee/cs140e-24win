@@ -1,11 +1,16 @@
 ## Trusting trust
 
+<p align="center">
+  <img src="docs/recursive.jpg" width="450" />
+</p>
+
+
 Today is a fun lab; on the teaching evals it was generally
 the favorite of the quarter.  
 
 Before lab:
   - Make sure you read the [PRELAB](./PRELAB.md)
-  - Read the paper for today: [trusting-trust.pdf](./trusting-trust.pdf)
+  - Read the paper for today: [trusting-trust.pdf](./docs/trusting-trust.pdf)
     carefully (I'd say at least three times).  To check your understanding
   - Make sure you can answer the reading questions [READING-Q](./READING-Q.md).
   - Look through the code in `code/step1`, `code/step2` and `code/step3`:
@@ -14,7 +19,7 @@ Before lab:
     to see what you'll be doing.
 
 Today we'll a simple version of the code in the short Ken Thompson paper
-(`trusting-trust.pdf`).  This paper was his Turing award lecture (our
+(`docs/trusting-trust.pdf`).  This paper was his Turing award lecture (our
 field's Nobel prize), where he discussed an evil, very slippery hack he
 implemented on the early Unix systems that injected an invisible backdoor
 that let him login to any Unix system.  
