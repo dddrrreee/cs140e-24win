@@ -155,13 +155,6 @@ we have three single-file programs:
     When this means is that after you compile `compiler.c` with 
     `trojan-compiler` you get the following magic trick:
 
-            # ken's trojan-compiler.c injects two 
-            # attacks (1) the ken backdoor in <login>
-            # and (2) the code to inject (1) into 
-            # <compiler>.  
-            #
-            # this means we can do the following:
-            #
             # 1. bootstrap an infected <compiler>
             % compiler trojan-compiler.c -o trojan-compiler
             % trojan-compiler compiler.c -o compiler
