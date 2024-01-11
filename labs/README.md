@@ -1,7 +1,7 @@
 ## The labs
 
 <p align="center">
-  <img src="coding.jpg" width="400" />
+  <img src="lab-memes/coding.jpg" width="400" />
 </p>
 
 Below describes where we're going and why.   The labs themselves have a
@@ -49,6 +49,8 @@ a hardware investment.
     hack he described in his Turing award lecture that let him log into any
     Unix system in a way hidden even from careful code inspection.
 
+---------------------------------------------------------------------
+
 <p align="center">
-  <img src="bug.jpg" width="400" />
+  <img src="lab-memes/bug.jpg" width="400" />
 </p>
