@@ -141,10 +141,10 @@ we have three single-file programs:
             username: ken
             Successful login!
 
-    Because the compiler automatically injects the backdoor into `login.c`
-    during compilation, it is impossible to inspect `login.c` to see
-    the attack.  (Note: we assume `login` is for local rather than
-    remote access so that the transcripts are easier.)
+    Because `trojan-compiler` automatically injects the backdoor into
+    `login.c` during compilation, it is impossible to inspect `login.c`
+    to see the attack.  (Note: we assume `login` is for local rather
+    than remote access so that the transcripts are easier.)
 
     This is cool, but not that tricky to follow.  The big leap that
     requires some thought is that Ken's `trojan-compiler.c` contains
