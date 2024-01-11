@@ -216,6 +216,8 @@ reasoning about why, and figuring out how to answer questions by feeding
 them intentionally crafted inputs will serve you well in the class and
 future endeavors.
 
+In closing, heh:
+
 <p align="center">
   <img src="docs/compile.jpg" width="450" />
 </p>
