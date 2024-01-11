@@ -210,6 +210,6 @@ a previous 240 exam:
 ## Post-script
 
 <p align="center">
-  <img src="docs/compiler.jpg" width="450" />
+  <img src="docs/compile.jpg" width="450" />
 </p>
 
