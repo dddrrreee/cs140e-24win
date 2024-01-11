@@ -348,7 +348,7 @@ What you should do:
     `trojan-compiler.c` so that it scans its input for the `compile()`
     routine in `compiler.c` and, if it finds it, injects a simple print
     statement that will print each time `compile()` runs --- this is
-    obviously not a useful "attack", but rather rather serves as a
+    obviously not a useful "attack", but rather serves as a
     placeholder for the final, subtle step in part 3.
 
 ##### More details about attacking `login`
