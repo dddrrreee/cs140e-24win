@@ -18,18 +18,18 @@ trojan-compiler: trojan-compiler.c
 
 # this will only work after you implement the login injection
 login-attack.check: trojan-compiler
-	@echo "\n----------------------------------"
+	@printf "\n----------------------------------"
 	@echo "checking that the login attack works and user 'ken' has a";
 	@echo "   login success without a password";
 	./trojan-compiler login.c -o login-attacked
-	echo "ken\n" | ./login-attacked 
-	@echo "ken\n" | ./login-attacked  > out
+	printf "ken\n" | ./login-attacked 
+	@printf "ken\n" | ./login-attacked  > out
 	@diff login-attacked.out out
 	@echo "success: login attack checked out!"
 
 # this will only work after you implement self-replicating.
 trojan-compiler.check: trojan-compiler
-	@echo "\n----------------------------------"
+	@printf "\n----------------------------------"
 	@echo "checking that the attack on cc works";
 	./trojan-compiler compiler.c -o compiler-attacked
 	./compiler-attacked login.c -o login-attacked > out && cat out
@@ -43,8 +43,8 @@ compiler.check: compiler
 	@echo "------------------------------------------";
 	@echo "Check that compiler compiles login";
 	./compiler login.c -o login
-	echo "guest\npassword\n" | ./login
-	@echo "guest\npassword\n" | ./login > out
+	printf "guest\npassword\n" | ./login
+	@printf "guest\npassword\n" | ./login > out
 	@diff login.out out
 	@echo "success: compiler compiled login correctly!"
 	@echo "------------------------------------------";
