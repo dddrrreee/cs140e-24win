@@ -50,4 +50,4 @@ clean:
 	make -C ../step2 clean
 	rm -f  trojan-compiler2 *.o *~  cc-attacked cc-attacked2 temp-out.c out login-attacked.c login-attacked attack-quine.c
 
-.PHONEY: auxilary check clean
+.PHONY: auxilary check clean

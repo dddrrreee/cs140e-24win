@@ -23,4 +23,4 @@ quine-gen: quine-gen.c
 clean:
 	rm -f quine-gen quine-out.c quine.c quine *~
 
-.PHONEY: clean check
+.PHONY: clean check

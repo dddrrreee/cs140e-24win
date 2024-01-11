@@ -29,4 +29,4 @@ cleanall::
 	make -C . "BUG=bug3" clean
 	make -C . "BUG=bug4" clean
 
-.PHONEY: cleanall makeall
+.PHONY: cleanall makeall
