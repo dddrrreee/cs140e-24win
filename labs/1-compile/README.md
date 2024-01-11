@@ -209,6 +209,13 @@ a previous 240 exam:
 -------------------------------------------------------------------
 ## Post-script
 
+We did a quick drive by through massive compiler topics.  While real
+compilers can seem (and often are) complicated, they also expose
+their results fairly easily.  The habit of looking at what they did,
+reasoning about why, and figuring out how to answer questions by feeding
+them intentionally crafted inputs will serve you well in the class and
+future endeavors.
+
 <p align="center">
   <img src="docs/compile.jpg" width="450" />
 </p>
