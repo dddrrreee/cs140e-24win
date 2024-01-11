@@ -316,16 +316,16 @@ What you should do:
   1. Before modifying anything make sure the code works.
      When you run `make` you should see something like:
 
-        % make
-        gcc -Og -g -Wall login.c -o login
-        gcc -Og -g -Wall compiler.c -o compiler
-        ------------------------------------------
-        going to check that compiler compiles login
-        ./compiler login.c -o login
-        echo "guest\npassword\n" | ./login
-        user: passwd: successful login: <guest>
-        diff login.out out
-        success: compiler compiled login correctly!
+            % make
+            gcc -Og -g -Wall login.c -o login
+            gcc -Og -g -Wall compiler.c -o compiler
+            ------------------------------------------
+            going to check that compiler compiles login
+            ./compiler login.c -o login
+            echo "guest\npassword\n" | ./login
+            user: passwd: successful login: <guest>
+            diff login.out out
+            success: compiler compiled login correctly!
 
   2. Modify the `compile()` routine in `trojan-compiler.c` so that it
      scans its input looking for the start of the `login()` routine in
