@@ -224,8 +224,8 @@ You are given:
 
    - the `check` recipe in the `Makefile` for making and checking
      the program (see below).  If `make check` passes in `code/step1`
-     then your code works.
-
+     then your code works.  Make sure you look inside th `Makefile` 
+     and understand what the `check` rule is doing!
 
 #### What to do
 
