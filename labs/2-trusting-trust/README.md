@@ -547,5 +547,5 @@ understand the paper woulnd't actually be able to write out the code.
 You can probably really stand out at parties by explaining what you did.
 
 <p align="center">
-  <img src="docs/compile.jpg" width="450" />
+  <img src="docs/observe.jpg" width="450" />
 </p>
