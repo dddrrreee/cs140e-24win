@@ -91,6 +91,10 @@ Extensions:
 -------------------------------------------------------------------
 ### Intuition: self-replicating attack injection
 
+<p align="center">
+  <img src="docs/observe.jpg" width="300" />
+</p>
+
 What is interesting about his hack:
 
   - You couldn't see the attack by inspecting the Unix `login` source
@@ -298,7 +302,7 @@ Notes:
      are the same: treat the code as if you wrote it.
 
 --------------------------------------------------------------------------
-#### step2: inject attacks into `step2/login` and `step2/compiler`
+### step2: inject attacks into `step2/login` and `step2/compiler`
 
 In this second step we're going to inject trivial attacks into the
 provided `step2/login.c` and `step2/compiler.c` programs in the obvious
@@ -421,11 +425,8 @@ Cool!  These two are the easier steps just to make sure you can attack
 the programs you want.  
 
 --------------------------------------------------------------------------
-#### step3: inject an attack that will inject an attack into the compiler.
+### step3: inject an attack that will inject an attack into the compiler.
 
-<p align="center">
-  <img src="docs/observe.jpg" width="450" />
-</p>
 
 Clearly we have to develop the compiler injection "attack" since it only
 prints an annoying message rather than doing something evil.  But what
