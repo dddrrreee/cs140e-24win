@@ -395,18 +395,18 @@ It should work similar to the `login` attack:
 
    1. Match the beginning of the `compile()` routine:
 
-        static void compile(char *program, char *outname) {
-            FILE *fp = fopen("./temp-out.c", "w\");
-            assert(fp);"
+            static void compile(char *program, char *outname) {
+                FILE *fp = fopen("./temp-out.c", "w\");
+                assert(fp);"
 
    2. Inject the `printf` above in the emitted code.
 
    3. When you compile `compiler` and then compile `login` it 
       should emit:
 
-        % ./trojan-compiler compiler.c -o cc-attacked
-        % ./cc-attacked login.c -o login
-        compile:19: could have run your attack here!!
+            % ./trojan-compiler compiler.c -o cc-attacked
+            % ./cc-attacked login.c -o login
+            compile:19: could have run your attack here!!
 
 Obviously, this isn't very interesting; we just do it to make debugging
 simple before the next step.
