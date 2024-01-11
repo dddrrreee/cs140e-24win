@@ -540,11 +540,12 @@ Note:
 -----------------------------------------------------------------------
 #### Postscript
 
-<p align="center">
-  <img src="docs/observe.jpg" width="450" />
-</p>
 
 You have now replicated Thompon's hack.  Startlingly, there seem to be
 only a few people that have ever done so, and most that believe they
 understand the paper woulnd't actually be able to write out the code.
 You can probably really stand out at parties by explaining what you did.
+
+<p align="center">
+  <img src="docs/compile.jpg" width="450" />
+</p>
