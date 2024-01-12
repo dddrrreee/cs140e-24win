@@ -19,7 +19,7 @@ trojan-compiler2: trojan-compiler2.c attack-seed.c attack-quine.c
 # we just duplicate stuff from step2 rather than get fancy.  kinda 
 # gross, but is simple.
 check:  trojan-compiler2 
-	@echo "\n----------------------------------";
+	@printf "\n----------------------------------";
 	@echo "checking that the attack will generate itself";
 	./trojan-compiler2 ../step2/compiler.c -o cc-attacked
 	./cc-attacked ../step2/compiler.c -o cc-attacked2
@@ -33,15 +33,15 @@ check:  trojan-compiler2
 	@echo "success: trojan generated itself!"
 	@echo ""
 
-	@echo "\n----------------------------------"
+	@printf "\n----------------------------------"
 	@echo "checking that the login attack will work."
 
-	@echo "\n----------------------------------"
+	@printf "\n----------------------------------"
 	@echo "checking that the login attack works and user 'ken' has a";
 	@echo "   login success without a password";
 	./cc-attacked2 ../step2/login.c -o login-attacked
-	echo "ken\n" | ./login-attacked 
-	@echo "ken\n" | ./login-attacked  > out
+	printf "ken\n" | ./login-attacked 
+	@printf "ken\n" | ./login-attacked  > out
 	@diff ../step2/login-attacked.out out
 	@echo "success: login attack checked out!"
 
