@@ -418,16 +418,18 @@ the programs you want.
 ### step3: inject an attack that will inject an attack into the compiler.
 
 
-Clearly we have to develop the compiler injection "attack" since it only
-prints an annoying message rather than doing something evil.  But what
-exactly does it have to do?   Our problem is that we need the attack to
-be self-replicating.
+Clearly we have to develop the compiler injection "attack" further since
+it only prints an annoying message rather than doing something evil.
+But what exactly does it have to do?   Our problem is that we need the
+attack to be self-replicating.
 
-So, for Ken, if anyone ever re-compiled the system C compiler and
-replaced his binary of it that contains his attack, the attack is gone.
-For example using our toys to see the tragedy:
+If the attack is not self-replicating, then if anyone ever re-compiles 
+the original, uninfected system C compiler and replaces the system
+binary with it, the attack is now gone.
+For example:
 
-        # compile trojan
+        # compile trojan --- but assume does not 
+        # have a self-replicating attack.
         % ./compiler trojan-compiler.c -o trojan-compiler  
 
         # replace "system" compiler
@@ -452,11 +454,12 @@ For example using our toys to see the tragedy:
         user <ken> does not exist
         login failed for: <ken>
 
-        # uh oh, login attack does not work anymore.
+        # uh oh, login attack does not work anymore because our 
+        # compiler attack is not self-replicating.
 
-The fancy step (next) is to use the trick from `code/step1` to fix
-this problem by injecting a self-replicating copy of the attack into
-`compiler.c` while compiling it.  
+The fancy step (next) is to use the trick from `code/step1` to fix this
+problem by injecting a self-replicating copy of the entire attack into
+`compiler.c` while compiling it.
 
 This may or may not help, but:
 
@@ -465,7 +468,7 @@ This may or may not help, but:
     and `trojan-compiler.c`, and this step (3) turns the attack into
     `attack-quine.c`
 
-I'll give some hints below, but you're more than welcome to do this
+We give some hints below, but you're more than welcome to do this
 on your own!  Just make sure you that you make a copy of your trojan
 (`trojan-compile2`) that injects a self-replicating attack and make sure
 the binary it generates when compiling a clean, virgin copy of the system
@@ -479,16 +482,14 @@ compiler is the same:
     # 2. compile compiler.c with the attacked copy
     % ./attacked-compiler.0 ../step2/compiler.c -o attacked-compiler.1
 
-    # 3. make sure they are the same!
+    # 3. make sure they are the same! (Though see note below)
     % diff attacked-compiler.0 attacked-compiler.1
 
     # yea!  at this point we will automatically regenerate our attack
     # whenever someone compiles the system compiler.
 
-    # 4. NOTE: step 3 is way too strong since it assumes same input 
-    # to gcc gives the same output (e.g., no embedded time stamps etc).  
-    # If it succeeds we know we have the same, but if it fails it doesn't 
-    # mean we have a problem --- the real test is the login.
+
+    # make sure login has the attack.
     % ./attacked-compiler.1 ../step2/login.c -o login-attacked
     % ./login-attacked
     user: ken
@@ -496,6 +497,12 @@ compiler is the same:
     
     # success!
 
+Note, taking a `diff` of the binaries in step 3 above is too strong
+a check since it assumes the same input to gcc gives the same output
+(e.g., no embedded time stamps etc).  If it succeeds we know we have
+the same result, but if it fails it doesn't mean we have a problem ---
+the real test is the login.  (I.e., equal binaries is a sufficient but
+not necessary condition.)
 
 ### Hints
 
