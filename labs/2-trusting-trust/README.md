@@ -523,7 +523,17 @@ it, I used an include to pull in the generated sort-of quine code:
      the array and the source code for the attack.
   3. Include the attack file into `trojan-compile2.c`: note, this `#include`
      will be in the middle of your `compile` routine, not at the 
-     top of the file (where it wouldn't do anything).
+     top of the file (where it wouldn't do anything).  E.g., something like:
+
+
+            static void compile(char *program, char *outname) {
+                    ... some code ...
+
+            #       include "attack.c"
+
+                    ... some more code ...
+
+
   4. Profit.
 
 Note:
