@@ -543,13 +543,17 @@ Note:
     have it able to start replicating the attack rather than immediately
     break because it depended on some file on the original machine.
 
+    Also, using an external file means users could detect the attack
+    by inspecting the file system; much better to hide the attack
+    self-contained, in the compiler binary.
+
     If the `diff` check in the makefile fails, it could be because you
-    did this mistake.  (It could also just be failing because there is
-    non-determinism in compilation on MacOS M1's laptops.)
-	
+    make the mistake of using an external file.  (It could also just
+    be failing because there is non-determinism in compilation on MacOS
+    M1's laptops.)
+
 -----------------------------------------------------------------------
 #### Postscript
-
 
 You have now replicated Thompon's hack.  Startlingly, there seem to be
 only a few people that have ever done so, and most that believe they
