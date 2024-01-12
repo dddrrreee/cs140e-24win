@@ -13,6 +13,9 @@ all: TARGET=all
 check: TARGET=check
 clean: TARGET=clean
 
+submit:
+	zip upload.zip step1/*.c step2/*.c step3/*.c
+
 # No, you can't do TARGET=$@, or at least I don't know how to.
 
 # recursive call to make

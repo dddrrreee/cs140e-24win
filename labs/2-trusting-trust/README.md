@@ -552,6 +552,16 @@ Note:
     be failing because there is non-determinism in compilation on MacOS
     M1's laptops.)
 
+--------------------------------------------------------------------------
+### Submitting
+
+We're piloting a new submission/check off process. `cd` into the code
+directory and run `make submit`. Then, upload the file `upload.zip` to the
+Gradescope Lab 2 assignment. Finally, once the results come back, come down
+and see a TA so that we can do a manual review for any errors and check you
+off.
+
+
 -----------------------------------------------------------------------
 #### Postscript
 
