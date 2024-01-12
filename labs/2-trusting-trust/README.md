@@ -423,9 +423,9 @@ it only prints an annoying message rather than doing something evil.
 But what exactly does it have to do?   Our problem is that we need the
 attack to be self-replicating.
 
-If the attack is not self-replicating, then if anyone ever re-compiles 
-the original, uninfected system C compiler and replaces the system
-binary with it, the attack is now gone.
+If the attack is not self-replicating, then if anyone ever re-compiles
+the original, uninfected system C compiler and replaces the infected
+system `compiler` binary with the new version, the attack is now gone.
 For example:
 
         # compile trojan --- but assume does not 
