@@ -1,5 +1,12 @@
 # Lab: write your own code to control the r/pi; throw ours out.
 
+
+<p align="center">
+  <img src="images/led-breaker.jpg" width="450" />
+</p>
+
+
+
 **Important: as always, read and complete the [PRELAB](PRELAB.md)
 before lab!**
 
