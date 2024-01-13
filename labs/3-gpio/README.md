@@ -1,9 +1,6 @@
 # Lab: write your own code to control the r/pi; throw ours out.
 
 
-<p align="center">
-  <img src="images/led-breaker.jpg" width="450" />
-</p>
 
 
 
@@ -207,3 +204,7 @@ More links:
 
 4. Finally: it's worth running through all of dwelch's examples:
    (https://github.com/dwelch67/raspberrypi).
+
+<p align="center">
+  <img src="images/led-breaker.jpg" width="450" />
+</p>
