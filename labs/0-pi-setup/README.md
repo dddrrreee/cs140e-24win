@@ -416,7 +416,7 @@ get stuck, here's a bit more information:
 ## 4. Set your `CS140E_2024_PATH`
 
 Checkoff:
-   - Running `make` in the `checkoff` directory should compile and run
+   - Running `make` in the `4-checkoff` directory should compile and run
      a hello world program without complaint.
 
 This is the last, one-time-only configuration you'll have to do. We need
