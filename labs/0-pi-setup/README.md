@@ -4,6 +4,10 @@
   <img src="images/parthiv-pile.jpg" width="400" />
 </p>
 
+Checkoff:
+  - Running `make` in `checkoff` should compile and run a hello-world
+    program on your pi.
+
 This lab gives the steps to setting up and making sure the 
 your r/pi (Model 1 A+ or Model Zero) and ARM toolchain works.
  - [HINTS file](HINTS.md) lists solutions to common problems people
@@ -49,6 +53,7 @@ details).
         BOOT:bootloader: Done.
         hello world from the pi
         DONE!!!
+
 
 *One time class configuration*:
 
@@ -101,6 +106,16 @@ In addition:
    computers you've worked with: if it's not responding, "reboot"
    and retry by unplugging it (to remove power) and reconnect.
 
+3. You'll notice there is metal sticking out on the bottom of the pi where
+   pins have been soldered.  You can touch this with your skin without
+   issue.  However, don't rest the pi directly on a metal surface or it
+   can short-circuit and fry the board.
+
+   In particular, it *appears* that some mac's chasis are conductive,
+   so you probably shouldn't rest your pi on it directly.  (We lost 8
+   boards the first lab last year, with the common variable that all
+   students had mac's.)  If you work on a copper or metal table, don't
+   place the pi flat on it either.
 
 -------------------------------------------------------------------
 ## 0. Make sure you have everything.
@@ -109,16 +124,16 @@ In addition:
   <img src="images/parthiv-parts.jpg" width="400" />
 </p>
 
-You should have:
+You should have the pictured parts:
 
-1. a R/PI A+ (or Zero);
+1. A r/pi zero. The pi provides multiple ground pins and both 5v and
+   3.3v outputs.  The GPIO pins themselves put out 3.3v.
 2. a microSD card;
 3. Parthiv's breakout board `parthiv-pi`.  (As mentioned in class,
    Parthiv designed this board as his 240lx final project: if you take
    this follow on class he has a set of labs on how to fab your own pcb.)
-4. a bunch of LEDs
+4. a few of LEDs
 5. a bunch of female-female jumpers.
-
 
 Parthiv's board has a bunch of nice features:
  1. There is a small metal button to reset power vs having to unplug
@@ -126,26 +141,33 @@ Parthiv's board has a bunch of nice features:
  2. It plugs directly into the pi using a solid header
     rather than using jumper wires, which are both messy and can easily
     be too-loose or come loose while visually looking fine.
- 3. It reorganizes the pins on the pi sequentially and labels them.
- 4. It has two headers for NRF RF transcievers (used later inthe quarter)
+ 3. It reorganizes the pi GPIO pins sequentially and labels them.
+ 4. It has two headers for NRF RF transcievers (used later in the quarter)
     along with an I2S mic and a sonar device.
 
-
-You can see the raw pi GPIO pin layout in:
+If you want to use the pi on its own,
+you can see the raw pi GPIO pin layout in:
 <table><tr><td>
   <img src="images/../../docs/gpio.png"/>
 </td></tr></table>
-The pi is oriented with the two rows of pins on the right of the board.
-
-The pi provides multiple ground pins and both 5v and 3.3v outputs.
-The GPIO pins themselves put out 3.3v.
+Where the pi is oriented with the two rows of pins on the right of the board.
 
 --------------------------------------------------------------------
-### 1.  Setup your SD card
+### 1. Setup your SD card
 
 In order to run code on the pi, you will need to be able to write to a
-micro-SD card on your laptop:
+micro-SD card on your laptop.
 
+The SD card holds both files used by the pi hardware to boot up, as
+well as a program (which we somewhat inaccurately call a "bootloader")
+that spins in a loop, waiting for your laptop to send a program over the
+UART-TTL using `pi-install`.  If the pi-side bootloader successfully
+receives a program successfully from the unix-side, it copies it into
+pi memory, and then jumps to it. We currently give you a pre-compiled
+version (in `firmware/kernel.img`).  You will write this bootloader code
+in the upcoming few labs.
+
+To write the SD card:
 
 1.  Get/bring a micro-SD card reader or adaptor if its not built-in
     to your laptop. 
@@ -162,8 +184,11 @@ micro-SD card on your laptop:
     much much faster and better than using a gui (e.g., you can put it
     in a `Makefile`, or use your shell to redo a command). 
 
+    You'll need to figure out where your SD card is mounted (usually on
+    MacOS it is in `/Volumes` and on linux in `/media/yourusername/`,
+    some newer linuxes might put it in `/run/media/yourusername/`).
 
-    On my laptop my SD card is mounted at `/media/engler/0330-444/`
+    On my linux laptop my SD card is mounted at `/media/engler/0330-444/`
     (your path will be different!).  So, I could do the following to
     copy the entire contents of the class `firmware` directory:
 
@@ -191,20 +216,37 @@ micro-SD card on your laptop:
 
 4. If both are identical, eject your card.
 
-Note, for linux: the SD cards are often shipped with a corrupt FAT32 file
-system. Some versions of Linux seem unable to repair this corruption
-and will mount read-only.  I had to mount it on a windows machine and
-format it.
+Note:
+ - when you develop your own remote bootloader (in a few labs) you
+   have to use this SD card method repeatedly to load new versions,
+   so pay attention to how you do it on your computer!
+
+ - On linux: the SD cards are often shipped with a corrupt FAT32 file
+   system. Some versions of Linux seem unable to repair this corruption
+   and will mount read-only.  I had to mount it on a windows machine
+   and format it.
+
 
 Ok, now that we have configured SD card, we can setup the hardware.
 
 --------------------------------------------------------------------
 ### 2.  Make sure hardware is working
 
+Checkoff:
+  - you can run `hello.bin`
+
 In the past we've used a smaller set of steps (still up at the 
 2023 offering).     This year we cut the time and words by taking
 a big jump and then doing differential debugging if this doesn't
 work.
+
+Again, before you start:
+1. If anything starts heating up, disconnect!  If you have a short
+   (where some power source feeds into ground) you'll fry the hardware.
+
+2. If you see or smell smoke, disconnect! Smoke means something has fried,
+   and the longer you leave it plugged in the more things will get
+   destroyed.
 
 <p float="left">
   <img src="images/parthiv-top.jpg" width="230" />
@@ -214,300 +256,196 @@ work.
 
 Connect everything:
 
-  1. Plug the pi into `parthiv-pi` --- you'll want to push the pi's pins
-     into the parthiv-pi's female header block (the black rectangle)
-     by applying even pressure to both.  If you need to disconnect,
-     pull out evenly by wiggling.
-  2. Plug the SD card into your pi -- you should feel a "click" when
+  1. Plug the SD card into your pi -- you should feel a "click" when
      you push it in.
-  3. Plug the usb cable into the parthiv-pi and your laptop.
-  4. Use the staff bootloader to run the provided hello world program.
-     If you're on a mac:
+  2. Plug the usb cable into the parthiv-pi and your laptop.
+  3. As shown in the images above: Plug the pi into `parthiv-pi`.
+
+     *NOTE*: as always connecting parts with so many pins, you'll want to
+     apply even pressure to both the pi and parthiv-pi when seating them
+     together.  If you need to disconnect, pull out evenly by wiggling.
+
+After everything is connected, use the provided staff bootloader
+(in `cs140e-24win/bin`) to run the precompiled hello world program
+`0-pi-setup/hello.bin` (there is also a copy in the `firmware` directory).
+
+
+If you're on a mac:
 
         % ../../bin/pi-install.macos hello.bin
 
-     If on linux:
+If on linux:
 
         % ../../bin/pi-install.linux hello.bin
-     
 
-  5. If this works, great.  You are done with this part.  Otherwise
-     see the debugging note below.
 
-Note: 
-1. If your parthiv-pi starts heating up, disconnect!
-2. If your pi starts heating up, now or ever, disconnect! If you have a
-   short, where a pin with power feeds right into ground, you'll fry it.
-3. If you see smoke, disconnect! Smoke means something has fried, and the
-   longer you leave it plugged in the more things will get destroyed.
-4. You'll notice there is metal sticking out on the bottom of the pi where
-   pins have been soldered.  You can touch this with your skin without
-   issue.  However, don't rest the pi directly on a metal surface or it
-   can short-circuit and fry the board.
+You should see output like:
 
-   In particular, it *appears* that some mac's chasis are conductive,
-   so you probably shouldn't rest your pi on it directly.  (We lost 8
-   boards the first lab last year, with the common variable that all
-   students had mac's.)  If you work on a copper or metal table, don't
-   place the pi flat on it either.
+        BOOT:simple_boot: sending 1404 bytes, crc32=a555db78
+        BOOT:waiting for a start
+        BOOT:bootloader: Done.
+        hello world from the pi
+        DONE!!!
 
-1. You'll turn on an LED manually;
-2. then use a pre-compiled program loaded from the SD card (why not skip 1?);
-3. then use a bootloader (why not skip 2?);
-4. then install the r/pi tool chain, compile a given assembly
-   version and use it (why not skip 3?);
-5. then write your own blink program and compile: this is the fun part. It's
-   also the longest (why not skip 4?).
+If that works, works, great.  You are done with this part.  Otherwise
+see the debugging note below.
 
-<p float="left">
-  <img src="images/part1-full.jpg" width="230" />
-  <img src="images/part1-devices.jpg" width="230" /> 
-  <img src="images/part1-pi.jpg" width="230" />
-  <img src="images/part1-pi-power.jpg" width="230" />
-</p>
+#### If `pi-install` can't send the program
 
-Mechanically:
+The most common issue is missing drivers or permissions, so
+we try that first, then do differential debugging on the hardware.
 
-3. Connect your LED to 3V and ground through the touch sensor. If you connect
-   it directly to power and ground, your LED may explode! (it may also work
-   anyway, the LED production quality is very low)
+##### To fix your laptop.
 
-   If the LED doesn't go on, reverse its connections. You'll note that
-   one leg of the LED is longer than the other. This is used to
-   indicate which one is for power, which is for ground. You can
-   empirically determine which is which.
+MACOS: likely issue is you are missing the tty-USB driver.
 
-   If still doesn't go on, plug someone else's working version into your your
-   computer. If that doesn't work, ask.
+- Download and install the drivers for a
+  CP210x USB-to-UART driver as described in the
+  [cs107e docs](http://cs107e.github.io/guides/install/mac/).
+- Make sure you reboot after doing so! (Go Apple!)
 
-   If it still doesn't go on, try with your other Pi and/or another LED. If
-   that doesn't work, ask.
+Linux:
+- You shouldn't need drivers, however you may need to add yourself to
+  the `dialout` group (or `serial`) depending on the distribution.
 
-   (Note: the color of the wire does not matter for electricity,
-   but it makes it much easier to keep track of what goes where:
-   please use red for power, black for ground.)
+      sudo adduser <your username> dialout
 
-4. Try another LED and try some of the other ground and power pins.
+  If you do this, make sure you login and logout.
 
-(EE folks: We don't use a breadboard b/c it's bulky; we don't use
-resistors for the same reason + the LED is big enough we generally don't
-fry it.)
+  If that still doesn't work, you may have to remove `modemmanager`:
 
-Success looks like the following photos:
+      sudo apt-get remove modemmanager
 
-<p float="left">
-  <img src="images/part1-success.jpg" width="450" />
-  <img src="images/part1-ttl.jpg" width="450" /> 
-</p>
+  In this case you may need to reboot.
 
----
+##### To diagnose your hardware.
 
+This is an example of a common problem all quarter: your system doesn't
+work, and there are a few possible causes.  (The most common is you
+don't know if not-work is from hardware or software.)
 
-#### 2. Make sure you're able to install firmware, etc:
+As in all of these cases, you should get used to immediately doing
+differential debugging to narrow down the culprit.
 
-Now you'll run a precompiled program (`part1/blink-pin20.bin`) on the
-pi and make sure it can blink pin 20.
+  - Find someone that has working hardware and see if your hardware works on
+    their laptop.
+  - If your hardware works on their laptop: your laptop is the issue (see above
+    for permissions or driver issues first).
+  - If your hardware does not work on their laptop: one or more of
+    the components is the problem.  You'll a further binary search on
+    the components to find the problem.
 
-Note: when you develop your own remote bootloader (see next step) you
-step) you have to use this SD card method repeatedly to load new versions,
-so pay attention to how you do it on your computer!
+    Based on probabilities, we suggest first swapping SD cards.
+    It's pretty common to not have copied the firmware correctly. (Or
+    to have not seated the card.)
 
-Mechanically:
+    If this doesn't fix it, swap out the pi --- these may have been
+    mis-soldered.
 
-1.  Unplug the USB-TTY.
+    If that doesn't fix it, try the other components.
 
-As discussed in the `PRELAB`, copy all the files from class
-    `firmware` directory onto the SD card. Then copy
-    `part1/blink-pin20.bin` to the SD card as `kernel.img`. Then type
-    `sync` and then eject the SD card (don't just pull it out! data may
-    not be written out.)
+    If this process does not find the issue: interesting. Let us know! 
 
-    For me, this is:
+In any case, remember this algorithm.  It will save you tons of time in
+the future (even outside this class).
 
-           #  from the 0-blink directory
-           % cp ../../firmware/* /media/engler/0330-444/
-           % cp part1/blink-pin20.bin /media/engler/0330-444/kernel.img
-           % sync
+--------------------------------------------------------------------
+### 3.  Put `~/bin` in your `PATH` variable.
 
+This step and the next should only ever need to be done once.  
 
-4.  With your pi disconnected from your laptop,
-    reconnect the LED power from the 3v pin to gpio pin 20.
+Checkoff:
+  - When this step works, running `pi-install` in any directory should
+    cause the program to be found and run.
 
-6.  Plug in the USB-TTY to your USB to power the pi. The pi will jump
-    to whatever code is in `kernel.img`.
+To save you time, typing and mistakes: tell your shell to look for
+executable programs in a `bin` directory located in your home directory
+(i.e., `~/bin`) and then copy `pi-install` into it.
 
-The LED should be blinking. If you get this working, please help anyone
-else that is stuck so we all kind of stay about the same speed.
+We suggest you figure out how to do this on your own, but if you 
+get stuck, here's a bit more information:
 
-Troubleshooting:
+  1. For whatever shell (`tcsh`, `bash`, etc) you are using, figure
+     out how to edit your `PATH` variable so that you can install binary
+     programs in a local `~/bin` directory and not have to constantly
+     type out the path to them.  E.g.,
 
-0.  First try to trouble shooting from part 1.
-1.  If it's not blinking, swap in someone else's card that is working.
-2.  If that works, compare their SD card to yours.
-3.  If that doesn't work, try your card in their rpi.
+           % cd ~          # change to your home dir
+           % mkdir bin     # make a bin directory
+           % cd bin        # cd into it
+           % pwd           # get the absolute path
+           /home/engler/bin
 
-Success looks like:
+     To figure out your shell, you can typically check in `/etc/password`:
 
-<table><tr><td>
-  <img src="images/part2-success.jpg"/>
-</td></tr></table>
+           % grep engler /etc/passwd
+           engler:x:1000:1000:engler,,,:/home/engler:/usr/bin/tcsh
 
----
+     Since I use `tcsh`, to add `/home/engler/bin` to my `path` I would
+     edit my `~/.tcshrc` file and change:
 
-#### 3. Send a new pi program from your computer rather than SD card.
+          set path = ( $path  )
 
-You might need drivers, see the [software guide](./SOFTWARE.md).
+     To:
 
-As you've noticed, running new programs on the pi using the SD card
-method is tedious. We now set up your system so you can send programs
-directly from your computer to a plugged-in pi.
+          set path = ( $path /home/engler/usr/bin )
 
-Method: install a program (which we somewhat inaccurately call a
-"bootloader") on the SD card (as before) that spins in a loop,
-waiting for your laptop to send a program over the UART-TTL. If the
-bootloader successfully receives a program, it copies it into pi memory,
-and then jumps to it. We currently give you a pre-compiled version
-(`firmware/bootloader.bin`). The next lab will have you implement
-your own.
+     and then tell the shell to re-scan the paths as follows:
 
-<table><tr><td>
-  <img src="images/assembled.jpg"/>
-</td></tr></table>
+           % source ~/.tcshrc
 
-Mechanically:
+     Note, you have to run `source` in every open window:  it may be
+     easier to just logout and log back in.
 
-0.  Unplug your pi. Don't modify your current wiring.
-1.  Did you unplug your pi?
-2.  Copy `firmware/bootloader.bin` on your SD card as `kernel.img` (see a
-    pattern?), `sync`, and plug back into the pi.
+     For MacOS users using `bash`, put the path to your `~/bin` directory
+     in a `.bashrc` file in your home directory. Just run:
 
-            # from the 0-blink directory
-            % cp ../../firmware/bootloader.bin /media/engler/0330-444/kernel.img
-            % sync
-            # now safe to unplug the SD card
+           % vim ~/.bashrc
 
-3.  Hook the TX and RX wires up to the pi. Do you TX/TX and RX/RX or
-    switch them? (Hint: Think about the semantics of TX (transmit)
-    and RX (receive).)
-4.  Copy `bin/pi-install.linux` or `bin/pi-install.*.macos` (`arm` or `x86_64`) to your
-    local `~/bin/pi-install`. Make sure when you type `pi-install`
-    something happens! If not, make sure your local `~/bin/` directory
-    is in your path, and that you have sourced your shell startup file.
+     When you add your path, make sure you include you default path or
+     you may mess up your terminal.  This looks like:
 
-    On `tcsh` on my linux machine, after plugging the pi back in:
+           export PATH="$PATH:your/path/here:your/other/path/here"
 
-           % cp ../../bin/pi-install.linux ~/bin/pi-install
-           % rehash  # so the shell refreshes its cache
-           % pi-install part1/blink-pin20.bin
-           # the pi is now blinking.
+      and source it the same way as the `.tcshrc`.  The instructions for `zsh`
+      (the default on some newer Macs) are the same as for `bash`, but edit
+      `~/.zshrc` instead.
 
-5.  Your LED should be blinking, just like before.
-6.  If you unplug your pi and re-plug it in, you should be able to
-    run a hello program:
+------------------------------------------------------------------------
+## 4. Set your `CS140E_2024_PATH`
 
-          %  pi-install part1/hello.bin
-          opened tty port </dev/ttyUSB0>.
-          pi-install: tty-usb=</dev/ttyUSB0> program=<part1/hello.bin>
-          ...
-          listening on ttyusb=</dev/ttyUSB0>
-          hello world
-          DONE!!!
+Checkoff:
+   - Both `4-path-check` and `checkoff` should `make` and run without
+   complaint.
 
-    It exits in such a way that you can rerun it multiple times.
+This is the last, one-time-only configuration you'll have to do. We need
+it so `Makefiles` know how to find your class installation.
 
-There are some troubleshooting hints in the [hints file](./HINTS.md)
+Similar to how you added your local `~/bin` directory to your shell's path
+on the first lab, today you're going to edit your shell configuration file
+(e.g., `.tcshrc`, `.bash_profile`, etc) to set an environment variable
+`CS140E_2024_PATH` to contain where you have your class repository.
 
----
+E.g., for me, since I'm running `tcsh` I edit my `.tcshrc` file and add:
 
-#### 4. Make sure your r/pi toolchain is working.
+    setenv CS140E_2024_PATH /home/engler/class/cs140e-24win/
 
-For this class you need to compile bare-metal r/pi programs on your
-computer, which is most likely not a bare-metal r/pi itself. Thus we
-need to set up the tools needed to `cross-compile` r/pi programs on
-your computer and to r/pi binaries.
+To the end of it.  If you use `bash` you'll do an:
 
-Install the toolchain: [software guide](./SOFTWARE.md).
+    export CS140E_2024_PATH=<path to your repo>
 
-Now test that the toolchain works and produces a runnable binary:
+And, as before, don't forget to source your configuration file.
 
-1.  Reset your pi: unplug the TTY-USB then plug it back in to your laptop.
-2.  Compile and bootload `part2/blink-pin20.s` using the shell script.
+As a simple test:
 
-          % cd part2
-          % sh make.sh     # compile blink-pin20.s to blink-pin20.bin
-          % ls
-          blink-pin20.bin  blink-pin20.s	make.sh  README.md
-          % pi-install blink-pin20.bin    # send it to the pi.
+        % cd checkoff
+        % make
+        ... bunch of stuff ...
+        hello: things worked!
+        DONE!!!
 
-3.  If everything worked, your LED light should be blinking. Congratulations!
-
----
-
-#### 5. Minor Extension: Run two pi's at once
-
-Because of supply chain issues, we don't have enough pi's (yet?) to give
-out two. However, if you are working in a group, it's worth getting two
-pi's running at the same time --- this will clarify issues and also make
-it easier to do networking.
-
-Configuring your second pi is a great way to re-enforce the steps above.
-Also you're going to want two working systems at all times. It will make
-it much easier to isolate what a problem is by swapping pi's and then
-(if needed) swapping components (e.g., switching SD cards). Finally,
-you will need two pi's for the networking labs.
-
-The steps:
-
-1.  Configure your second pi as above. The microSD will likely have a different
-    name.
-
-           # from the 0-blink directory
-           % cp ../../firmware/* /media/engler/sdd1/
-           % cp ../../firmware/bootloader.bin  /media/engler/sdd1/kernel.img
-           % sync
-           # unplug the microSD from your laptop and plug into your pi
-
-           # as a quick test: run hello since it doesn't need wiring
-           % pi-install part1/hello.bin
-           find-ttyusb.c:find_ttyusb:55:FOUND: </dev/ttyUSB0>
-           opened tty port </dev/ttyUSB0>.
-           ... stuff ...
-           hello world
-           DONE!!!
-
-2.  In two different terminal windows, run `blink-pin20.bin` on each.
-    You will need to specify each distinct TTL-USB device on the
-    `pi-install` command line, otherwise `pi-install` will try to load
-    the same one (the last mounted device).
-
-    For me (again: Linux. MacOS will have a different device mount
-    point.):
-
-           # in one terminal
-           % pi-install /dev/ttyUSB0 part1/blink-pin20.bin
-
-           # in another terminal
-           % pi-install /dev/ttyUSB1 part1/blink-pin20.bin
-
-    Success looks like:
-
-<p float="left">
-  <img src="images/part5-succ-far.jpg" width="350" />
-</p>
-
-To see where the devices are loaded, you can do `ls -lrt /dev/` as above.
-On many Unix systems you can also look at the end of the kernel log.
-For example, on Linux:
-
-        % tail -f /var/log/kern.log
-        # plug in the device
-        [105660.736891] usb 1-2: new full-speed USB device number 22
-        ... lots of stuff ...
-        [105660.933050] cp210x 1-2:1.0: cp210x converter detected
-        [105660.935793] usb 1-2: cp210x converter now attached to ttyUSB0
-
-We can see it's connected to `ttyUSB0`. Using `tail -f` lets us see
-immediately as the log file changes (e.g., when you plug in or pull out
-your TTL-usb).
-
-Your system likely has an even better way; so it's worth searching online.
+NOTE:
+  - Once you set this variable, don't re-install your 140E repo somewhere
+    else without updating it!  We had a hard bug last quarter when a
+    student did this and didn't delete the old repo (so all makefiles
+    used it and ignored updates to the new one).
