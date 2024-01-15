@@ -37,15 +37,15 @@ details).
 
 *Setting up a new pi*:
 
-  1. Setup microSD: Copy all the firmware to the new SD card.
-     The `firmware` directory is at the top level of the class repo:
+1. Setup microSD: Copy all the firmware to the new SD card.
+   The `firmware` directory is at the top level of the class repo:
 
         % cp firmware/* /path-to-sd-card
         % sync
 
-  2. Setup pi: Plug microSD, cable, and parthiv-pi into the pi.
-  3. With pi connected to laptop, check that the hardware works by running
-     `hello.bin`:
+2. Setup pi: Plug microSD, cable, and parthiv-pi into the pi.
+3. With pi connected to laptop, check that the hardware works by running
+  `hello.bin`:
 
         % pi-install firmware/hello.bin
         BOOT:simple_boot: sending 1404 bytes, crc32=a555db78
