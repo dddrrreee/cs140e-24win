@@ -105,6 +105,10 @@ In addition:
 -------------------------------------------------------------------
 ## 0. Make sure you have everything.
 
+<p align="center">
+  <img src="images/parthiv-parts.jpg" width="400" />
+</p>
+
 You should have:
 
 1. a R/PI A+ (or Zero);
@@ -115,9 +119,6 @@ You should have:
 4. a bunch of LEDs
 5. a bunch of female-female jumpers.
 
-<table><tr><td>
-  <img src="images/parthiv-parts.jpg"/>
-</td></tr></table>
 
 Parthiv's board has a bunch of nice features:
  1. There is a small metal button to reset power vs having to unplug
