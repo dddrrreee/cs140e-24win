@@ -38,7 +38,8 @@ details).
 *Setting up a new pi*:
 
 1. Setup microSD: Copy all the firmware to the new SD card.
-   The `firmware` directory is at the top level of the class repo:
+   The `firmware` directory is at the top level of the class repo
+   (`cs140e-24win/firmware`):
 
         % cp firmware/* /path-to-sd-card
         % sync
@@ -266,7 +267,8 @@ Connect everything:
 
 After everything is connected, use the provided staff bootloader
 (in `cs140e-24win/bin`) to run the precompiled hello world program
-`0-pi-setup/hello.bin` (there is also a copy in the `firmware` directory).
+`hello.bin` (there is also a copy of `hello.bin` in the `firmware` directory
+for easy locating).
 
 
 If you're on a mac:
@@ -276,7 +278,6 @@ If you're on a mac:
 If on linux:
 
         % ../../bin/pi-install.linux hello.bin
-
 
 You should see output like:
 
