@@ -349,6 +349,10 @@ differential debugging to narrow down the culprit.
 In any case, remember this algorithm.  It will save you tons of time in
 the future (even outside this class).
 
+<p align="center">
+  <img src="images/hardware-fix.jpg" width="400" />
+</p>
+
 --------------------------------------------------------------------
 ### 3.  Put `~/bin` in your `PATH` variable.
 
