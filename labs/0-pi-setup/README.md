@@ -5,8 +5,8 @@
 </p>
 
 Checkoff:
-  - Running `make` in `checkoff` should compile and run a hello-world
-    program on your pi.
+  - Running `make` in `4-checkoff` should compile and run a hello-world
+    program on your pi along with some other tests.
 
 This lab gives the steps to setting up and making sure the 
 your r/pi (Model 1 A+ or Model Zero) and ARM toolchain works.
@@ -301,7 +301,7 @@ MACOS: likely issue is you are missing the tty-USB driver.
 
 - Download and install the drivers for a
   CP210x USB-to-UART driver as described in the
-  [cs107e docs](http://cs107e.github.io/guides/install/mac/).
+  [cs107e docs](https://web.archive.org/web/20210414133806/http://cs107e.github.io/guides/install/mac/).
 - Make sure you reboot after doing so! (Go Apple!)
 
 Linux:
@@ -355,12 +355,13 @@ the future (even outside this class).
 This step and the next should only ever need to be done once.  
 
 Checkoff:
-  - When this step works, running `pi-install` in any directory should
-    cause the program to be found and run.
+  - Run `make` in `3-bin-hello` and see that it compiles and run hello.
+  - Alternatively: you should be able to type `pi-install` in any
+    directory and have it be found and run.
 
-To save you time, typing and mistakes: tell your shell to look for
-executable programs in a `bin` directory located in your home directory
-(i.e., `~/bin`) and then copy `pi-install` into it.
+To save you time, typing and mistakes you'll now tell your shell to
+look for executable programs in a `bin` directory located in your home
+directory (i.e., `~/bin`) and then copy `pi-install` into it.
 
 We suggest you figure out how to do this on your own, but if you 
 get stuck, here's a bit more information:
@@ -415,8 +416,8 @@ get stuck, here's a bit more information:
 ## 4. Set your `CS140E_2024_PATH`
 
 Checkoff:
-   - Both `4-path-check` and `checkoff` should `make` and run without
-   complaint.
+   - Running `make` in the `checkoff` directory should compile and run
+     a hello world program without complaint.
 
 This is the last, one-time-only configuration you'll have to do. We need
 it so `Makefiles` know how to find your class installation.
@@ -443,6 +444,11 @@ As a simple test:
         ... bunch of stuff ...
         hello: things worked!
         DONE!!!
+
+If this doesn't work:
+  1. You likely didn't source the appropriate shell file (easiest is to just
+     logout and log back in).
+  2. You mispelled `CS140E_2024_PATH` or gave it the wrong path.
 
 NOTE:
   - Once you set this variable, don't re-install your 140E repo somewhere
