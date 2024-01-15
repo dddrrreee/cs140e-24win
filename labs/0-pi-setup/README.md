@@ -59,7 +59,7 @@ details).
 
 1. Bootloader: Add `~/bin` to your `PATH`.  Copy the bootloader (either
   `pi-instal.linux` or `pi-install.macos`) to `~/bin`.  Rehash your
-   shell and runnin `pi-install` with no pi-program from any directory
+   shell and running `pi-install` with no pi-program from any directory
    should give an error:
 
         % pi-install
@@ -67,11 +67,10 @@ details).
         ...
 
 2. Setup the `140E_CS140E_2024` environment variable to the location of 
-   the class repo.  `make` in `1-path` should succeed.
+   the class repo.  `make` in `checkoff` should succeed.
 
 If that worked, you're good to go!  If not see the [HINTS](./HINTS.md)
 file for debugging tips.
-
 
 ### Crucial: Life and death rules for pi hardware.
 
@@ -148,7 +147,7 @@ Parthiv's board has a bunch of nice features:
 If you want to use the pi on its own,
 you can see the raw pi GPIO pin layout in:
 <table><tr><td>
-  <img src="images/../../docs/gpio.png"/>
+  <img src="../../docs/gpio.png"/>
 </td></tr></table>
 Where the pi is oriented with the two rows of pins on the right of the board.
 
