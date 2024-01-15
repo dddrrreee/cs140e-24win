@@ -1,10 +1,8 @@
 ## Setup r/pi hardware and its toolchain
 
 <p align="center">
-  <img src="images/resistor.jpg" width="450" />
+  <img src="images/parthiv-pile.jpg" width="400" />
 </p>
-
-
 
 This lab gives the steps to setting up and making sure the 
 your r/pi (Model 1 A+ or Model Zero) and ARM toolchain works.
@@ -19,14 +17,62 @@ There's a lot of fiddly little details in getting a pi working, and this
 lab is many people's first time working with hardware, so we break the
 lab down into many (perhaps too-many) small steps.
 
-The steps:
-  1. Make sure the hardware works.
-  2. Copy the bootloader and setup your PATH correctly.
-  3. Setup the `140E_CS140E_2024` environment variable.
-  4. Setup a blinky LED light.
+Note: you obviously have to do your own work, but please help others
+if they get stuck or if you figure out something. This is the kind of
+class where talking over things will make everything a lot clearer,
+and where having multiple people debug an issue is an order of magnitude
+more effective than working alone. If you think of a way of explaining
+something that's clearer than the documentation or the README, post it
+in the newsgroup so others can benefit from your insight!
+
+### tl;dr all the steps
+
+Whenever you setup a new pi or you want to skip all the explanation
+below, you'll do the following.  (The rest of the README gives more
+details).
+
+*Setting up a new pi*:
+
+  1. Setup microSD: Copy all the firmware to the new SD card.
+     The `firmware` directory is at the top level of the class repo:
+
+        % cp firmware/* /path-to-sd-card
+        % sync
+
+  2. Setup pi: Plug microSD, cable, and parthiv-pi into the pi.
+  3. With pi connected to laptop, check that the hardware works by running
+     `hello.bin`:
+
+        % pi-install firmware/hello.bin
+        BOOT:simple_boot: sending 1404 bytes, crc32=a555db78
+        BOOT:waiting for a start
+        BOOT:bootloader: Done.
+        hello world from the pi
+        DONE!!!
+
+*One time class configuration*:
+
+1. Bootloader: Add `~/bin` to your `PATH`.  Copy the bootloader (either
+  `pi-instal.linux` or `pi-install.macos`) to `~/bin`.  Rehash your
+   shell and runnin `pi-install` with no pi-program from any directory
+   should give an error:
+
+        % pi-install
+        no pi program
+        ...
+
+2. Setup the `140E_CS140E_2024` environment variable to the location of 
+   the class repo.  `make` in `1-path` should succeed.
+
+If that worked, you're good to go!  If not see the [HINTS](./HINTS.md)
+file for debugging tips.
 
 
 ### Crucial: Life and death rules for pi hardware.
+
+<p align="center">
+  <img src="images/resistor.jpg" width="450" />
+</p>
 
 *Before doing anything: always obey the first rule of PI-CLUB*:
 
@@ -36,8 +82,8 @@ The steps:
 - **_IF YOUR PI GETS HOT TO THE TOUCH: UNPLUG IT_**
 - **_IF YOUR PI GETS HOT TO THE TOUCH: UNPLUG IT_**
 
-If anything ever gets hot to the touch --- the serial device, the pi ---
-**_DISCONNECT_**! Sometimes devices have manufacturing errors (welcome
+This rule generalizes: If *anything* ever gets hot, or smells burnt
+**_DISCONNECT_**!  Sometimes devices have manufacturing errors (welcome
 to hardware), sometimes you've made a mistake.  Any of these can lead
 to frying the device or, in the worst case, your laptop. So don't assume
 you have a safety net: it's up to you to avert disaster.
@@ -55,31 +101,34 @@ In addition:
    computers you've worked with: if it's not responding, "reboot"
    and retry by unplugging it (to remove power) and reconnect.
 
+
 -------------------------------------------------------------------
-#### 0. Make sure you have everything.
+## 0. Make sure you have everything.
 
 You should have:
 
 1. a R/PI A+ (or Zero);
-2. a microSD card and adapter;
+2. a microSD card;
 3. Parthiv's breakout board `parthiv-pi`.  (As mentioned in class,
-   he designed this board as his 240lx final project.)
+   Parthiv designed this board as his 240lx final project: if you take
+   this follow on class he has a set of labs on how to fab your own pcb.)
 4. a bunch of LEDs
-5. a bunch of female-female jumpers;
+5. a bunch of female-female jumpers.
+
+<table><tr><td>
+  <img src="images/parthiv-parts.jpg"/>
+</td></tr></table>
 
 Parthiv's board has a bunch of nice features:
- 1. There is a small button to reset power vs having to unplug
+ 1. There is a small metal button to reset power vs having to unplug
     a USB cable.
  2. It plugs directly into the pi using a solid header
     rather than using jumper wires, which are both messy and can easily
     be too-loose or come loose while visually looking fine.
- 3. It reorganizes the pins on the pi and labels them.
+ 3. It reorganizes the pins on the pi sequentially and labels them.
  4. It has two headers for NRF RF transcievers (used later inthe quarter)
     along with an I2S mic and a sonar device.
 
-<table><tr><td>
-  <img src="images/pi-start.jpg"/>
-</td></tr></table>
 
 You can see the raw pi GPIO pin layout in:
 <table><tr><td>
@@ -91,10 +140,115 @@ The pi provides multiple ground pins and both 5v and 3.3v outputs.
 The GPIO pins themselves put out 3.3v.
 
 --------------------------------------------------------------------
-### 1.  Make sure hardware is working.
+### 1.  Setup your SD card
 
-We'll use different variations of a blinky light using GPIO pin 20
-(second from bottom on the right):
+In order to run code on the pi, you will need to be able to write to a
+micro-SD card on your laptop:
+
+
+1.  Get/bring a micro-SD card reader or adaptor if its not built-in
+    to your laptop. 
+
+2.  Plug SD card into your computer and figure out where it's mounted.
+    Typically on MacOS it is in `/Volumes` and on linux in
+    `/media/yourusername/`, some newer linuxes might put it in
+    `/run/media/yourusername/`).
+
+3.  Copy all the files from the `firmware` directory at the top level of 
+    the class repo to the SD card. (I.e., at `cs140e-24win/firmware`.)
+
+    You should do the copy from the command line using `cp`, which is
+    much much faster and better than using a gui (e.g., you can put it
+    in a `Makefile`, or use your shell to redo a command). 
+
+
+    On my laptop my SD card is mounted at `/media/engler/0330-444/`
+    (your path will be different!).  So, I could do the following to
+    copy the entire contents of the class `firmware` directory:
+
+          % cp ../../firmware/* /media/engler/0330-444/
+          % sync  
+
+    The `sync` command forces the OS to flush out all dirty blocks to
+    all stable media (SD card, flash drive, etc). At this point you can
+    pull the card out.
+
+    Pro tip: **_do not omit either a `sync` or some equivalant file
+    manager eject action_** if you do, parts of the copied file(s)
+    may in fact not be on the SD card. (Why: writes to stable storage
+    are slow, so the OS tends to defer them.)
+    
+4. Check the contents of the firmware against the sd card to make
+   sure things copied:
+
+        % ls ../../firmware
+        blink-actled.bin  bootcode.bin	  config.txt  kernel.img
+        blink-pin20.bin   bootloader.bin  hello.bin   start.elf
+        % ls /media/engler/0330-444
+        blink-actled.bin  bootcode.bin	  config.txt  kernel.img
+        blink-pin20.bin   bootloader.bin  hello.bin   start.elf
+
+4. If both are identical, eject your card.
+
+Note, for linux: the SD cards are often shipped with a corrupt FAT32 file
+system. Some versions of Linux seem unable to repair this corruption
+and will mount read-only.  I had to mount it on a windows machine and
+format it.
+
+Ok, now that we have configured SD card, we can setup the hardware.
+
+--------------------------------------------------------------------
+### 2.  Make sure hardware is working
+
+In the past we've used a smaller set of steps (still up at the 
+2023 offering).     This year we cut the time and words by taking
+a big jump and then doing differential debugging if this doesn't
+work.
+
+<p float="left">
+  <img src="images/parthiv-top.jpg" width="230" />
+  <img src="images/parthiv-bottom.jpg" width="230" /> 
+  <img src="images/parthiv-side.jpg" width="230" />
+</p>
+
+Connect everything:
+
+  1. Plug the pi into `parthiv-pi` --- you'll want to push the pi's pins
+     into the parthiv-pi's female header block (the black rectangle)
+     by applying even pressure to both.  If you need to disconnect,
+     pull out evenly by wiggling.
+  2. Plug the SD card into your pi -- you should feel a "click" when
+     you push it in.
+  3. Plug the usb cable into the parthiv-pi and your laptop.
+  4. Use the staff bootloader to run the provided hello world program.
+     If you're on a mac:
+
+        % ../../bin/pi-install.macos hello.bin
+
+     If on linux:
+
+        % ../../bin/pi-install.linux hello.bin
+     
+
+  5. If this works, great.  You are done with this part.  Otherwise
+     see the debugging note below.
+
+Note: 
+1. If your parthiv-pi starts heating up, disconnect!
+2. If your pi starts heating up, now or ever, disconnect! If you have a
+   short, where a pin with power feeds right into ground, you'll fry it.
+3. If you see smoke, disconnect! Smoke means something has fried, and the
+   longer you leave it plugged in the more things will get destroyed.
+4. You'll notice there is metal sticking out on the bottom of the pi where
+   pins have been soldered.  You can touch this with your skin without
+   issue.  However, don't rest the pi directly on a metal surface or it
+   can short-circuit and fry the board.
+
+   In particular, it *appears* that some mac's chasis are conductive,
+   so you probably shouldn't rest your pi on it directly.  (We lost 8
+   boards the first lab last year, with the common variable that all
+   students had mac's.)  If you work on a copper or metal table, don't
+   place the pi flat on it either.
 
 1. You'll turn on an LED manually;
 2. then use a pre-compiled program loaded from the SD card (why not skip 1?);
@@ -103,41 +257,6 @@ We'll use different variations of a blinky light using GPIO pin 20
    version and use it (why not skip 3?);
 5. then write your own blink program and compile: this is the fun part. It's
    also the longest (why not skip 4?).
-
-Note: you obviously have to do your own work, but please help others if they
-get stuck or if you figure out something. This is the kind of class where
-talking over things will make everything a lot clearer, and where having
-multiple people debug an issue is an order of magnitude more effective than
-working alone. If you think of a way of explaining something that's clearer
-than the documentation or the README, post it in the newsgroup so others can
-benefit from your insight!
-
----
-
-
----
-
-#### 1. Make sure hardware is working:
-
-Before we mess with software that will control hardware, we first make
-sure the hardware works: 
-  1. When doing something for the first time, you always want to isolate
-     into small pieces.  The smaller the piece, the easier it is to
-     isolate and diagnose the piece that is broken.
-
-  2. Similarly, when we do anything with both hardware and software,
-     you always want to test the hardware in isolation first, if at all
-     possible.  If you don't, and things don't work, you'll immediately
-     be wasting time because you don't know if the bug is in software
-     problem or a hardware (or, worse, both).
-
-So as our first step, we will use the parthiv-pi board to power the pi,
-and use one of the  pi's 3.3v power pins and a ground pin to directly turn
-on an LED. This tests some basic hardware and that you know how to wire.
-
-<table><tr><td>
-  <img src="../../docs/gpio.png"/>
-</td></tr></table>
 
 <p float="left">
   <img src="images/part1-full.jpg" width="230" />
@@ -148,11 +267,6 @@ on an LED. This tests some basic hardware and that you know how to wire.
 
 Mechanically:
 
-1. Connect the USB-to-TTL Serial cable's power (red) and ground (black)
-   wires to a 5v pin (not the 3v pin) and ground pins on the pi that are next
-   to each other (see your printout; upper right corner). You may need to pull
-   back or remove the plastic wrapper around the USB-to-TTL.
-2. Plug the USB-TTY into your laptop's USB port.
 3. Connect your LED to 3V and ground through the touch sensor. If you connect
    it directly to power and ground, your LED may explode! (it may also work
    anyway, the LED production quality is very low)
@@ -178,15 +292,6 @@ Mechanically:
 resistors for the same reason + the LED is big enough we generally don't
 fry it.)
 
-What can go wrong:
-
-1. If your USB-to-TTL starts heating up, disconnect! It appears that 1 in
-   8 is defective.
-2. If your pi starts heating up, now or ever, disconnect! If you have a
-   short, where a pin with power feeds right into ground, you'll fry it.
-3. If you see smoke, disconnect! Smoke means something has fried, and the
-   longer you leave it plugged in the more things will get destroyed.
-
 Success looks like the following photos:
 
 <p float="left">
@@ -209,8 +314,8 @@ so pay attention to how you do it on your computer!
 Mechanically:
 
 1.  Unplug the USB-TTY.
-2.  Plug SD card into your computer and figure out where it's mounted.
-3.  As discussed in the `PRELAB`, copy all the files from class
+
+As discussed in the `PRELAB`, copy all the files from class
     `firmware` directory onto the SD card. Then copy
     `part1/blink-pin20.bin` to the SD card as `kernel.img`. Then type
     `sync` and then eject the SD card (don't just pull it out! data may
@@ -223,14 +328,10 @@ Mechanically:
            % cp part1/blink-pin20.bin /media/engler/0330-444/kernel.img
            % sync
 
-    On linux 20.04: the cards are often shipped with a corrupt FAT32 file
-    system. Linux seems unable to repair this and will mount read-only.
-    I had to mount it on a windows machine and format it.
 
 4.  With your pi disconnected from your laptop,
     reconnect the LED power from the 3v pin to gpio pin 20.
-5.  Plug the SD card into your pi -- you should feel a "click" when
-    you push it in.
+
 6.  Plug in the USB-TTY to your USB to power the pi. The pi will jump
     to whatever code is in `kernel.img`.
 
