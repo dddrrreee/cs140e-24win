@@ -1,6 +1,6 @@
 NAME = caller-callee.c
 
-include $(CS140E_2023_PATH)/libpi/defs.mk
+include $(CS140E_2024_PATH)/libpi/defs.mk
 
 CFLAGS :=  -O2 -march=armv6
 
