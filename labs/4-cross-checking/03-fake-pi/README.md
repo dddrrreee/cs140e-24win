@@ -37,7 +37,7 @@ Rough organization:
 ### `0-libpi-fake`
 
 Simplest possible "fake pi"  where we just redefine printk and
-clean_reboot in a private rpi.h  (`libpi-fake/rpi.h`) and include it
+clean_reboot in a private rpi.h  (`0-libpi-fake/rpi.h`) and include it
 into a pi program.
 
 This is the most basic version.  
@@ -48,7 +48,7 @@ It only uses the routines in:
 
 
 Even though it only defines `printk` and `clean_reboot` it has enough
-to run the code in the top level pi programs:
+to run the two pi programs on Unix:
   - `hello.c`: print hello world. 
   - `null-ptr.c`: prints messages and dereferences a null pointer.
      This dereference won't crash on the pi (no memory protection yet).
@@ -57,18 +57,18 @@ to run the code in the top level pi programs:
 
 Running `make` will compile and run both programs on unix:
 
-    % make
-    ... compilation ...
-    ------------------------------------------------------ 
-            running our fake pi program: <hello.fake>         
-    ./hello.fake
-    hello world
-    DONE!!!
-    ------------------------------------------------------ 
-            running our fake pi program: <null-ptr.fake>         
-    ./null-ptr.fake
-    about to write to null [(nil)]
-    will crash on Unix (good!  detect bug) will succeed on pi (bad)
+        % make
+        ... compilation ...
+        ------------------------------------------------------ 
+                running our fake pi program: <hello.fake>         
+        ./hello.fake
+        hello world
+        DONE!!!
+        ------------------------------------------------------ 
+                running our fake pi program: <null-ptr.fake>         
+        ./null-ptr.fake
+        about to write to null [(nil)]
+        will crash on Unix (good!  detect bug) will succeed on pi (bad)
 
 
 As promised, if you run on the pi you get the same for `hello.c` and a
