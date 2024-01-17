@@ -100,14 +100,14 @@ class repo (`libpi/include/rpi.h`).
 Because we use `libpi`'s header we move the versions of `printk` and
 `clean_reboot` into `libpi-fake.c`.
 
-Change if we change `03-fake-pi/Makefile` so that the last assignment is:
+We run this version by changing `03-fake-pi/Makefile` so that the last
+assignment to `FAKE_VERSION` is:
 
     # 03-fake-pi/Makefile
     FAKE_VERSION = 1-libpi-fake
 
-Is the last assignment and run `make` we see we get the same result as
-before.
 
+If you run `make` you see we get the same result as before.
 
 Because we use the raw `rpi.h` we have more macros, such as `demand` and
 `assert` and `debug` (these are in `libpi/libc/demand.h`).  This
@@ -126,6 +126,7 @@ Add these programs in `03-fake-pi/Makefile`:
 
 Now when you run:
 
+    % make
     ------------------------------------------------------ 
         running our fake pi program: <test-demand.fake>         
     ./test-demand.fake
