@@ -162,6 +162,7 @@ the entire file for `libpi/libc/printk.c`
 `libpi/libc/putchar.c`
 and `libpi/libc/clean-reboot.c`:
 
+    # 2-libpi-fake/Makefile : pull in more files.
     SRC  = $(LPP)/libc/printk.c
     SRC  += $(LPP)/libc/putk.c
     SRC  += $(LPP)/libc/putchar.c
