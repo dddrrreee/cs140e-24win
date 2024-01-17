@@ -1,15 +1,20 @@
-Simplest possible "fake pi"  where we just redefine printk and
-clean_reboot in a private rpi.h  (`libpi-fake/rpi.h`) and include it
-into a pi program.
+## Simple examples of how to run pi programs on Unix
 
-Key thing:
+Key ideas:
   - you can take code written to run on an r/pi on bare metal and 
     redefine primitives so it can run on your laptop.
 
   - by running on your laptop you get memory protection, debugging,
     other tools.
 
+  - even a small amount of code lets you run pi programs on Unix and get
+    get the same result.
+
 Rough organization:
+ - `Makefile` defines different options (`0-libpi-fake`, `1-libpi-fake`,
+   `2-libpi-fake`) that get increasingly fancy.
+
+   This main makefile calls two sub-Makefiles.
 
  - have one makefile to compile for the pi (`Makefile.pi`)
 
@@ -31,12 +36,16 @@ Rough organization:
 -----------------------------------------------------------------------
 ### `0-libpi-fake`
 
-This is the most basic version.  
+Simplest possible "fake pi"  where we just redefine printk and
+clean_reboot in a private rpi.h  (`libpi-fake/rpi.h`) and include it
+into a pi program.
 
+This is the most basic version.  
 It only uses the routines in:
  1. `0-libpi-fake/libpi-fake.c` (for the `notmain` caller)
  2. `0-libpi-fake/rpi.h` header file, which defines `printk` and
 `clean_reboot`.
+
 
 Even though it only defines `printk` and `clean_reboot` it has enough
 to run the code in the top level pi programs:
