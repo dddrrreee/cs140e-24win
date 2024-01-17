@@ -1,5 +1,16 @@
-What to do:
+### Prelab for fake-pi
 
+Reading:
+  1. The pullup/pulldown discussion in the broadcom document (see more
+     discussion below).  You're going to implement this.
+  2. Read [03-fake-pi/README.md](03-fake-pi/README.md) to see simple
+     examples of emulating pi code on Unix.
+  3. Read the [1-fake-pi README](1-fake-pi/README.md) a few
+     times and look through the code.  Understanding how to run r/pi
+     code unaltered on a fake pi Unix emulator is a crucial concept that
+     we'll use throughout the quarter.
+
+What to do:
 
    1. `01-tracing-pi`: run and look through this code.  it's a
       simple example of how to override routines using the linker.
@@ -25,11 +36,6 @@ What to do:
       approach to cross-check your implementation against everyone else's
       to ensure everyone is equivalant.  Thus, if one person is correct,
       everyone is correct.
-
-
-If you're going to modify these, please copy the directory --- I'm
-still modifying and playing around with the code, so you'd get conflicts
-otherwise.
 
 To pop up a few levels, the raw tracing of PUT/GET enables some
 interesting tricks:
