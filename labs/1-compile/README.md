@@ -69,6 +69,9 @@ Checkoff:
 Use the [cs107e install notes](https://web.archive.org/web/20210414133806/http://cs107e.github.io/guides/install/mac/).
 Note: do not install the python stuff. We will use their custom brew formula!
 
+If you get an error that it can't find `string.h`, you want to set `CPATH`
+to the empty string (see a TA for help if you need it).
+
 ### Linux
 
 For [ubuntu/linux](https://askubuntu.com/questions/1243252/how-to-install-arm-none-eabi-gdb-on-ubuntu-20-04-lts-focal-fossa), ARM recently
