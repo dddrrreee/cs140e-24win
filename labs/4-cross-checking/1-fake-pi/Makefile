@@ -1,7 +1,7 @@
 LIBNAME = libpi-fake.a
 
 # grab stuff from libpi
-LPP = $(CS140E_2023_PATH)/libpi/
+LPP = $(CS140E_2024_PATH)/libpi/
 SRC  = $(LPP)/libc/printk.c
 SRC  += $(LPP)/libc/putk.c
 SRC  += $(LPP)/libc/putchar.c
@@ -15,9 +15,9 @@ else
 SRC  += $(LPP)/staff-private/gpio.c 
 endif
 
-INC +=  -I$(CS140E_2023_PATH)/libpi/include
-INC +=  -I$(CS140E_2023_PATH)/libpi/libc
-INC +=  -I$(CS140E_2023_PATH)/libpi/staff-src
+INC +=  -I$(CS140E_2024_PATH)/libpi/include
+INC +=  -I$(CS140E_2024_PATH)/libpi/libc
+INC +=  -I$(CS140E_2024_PATH)/libpi/staff-src
 INC +=  -I.
 CFLAGS = $(INC) -O -Wall -Wno-unused-function -Wno-unused-variable -MMD -DRPI_UNIX
 

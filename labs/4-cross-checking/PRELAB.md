@@ -5,10 +5,11 @@ Reading:
      discussion below).  You're going to implement this.
   2. Read [03-fake-pi/README.md](03-fake-pi/README.md) to see simple
      examples of emulating pi code on Unix.
-  3. Read the [1-fake-pi README](1-fake-pi/README.md) a few
+  3. Read the [1-fake-pi/README.md](1-fake-pi/README.md) a few
      times and look through the code.  Understanding how to run r/pi
      code unaltered on a fake pi Unix emulator is a crucial concept that
      we'll use throughout the quarter.
+  4. Read the lab for more discussion and to see where we are going.
 
 What to do:
 

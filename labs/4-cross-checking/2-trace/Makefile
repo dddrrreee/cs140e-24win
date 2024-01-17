@@ -11,4 +11,4 @@ LIB = libtrace.a
 # shared code linked with all driver programs.
 SRC := trace-notmain.c  trace-simple.c
 
-include $(CS140E_2023_PATH)/libpi/mk/Makefile.lib.template
+include $(CS140E_2024_PATH)/libpi/mk/Makefile.lib.template
