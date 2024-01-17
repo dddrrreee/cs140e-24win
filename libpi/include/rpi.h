@@ -136,7 +136,7 @@ void *kmalloc_aligned(unsigned nbytes, unsigned alignment);
 // size in bytes
 void kmalloc_init_set_start(void *addr, unsigned max_nbytes);
 static inline void kmalloc_init(void) {
-    unsigned MB = 1024*1024;
+    unsigned long MB = 1024*1024;
     kmalloc_init_set_start((void*)MB, 64*MB);
 }
 
