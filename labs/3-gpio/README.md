@@ -180,6 +180,15 @@ If you took cs107e or you've done this kind of thing before, please do
 an extension.
 
 ------------------------------------------------------------------------------
+## Part 3: look through the code in `code` and `.list` file 
+
+Other than the bootloader, all the code needed for this lab is in
+`code`: there is no additional magic.  Please look through the code
+and the `.list` files to see everything that is being used.  Note:
+The code addresses come from `memmap` and correspond to the address in
+`config.txt`.
+
+------------------------------------------------------------------------------
 ## Extensions
 
 If you finish early, and get tired of helping other people,
