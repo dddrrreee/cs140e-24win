@@ -110,7 +110,8 @@ jumper didn't get disconnected.  Do all three checks below:
            % pi-install 2-blink.bin
            # the LEDs on pin 20 and pin 21 should be in opposite orders.
 
-    Success looks like:
+    Success looks like (please ignore the fact that the in the photos doesn't
+    use parthiv-pi):
 
 <p float="left">
   <img src="images/part1-succ-green.jpg" width="450" />
