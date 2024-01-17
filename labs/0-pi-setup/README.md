@@ -431,6 +431,13 @@ on the first lab, today you're going to edit your shell configuration file
 (e.g., `.tcshrc`, `.bash_profile`, etc) to set an environment variable
 `CS140E_2024_PATH` to contain where you have your class repository.
 
+
+NOTE: 
+  - Do not put the class repo in a directory has a space!
+    This will break various things with unclear errors.  This happened
+    to a few MacOS users.
+
+
 E.g., for me, since I'm running `tcsh` I edit my `.tcshrc` file and add:
 
     setenv CS140E_2024_PATH /home/engler/class/cs140e-24win/
