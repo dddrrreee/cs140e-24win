@@ -50,6 +50,41 @@ a hardware investment.
     Unix system in a way hidden even from careful code inspection.
 
 ---------------------------------------------------------------------
+### 1: Going down to metal (part I)
+
+The first few labs will writing the low-level code needed to run the
+r/pi and using modern techniques to validate it.  Doing so will remove
+magic from what is going on since all of the interesting code on both
+the pi and Unix side will be written by you:
+
+
+  - [3-gpio](3-gpio/):  Two parts.  First, we will give out the
+    hardware and make sure it works: [0-pi-setup](0-pi-setup/README.md).
+
+    Second start getting used to understanding hardware datasheets by
+    writing your own code to control the r/pi `GPIO` pins using the
+    Broadcom document GPIO description.  You will use this to implement
+    your own blink and a simple network between your r/pi's.
+
+    ***READING***:
+       - Note: [GPIO](../notes/devices/GPIO.md).
+       - Note: [crash course in writing device code](../notes/devices/DEVICES.md).
+       - pages 4--7 and 91---96 of the broadcom
+         datasheet (`docs/BCM2835-ARM-Peripherals.annot.PDF`)
+
+  - [4-cross-check](4-cross-checking): you will use read-write logging
+    of all loads and stores to device memory to verify that your GPIO
+    code is equivalent to everyone else's.  If one person got the code
+    right, everyone will have it right.
+
+    A key part of this class is having you write all the low-level,
+    fundamental code your OS will need.  The good thing about this
+    approach is that there is no magic.  A bad thing is that a single
+    mistake can make a miserable quarter.  Thus, we show you modern
+    (or new) tricks for checking code correctness.
+
+
+---------------------------------------------------------------------
 
 <p align="center">
   <img src="lab-memes/bug.jpg" width="400" />
