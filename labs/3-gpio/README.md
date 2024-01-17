@@ -1,7 +1,7 @@
 # Lab: write your own code to control the r/pi; throw ours out.
 
 <p align="center">
-  <img src="images/rpi-mj.jpg" width="450" />
+  <img src="images/rpi-mj.png" width="450" />
 </p>
 
 **Important: as always, read and complete the [PRELAB](PRELAB.md)
