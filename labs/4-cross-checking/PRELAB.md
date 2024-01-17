@@ -20,7 +20,7 @@ What to do:
       `2-libpi-fake`) and try running them by changing the
       `03-fake-pi/Makefile` to use the different version.
 
-   4. `code-fake-pi` : a more full fledged but still fairly
+   4. `1-fake-pi` : a more full fledged but still fairly
       trivial user-level emulator for your pi code.  You will use this
       approach to cross-check your implementation against everyone else's
       to ensure everyone is equivalant.  Thus, if one person is correct,
