@@ -67,7 +67,7 @@ details).
         no pi program
         ...
 
-2. Setup the `140E_CS140E_2024` environment variable to the location of 
+2. Setup the `CS140E_2024_PATH` environment variable to the location of 
    the class repo.  `make` in `checkoff` should succeed.
 
 If that worked, you're good to go!  If not see the [HINTS](./HINTS.md)
