@@ -129,6 +129,11 @@ Hardware check before writing code:
   2. Make sure when you run `staff-binaries/3-blink.bin` that the two
      LEDs are on and off at the same time.
 
+<p float="left">
+  <img src="images/leds-on.jpg" width="450" />
+  <img src="images/leds-off.jpg" width="450" />
+</p>
+
 Part 1 you used GPIO for output, you'll extend your code to handle input
 and use this to read input. At this point you have the tools to control
 a surprising number of digital devices you can buy on eBay, adafruit,
@@ -161,6 +166,7 @@ More detail:
             % pi-install 3-loopback.bin
 
 4.  Success: both LEDs will be on or off at the same time.
+
 
 If this is your first time working with Raspberry Pis, you're almost done!
 Check the [checkoff guide](./CHECKOFF.md) for what to show us.
