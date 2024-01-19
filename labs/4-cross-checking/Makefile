@@ -1,4 +1,4 @@
-SUBDIRS= 01-tracing-pi  03-fake-pi	 1-fake-pi 2-trace
+SUBDIRS= 01-tracing-pi  03-fake-pi	 1-fake-pi 2-trace check-hello check-libpi
 
 # this only works on linux
 SUBDIRS += 02-tracing-linux  
