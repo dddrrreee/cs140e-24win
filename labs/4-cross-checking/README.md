@@ -484,9 +484,9 @@ For `fake-pi.c`:
   - extend `fake-pi.c:PUT32`: to handle writes to the new clear and set locations.
 
 For testing:
-   - *NOTE: Do a `git pull` to get our hashes.*
+  - *NOTE: Do a `git pull` to get our hashes.*
 
-   - Enable the act tests:
+  - Enable the act tests:
 
         # 1-fake-pi/tests/Makefile
         TEST_SRC := $(wildcard ./act-*.c) 
