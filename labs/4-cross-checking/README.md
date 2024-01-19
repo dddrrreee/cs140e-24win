@@ -452,7 +452,7 @@ the `GPIO` code `printf` working so that it's a bit easier.
 This is the one step where you write some code.  But it's mainly just adapting
 the GPIO code you already implemented.
 
-The header `code/rpi.h` in today's lab gives the definition:
+The header `$CS140E_2024_PATH/libpi/include/gpio.h` in today's lab gives the definition:
 
     // set GPIO function for <pin> (input, output, alt...).  settings for other
     // pins should be unchanged.
