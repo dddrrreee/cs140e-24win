@@ -21,11 +21,17 @@ else's implementation.  If even one person gets it right, then showing
 equivalence means you got it right too.  And, nicely, automatically
 detect if any subsequent modifications you do break the code.
 
+The basic intuition: it's very hard to check if two different Turing
+machines are equivalant by comparing their logic.  On the other hand
+it's trivial compare their tapes after they run: same end tape = same
+computed result.
+
 #### Sign-off
 
 There are three parts for sign-off:
 
-   1. Your checksums for the tests in `1-fake-pi/tests` pass.  
+   1. Your checksums for the tests in `1-fake-pi/tests` match your
+      partner's (and ours).
 
       Note this includes implementing `gpio_set_function` and check that it 
       gives the same checksum. 
@@ -131,7 +137,6 @@ usefully working examples of several powerful ideas:
      a key reason that the natural sciences have seen such a massive
      increase in effectivess over the past few centuries, where they
      call it "reproducibility".
-
 
 ----------------------------------------------------------------------
 #### Background: making a fake pi implementation
@@ -242,7 +247,7 @@ To see how this all works:
 The `Makefile` in `1-fake-pi/tests` automates the process, but to understand
 how this works, let's run the `1-blink` from last lab using `fake-pi`:
 
-            % cd labs/2-cross-check/1-fake-pi
+            % cd labs/2-cross-check/1-fake-pi/tests
             % make
             % ./prog-1-blink > prog-1-blink.out
             % cksum prog-1-blink.out
@@ -260,13 +265,6 @@ how this works, let's run the `1-blink` from last lab using `fake-pi`:
 ----------------------------------------------------------------------
 #### Part 1. Check your code against everyone else 
 
-First things first:
-
-  - `cd` into `1-fake` and make sure `make` works.
-  - In general: you don't want to break working code.  So
-    before making changes we suggest copy your `gpio.c` from the last
-    lab to `1-fake-pi` and updating the makefile.
-
 To summarize the above fake-pi description: Given the `GET32` and `PUT32`
 modifications above, a simple, stringent approach is to check that two
 `gpio` implementations are the same:
@@ -277,19 +275,6 @@ modifications above, a simple, stringent approach is to check that two
      did not return any result, so this just means that your code never
      crashes.)
 
-As a final part: 
-
-  3. For routines that return a value (such as `gpio_read`)
-     change their return to call `DEV_VAL32` with the value.
-     So for example:
-
-            return x;
-
-     Becomes
-
-            return DEV_VAL32(x);
-
-     We do this so that we can also compare computed values.
 
 If all checks pass then we know that both implementations are equivalent
 in how they read or write device memory --- at least for the tested inputs.
@@ -298,25 +283,84 @@ You won't write much code for this part, most of the work will be
 comparing different `PUT32`, `GET32` and `DEV_VAL32` traces for the
 tests given in `1-fake-pi/tests` to see what the differences are from.
 
-The tests are organized in increasing difficulty to debug.   
-  - Tests with a `1-` prefix are the easiest (start there) and just contain
-    a single legal call to a `gpio.c` routine.
+##### Setup.
 
-  - Tests with a `2-` prefix are more difficult since they test many pins, both
+First things first:
+
+  1. In general: you don't want to break working code.  So before making
+     changes `cd` into `1-fake` and copy your gpio.c from
+     last lab:
+
+		% cd 1-fake
+        % cp ../../3-labs/code/gpio.c .
+
+  2. Change `gpio_read` so that on the non-error case, it
+     calls `DEV_VAL32` with its return value and returns that result.
+     This lets us check more stringently.
+
+     So for example:
+
+
+        int gpio_read(unsigned pin) {
+            if(pin >= 32)
+                return -1;
+            ...
+            return x;
+        }
+
+     Becomes
+
+        int gpio_read(unsigned pin) {
+            if(pin >= 32)
+                return -1;
+            ...
+            return DEV_VAL32(x);
+        }
+
+
+   3. Make sure you can compile without errors.
+
+        % make 
+       
+   4. Change into the `tests` subdirectory and run a single test.
+
+        % cd tests
+        # should run a single test
+        % make run
+        # test should pass.
+        % make check
+
+
+   5. If you look in the `Makefile` in tests it describes how to 
+      run the other tests.  
+
+
+
+##### How to run the tests.
+
+
+The tests are organized in increasing difficulty to debug.   
+  - Tests with a `0-` prefix are the easiest (start there) and just contain
+    a single legal call to a `gpio.c` routine.
+  - Tests with a `1-` prefix are a bit harder and systematically run all
+    legal pins less than 32.
+  - Tests with a `2-` and `5-` prefix are more difficult since they test
+    many pins, both
     legal and illegal.
 
   - Tests with a `prog-` prefix are full program tests (taken from last lab).
+  - Tests with a `act-` prefix are run the act led tests.
 
 The `Makefile` in `1-fake-pi/tests` has a set of targets to automate the process.
 
   - The files specified by the `TEST_SRC` variable at the top of `1-fake-pi/tests/Makefile` 
     determine which tests get run.  For example, to run all simple tests:
 
-            TEST_SRC := $(wildcard ./[1]-*.c)
+            TEST_SRC := $(wildcard ./[0]-*.c)
 
-    You could change `[1]` to `[2]` to run the second batch of tests, or `[12]`
-    to run both batches.  `Makefile` variables are like regular variables in
-    that the last write wins.  You don't have to comment out previous writes.
+    You could change `[0]` to `[1]` to run the next batch of tests, etc.
+    `Makefile` variables are like regular variables in that the last
+    write wins.  You don't have to comment out previous writes.
 
   - `make run`: will run all the specified tests.
   - `make emit`: will run all the specified tests and save the output to a `.out` file.
@@ -326,7 +370,9 @@ The `Makefile` in `1-fake-pi/tests` has a set of targets to automate the process
      integer using the `cksum` program.  You can quickly determine if you get the
      same result as your partner(s) by just comparing this integer.
   - `make checkoff` will compute all the checksums.
-    
+  - `make check` compares to old .out files.
+
+You should compare to your partner and work through the tests.
 
 ##### Making  code behave the same on illegal inputs
 
@@ -351,7 +397,6 @@ And for non-void, such as `gpio_read`, check and return `-1`:
         if(pin >= 32 && pin != 47)
             return -1;
 
-
 We would normally print and error and crash, but at the moment we don't
 even have `printk` so simply return.
 
@@ -361,13 +406,14 @@ they are being used to compute an address that we read and write to
 are running without memory protecton, such invalid accesses are extremely bad 
 since they can silently corrupt data we use or issue weird hardware commands.
 
+
 ##### Checkoff
 
 The easiest way to check all the runs:
   1. Set `TEST_SRC`:
 
-            # run all the tests
-            TEST_SRC := $(wildcard ./*.c)
+            # run all the 0 and 1 tests
+            TEST_SRC := $(wildcard ./[0-1]*.c)
 
   2. Compute the checksum of checksums.
 
@@ -377,7 +423,6 @@ The easiest way to check all the runs:
             % make cksum | sort -n | cksum 
 
 ----------------------------------------------------------------------
-
 #### Step 2: implement `gpio_set_function` and cross-check it 
 
 As you've probably discovered, debugging without even `printf` is a
@@ -411,17 +456,43 @@ What to do:
       value.
 
 Checkoff:
+   0. NOTE: Do a `git pull` to get our hashes.
    1. Make sure the `5-tests*.c` are equivalant to other people.
    2. Rewrite your `gpio_set_input` and `gpio_set_output` to call 
       `gpio_set_function` and then verify you get the same checksums.
       (See a pattern?)
-   3. Checking that `printk` now works for real;
-      copy your `gpio.c` into `2-cross-check/code-hello` and type `make`
-      it should produce a `hello.bin` that you can send to your pi (using
-      `pi-install`) and have it print and reboot.
+
+   3. Checking that `printk` now works for real;   do a git pull for
+      this part,  we need to add more prose.
+
+-------------------------------------------------------------------
+#### Step 3: implement the act led (pin 47).
+
+The pi has an led on its board (the "act" led) that you can control 
+by writing GPIO pin 47.
+
+For `gpio.c`:
+  - extend `gpio.c:gpio_set_func` to handle 47.
+  - extend `gpio.c:gpio_set_on` and `gpio.c:gpio_set_off`
+  - `gpio_read` should still give an error for any pin greater than 32.
+
+For `fake-pi.c`:
+  - You will have to extend `fake-pi.c` to have additional clear
+    (`gpio_clr1`), set (`gpio_set1`) and function select location
+    (`gpio_fsel4`).
+
+  - extend `fake-pi.c:GET32`: to handle reads of the new function select location.
+  - extend `fake-pi.c:PUT32`: to handle writes to the new clear and set locations.
+
+These are the act tests:
+
+    # 1-fake-pi/tests/Makefile
+    TEST_SRC := $(wildcard ./act-*.c) 
+
+NOTE: Do a `git pull` to get our hashes.
 
 ----------------------------------------------------------------------
-#### 3. Do similar tracing on the pi (`2-trace`)
+#### Step 4. Do similar tracing on the pi (`2-trace`)
 
 ***Note: for the `prog-hardware-loopback.c` you'll need to run a jumper
 between pins 20 and 21 (it sets and reads).***
@@ -452,6 +523,7 @@ and then drop in your gpio and make sure you get the same answer.
    4. Change `libpi/Makefile` to use your `gpio.c` instead of ours by changing
       `SRC = src/gpio.c` and removing the `staff-objs/gpio.o` from `STAFF_OBJS`
    5. Now verify tracing gives the same values: `make check`: you should get the same results.
+
 
 ----------------------------------------------------------------------
 #### Extension: simulator validation
