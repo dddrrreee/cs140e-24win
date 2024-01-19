@@ -18,21 +18,6 @@ Before class:
 
 #### Compile and run the code
 
-To compile:
-
-        % cd 4-cross-check/1-fake-pi
-        % cp ../../3-gpio/code/gpio.c 
-        % make
-        % ls
-        1-blink  2-blink  3-input  ...
-
-Note, you can also compile by hand if it's easier:
-
-        # symlink to make easier
-        % ln -s ../../1-gpio/code code  
-        % gcc -g -Wall -Icode code/gpio.c code/1-blink.c  fake-pi.c -o 1-blink
-
-
 You can then run the programs on your laptop.  They will print a sequence of
 `PUT` and `GET` calls:
 
