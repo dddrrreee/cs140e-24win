@@ -38,9 +38,9 @@ headers += $(foreach d, $(dirs), $(d)/*.h)
 RUN=1
 # we might not need these.
 test_bin := $(PROGS:.c=.bin)
-#test_list   := $(PROGS:.c=.list)
-#test_elf   := $(PROGS:.c=.elf)
-#test_dep   := $(PROGS:.c=.d)
+test_list   := $(PROGS:.c=.list)
+test_elf   := $(PROGS:.c=.elf)
+test_dep   := $(PROGS:.c=.d)
 ##test_tmp   := $(PROGS:.c=.test) $(PROGS:.c=.raw)
 
 # tell make where to look.
@@ -62,11 +62,17 @@ DEPS += $(MEMMAP) $(LPI)  $(mk)
 
 all:: $(BUILD_DIR) libs $(LIB) $(test_bin) tags $(test_run) 
 
+# always create the directory.
+# $(BUILD_DIR): ; mkdir -p $(BUILD_DIR)
+
+$(BUILD_DIR):  FORCE
+	@mkdir -p $(BUILD_DIR)
+
+FORCE:
+
 printdep:
 	@echo "all_tags=<$(all_tags)>"
 
-# always create the directory.
-$(BUILD_DIR): ; mkdir -p $(BUILD_DIR)
 
 print:
 	# test_bin = <$(test_bin)>
@@ -123,7 +129,7 @@ tags::
 
 # note: double :: is so user can add rules to <clean> transparently
 clean::
-	rm -rf $(BUILD_DIR)
+	rm -rf $(BUILD_DIR) $(test_bin) $(test_list) $(test_elf)
 	rm -f *~ tags $(objs) Makefile.bak *.d $(TEST_OBJS) *.raw *.test $(TEST_ASM_OBJS) 
 	rm -f $(TEST_LIST) $(TEST_ELF) $(TEST_DEP) $(TEST_TMP) $(TEST_PROGS)
 
