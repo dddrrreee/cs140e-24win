@@ -84,6 +84,58 @@ There are three parts for sign-off:
    4. After everything works, add gpio pullup and gpio pulldown and check
       with everyone else.  You'll have to add timing routines!
 
+#### Checksums.
+
+If you want to use our checksums:
+
+        % make checkoff
+        all files we are going to checksum (TEST_OUT):
+        ./0-gpio-read-17.out	   ./1-gpio-read.out	    ./5-gpio-n-set-func.out
+        ./0-gpio-read-20.out	   ./1-gpio-set-input.out   ./5-gpio-set-func.out
+        ./0-gpio-read-21.out	   ./1-gpio-set-off.out     ./5-set-function-N.out
+        ./0-gpio-read-7.out	   ./1-gpio-set-on.out	    ./5-set-pin-func.out
+        ./0-gpio-set-input-17.out  ./1-gpio-set-output.out  ./act-set-output.out
+        ./0-gpio-set-input-20.out  ./1-gpio-write.out	    ./act-write.out
+        ./0-gpio-set-input-21.out  ./2-set-input-N.out	    ./prog-1-blink.out
+        ./0-gpio-set-input-7.out   ./2-set-off-N.out	    ./prog-2-blink.out
+        ./0-gpio-write-17.out	   ./2-set-on-N.out	    ./prog-3-input.out
+        ./0-gpio-write-21.out	   ./2-set-output.out
+        total files = 29
+        checksum of cksum command <cksum TEST_OUT| sort -n | cksum> =
+            1035093327 1049
+
+        individual checksums:
+            53206415 149 ./1-gpio-set-output.out
+            107627159 107 ./1-gpio-set-off.out
+            197440487 149 ./0-gpio-set-input-17.out
+            233099041 149 ./0-gpio-set-input-7.out
+            688829614 149 ./5-gpio-set-func.out
+            710888840 107 ./1-gpio-set-on.out
+            815968718 634 ./5-set-pin-func.out
+            950806854 132 ./0-gpio-read-17.out
+            950806854 132 ./0-gpio-read-21.out
+            1190846849 2679 ./2-set-input-N.out
+            1444919731 4598 ./prog-3-input.out
+            1585249846 1262 ./2-set-off-N.out
+            1674533470 2685 ./2-set-output.out
+            2119988811 5381 ./5-set-function-N.out
+            2356184348 1262 ./2-set-on-N.out
+            2488920004 149 ./0-gpio-set-input-20.out
+            2608020824 149 ./act-set-output.out
+            2647062284 2139 ./1-gpio-read.out
+            2701669809 2464 ./prog-2-blink.out
+            2830168373 5379 ./1-gpio-set-input.out
+            2950566669 132 ./0-gpio-read-20.out
+            2950566669 132 ./0-gpio-read-7.out
+            2970604951 143 ./0-gpio-write-17.out
+            2984310116 2460 ./1-gpio-write.out
+            3157623788 145 ./0-gpio-write-21.out
+            3166146642 141 ./act-write.out
+            3263639091 634 ./5-gpio-n-set-func.out
+            3264505994 1602 ./prog-1-blink.out
+            4071544067 149 ./0-gpio-set-input-21.out
+        
+
 There's a bunch of extensions.
 
 ------------------------------------------------------------------------
