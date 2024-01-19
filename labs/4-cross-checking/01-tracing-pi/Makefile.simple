@@ -7,7 +7,7 @@ LIB_SRC = foo.c             # any shared source.
 LD_FLAGS = -Wl,--wrap=foo   # we add this flag for the linker.
 
 # tool chain names and flags.
-include $(CS140E_2023_PATH)/libpi/defs.mk
+include $(CS140E_2024_PATH)/libpi/defs.mk
 
 all: $(PROG_SRC:.c=.bin)
 
