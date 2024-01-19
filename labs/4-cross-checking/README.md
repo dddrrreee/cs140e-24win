@@ -291,8 +291,8 @@ First things first:
      changes `cd` into `1-fake` and copy your gpio.c from
      last lab:
 
-		% cd 1-fake
-        % cp ../../3-labs/code/gpio.c .
+            % cd 1-fake
+            % cp ../../3-labs/code/gpio.c .
 
   2. Change `gpio_read` so that on the non-error case, it
      calls `DEV_VAL32` with its return value and returns that result.
@@ -301,21 +301,21 @@ First things first:
      So for example:
 
 
-        int gpio_read(unsigned pin) {
-            if(pin >= 32)
-                return -1;
-            ...
-            return x;
-        }
+            int gpio_read(unsigned pin) {
+                if(pin >= 32)
+                    return -1;
+                ...
+                return x;
+            }
 
      Becomes
 
-        int gpio_read(unsigned pin) {
-            if(pin >= 32)
-                return -1;
-            ...
-            return DEV_VAL32(x);
-        }
+            int gpio_read(unsigned pin) {
+                if(pin >= 32)
+                    return -1;
+                ...
+                return DEV_VAL32(x);
+            }
 
 
    3. Make sure you can compile without errors.
