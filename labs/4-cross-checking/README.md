@@ -1,5 +1,18 @@
 ### Lab: automatically cross-check your GPIO code against everyone else's.
 
+
+***NOTE: the `1-fake-pi/tests/Makefile` makefile has an incorrect checkoff****
+It only checksums the file names not the contents.
+Please change it from:
+
+        @echo -n "checksum of cksum command <ls TEST_OUT| sort -n | cksum> =\n   ";
+        @ls $(TEST_OUT) | sort -n | cksum
+
+To:
+
+        @echo -n "checksum of cksum command <cksum TEST_OUT| sort -n | cksum> =\n   ";
+        @cksum $(TEST_OUT) | sort -n | cksum
+
 A goal of this course is that you will write every single line of
 (interesting) low level code you use.  A good result of this approach
 is that you will understand everything and, unlike most embedded or
@@ -27,6 +40,10 @@ it's trivial compare their tapes after they run: same end tape = same
 computed result.
 
 #### Sign-off
+
+
+
+
 
 There are three parts for sign-off:
 
