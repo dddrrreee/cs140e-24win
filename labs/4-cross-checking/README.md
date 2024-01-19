@@ -455,14 +455,15 @@ What to do:
       value.
 
 Checkoff:
-   0. *NOTE: Do a `git pull` to get our hashes*
    1. Make sure the `5-tests*.c` are equivalant to other people.
    2. Rewrite your `gpio_set_input` and `gpio_set_output` to call 
       `gpio_set_function` and then verify you get the same checksums.
       (See a pattern?)
 
-   3. Checking that `printk` now works for real;   do a git pull for
-      this part,  we need to add more prose.
+   3. Checking that `printk` now works for real; if you go into
+      `4-cross-check/check-hello` and type `make` it produce a `hello.bin`
+      that it can run successfully.
+      If so, congratulations!  It is using your `gpio.c`
 
 -------------------------------------------------------------------
 #### Step 3: implement the act led (pin 47).
@@ -509,7 +510,7 @@ Implement the code in `2-trace`:
 
 As with `1-fake-pi` start working through the tests in `2-trace/tests`.
 
-####### checkoff
+###### checkoff
 
 Note, that initially you will be using our `gpio` implementation in
 `libpi`.  When you finish the tracing above do, emit the `out` files
@@ -519,7 +520,14 @@ and then drop in your gpio and make sure you get the same answer.
    2. `make check` to make sure it passes (this compares the current run to 
        the output files emitted in (1)).
    3. Change `libpi/Makefile` to use your `gpio.c` instead of ours by changing
-      `SRC = src/gpio.c` and removing the `staff-objs/gpio.o` from `STAFF_OBJS`
+      `SRC = src/gpio.c` and removing the `staff-objs/gpio.o` from `STAFF_OBJS`.
+       These steps are described in the `libpi/Makefile` comments.
+
+       ***To make debugging easy: before doing anything else, check that
+      running `make` in `4-cross-check/check-libpi` doesn't break: for
+      `hello-bin.bin` should print "hello" and `act-blink.bin` should
+      blink the small green led on the pi itself.***
+
    4. Now verify tracing gives the same values: `make check`: you should get the same results.
 
 ----------------------------------------------------------------------
