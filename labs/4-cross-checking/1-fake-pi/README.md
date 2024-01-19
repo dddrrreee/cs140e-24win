@@ -20,12 +20,11 @@ Before class:
 
 To compile:
 
-        % cd 4-cross-check/1-code-fake-pi
+        % cd 4-cross-check/1-fake-pi
         % cp ../../3-gpio/code/gpio.c 
         % make
         % ls
         1-blink  2-blink  3-input  ...
-
 
 Note, you can also compile by hand if it's easier:
 

@@ -1,60 +1,37 @@
 LIBNAME = libpi-fake.a
+BUILD_DIR = ./objs
 
-# grab stuff from libpi
-LPP = $(CS140E_2024_PATH)/libpi/
-SRC  = $(LPP)/libc/printk.c
-SRC  += $(LPP)/libc/putk.c
-SRC  += $(LPP)/libc/putchar.c
-SRC  += $(LPP)/staff-src/clean-reboot.c
-SRC  += $(wildcard ./*.c)
+LPP = $(CS140E_2024_PATH)libpi
 
-# or copy your GPIO here.
+# all the .c files used to generate fake programs on Unix.
+# 1. get all the the routines from current directory.
+LIB_SRC  = fake-pi.c  fake-random.c  pi-random.c
+# 2. pull in different libpi files.
+LIB_SRC  += $(LPP)/libc/printk.c
+LIB_SRC  += $(LPP)/libc/putk.c
+LIB_SRC  += $(LPP)/libc/putchar.c
+LIB_SRC  += $(LPP)/staff-src/clean-reboot.c
+
+# 3. pull in your gpio.c
 ifndef CS140E_STAFF
-SRC  += ../../3-gpio/code/gpio.c 
+# copy your gpio here!
+LIB_SRC  += gpio.c 
 else
-SRC  += $(LPP)/staff-private/gpio.c 
+LIB_SRC  += $(LPP)/staff-private/gpio.c 
 endif
 
-INC +=  -I$(CS140E_2024_PATH)/libpi/include
-INC +=  -I$(CS140E_2024_PATH)/libpi/libc
-INC +=  -I$(CS140E_2024_PATH)/libpi/staff-src
+# all the include locations.
+INC +=  -I$(LPP)/include
+INC +=  -I$(LPP)/libc
+INC +=  -I$(LPP)/staff-src
 INC +=  -I.
-CFLAGS = $(INC) -O -Wall -Wno-unused-function -Wno-unused-variable -MMD -DRPI_UNIX
 
-# all the directories we get code from.
-dirs := $(sort $(dir $(SRC)))
+include ./Makefile.lib.simple
 
-# tell make where to search for prereqs.
-VPATH := $(dirs)
 
-# strip all the directories
-reloc := $(foreach o, $(SRC), $(notdir $o))
-OBJS := $(reloc:.c=.o)
+# file that you can include in a makefile to define INC
+all::
+	@echo "INC += $(INC)" > includes.mk
 
-dep := $(reloc:.c=.d)
-
-all: $(LIBNAME)
-
-$(LIBNAME): $(OBJS)
-	ar cr $(LIBNAME) $(OBJS)
-
--include $(dep)
-
-%.o: %.c 
-	$(CC) $(CFLAGS) -c $< -o $@
-
-check:
-	@make -s -C tests check
-run:
-	@make -s -C tests run
-emit:
-	@make -s -C tests emit
-cksum:
-	@make -s -C tests cksum
-checkoff:
-	@make -s -C tests checkoff
-
-clean:
-	rm -rf *.o *~ *.o Makefile.bak   $(LIBNAME) *.d
-
-.PHONY: all clean 
+clean::
+	rm -f includes.mk

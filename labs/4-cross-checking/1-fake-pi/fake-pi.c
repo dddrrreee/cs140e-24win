@@ -89,6 +89,7 @@ static unsigned trace_on_p = 0, trace_ops = 0;
 static inline void trace_on(void) { trace_on_p = 1; }
 static inline void trace_off(void) { trace_on_p = 0; }
 
+// if <trace_on_p> != 0, emit a trace statement
 #define trace(msg, args...) do {                                        \
     if(trace_on_p) {                                                    \
         output("TRACE:%d: " msg, trace_ops++, ##args);                                   \
@@ -119,8 +120,11 @@ enum {
     gpio_fsel1 = (GPIO_BASE + 0x04),
     gpio_fsel2 = (GPIO_BASE + 0x08),
     gpio_fsel3 = (GPIO_BASE + 0x0c),
+    gpio_fsel4 = gpio_fsel3 + 4,
     gpio_set0  = (GPIO_BASE + 0x1C),
     gpio_clr0  = (GPIO_BASE + 0x28),
+    gpio_set1  = gpio_set0 + 4,
+    gpio_clr1  = gpio_clr0 + 4,
     gpio_lev0  = (GPIO_BASE + 0x34)
 };
 
@@ -130,14 +134,18 @@ static unsigned
         gpio_fsel1_v,
         gpio_fsel2_v,
         gpio_fsel3_v,
+        // do a hack to set initial value: don't use random.
+        gpio_fsel4_v = ~0,      
         gpio_set0_v,
-        gpio_clr0_v;
+        gpio_clr0_v,
+        gpio_set1_v,
+        gpio_clr1_v;
 
 
 // same, but takes <addr> as a uint32_t
 void PUT32(uint32_t addr, uint32_t v) {
     if(!trace_on_p)
-        output("initializing PUT32(0x%x) = 0x%x\n", addr, v);
+        output("fake-pi: initializing PUT32(0x%x) = 0x%x\n", addr, v);
     trace("PUT32(0x%x) = 0x%x\n", addr, v);
     switch(addr) {
     case gpio_fsel0: gpio_fsel0_v = v;  break;
@@ -168,8 +176,10 @@ uint32_t GET32(uint32_t addr) {
     case gpio_fsel1: v = gpio_fsel1_v; break;
     case gpio_fsel2: v = gpio_fsel2_v; break;
     case gpio_fsel3: v = gpio_fsel3_v; break;
-    case gpio_set0:  v = gpio_set0_v;  break;
-    case gpio_clr0:  v = gpio_clr0_v;  break;
+    // we don't allow reading these.
+    // case gpio_set0:  v = gpio_set0_v;  break;
+    // case gpio_clr0:  v = gpio_clr0_v;  break;
+
     // to fake a changing environment, we want gpio_lev0 to 
     // change --- so we return a random value for (which
     // will be roughly uniform random for a given bit).
@@ -194,14 +204,37 @@ uint32_t get32(const volatile void *addr) {
 void nop(void) {
 }
 
-void fake_pi_exit(void) {
+__attribute__((noreturn)) void fake_pi_exit(void) {
     output("TRACE: pi exited cleanly: %d calls to random\n", fake_random_calls());
+    exit(0);
+}
+
+void rpi_reboot(void) {
+    output("TRACE: pi rebooted : %d calls to random\n", fake_random_calls());
     exit(0);
 }
 
 void delay_cycles(unsigned ncycles) {
     trace("delaying %d cycles\n", ncycles);
 }
+
+void delay_us(unsigned usec) {
+    trace("delaying %d usec\n", usec);
+}
+void delay_ms(unsigned msec) {
+    trace("delaying %d msec\n", msec);
+}
+
+// when we do the UART dev driver would replace these.
+// could also use trace statements.
+int uart_put8(uint8_t c) {
+    putchar(c);
+    return c;
+}
+void uart_flush_tx(void) {
+    fflush(stdout);
+}
+
 
 // initialize "device memory" and then call the pi program
 int main(int argc, char *argv[]) {
@@ -228,6 +261,7 @@ int main(int argc, char *argv[]) {
     PUT32(gpio_fsel1, fake_random());
     PUT32(gpio_fsel2, fake_random());
     PUT32(gpio_fsel3, fake_random());
+
     PUT32(gpio_set0,  fake_random());
     PUT32(gpio_clr0,  fake_random());
     trace_on();
