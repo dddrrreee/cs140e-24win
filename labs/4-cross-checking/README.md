@@ -3,15 +3,13 @@
 
 ***NOTE: the `1-fake-pi/tests/Makefile` makefile has an incorrect checkoff.
 It only checksums the file names not the contents.***
-Please change it from:
+Please change it from using `ls` on the last line to `cksum`:
 
         # 1-fake-pi/tests/Makefile
-        @echo -n "checksum of cksum command <ls TEST_OUT| sort -n | cksum> =\n   ";
         @ls $(TEST_OUT) | sort -n | cksum
 
 To:
 
-        @echo -n "checksum of cksum command <cksum TEST_OUT| sort -n | cksum> =\n   ";
         @cksum $(TEST_OUT) | sort -n | cksum
 
 A goal of this course is that you will write every single line of
