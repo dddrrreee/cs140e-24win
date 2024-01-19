@@ -1,10 +1,11 @@
 ### Lab: automatically cross-check your GPIO code against everyone else's.
 
 
-***NOTE: the `1-fake-pi/tests/Makefile` makefile has an incorrect checkoff****
-It only checksums the file names not the contents.
+***NOTE: the `1-fake-pi/tests/Makefile` makefile has an incorrect checkoff.
+It only checksums the file names not the contents.***
 Please change it from:
 
+        # 1-fake-pi/tests/Makefile
         @echo -n "checksum of cksum command <ls TEST_OUT| sort -n | cksum> =\n   ";
         @ls $(TEST_OUT) | sort -n | cksum
 
