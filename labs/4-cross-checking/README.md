@@ -247,7 +247,7 @@ To see how this all works:
 The `Makefile` in `1-fake-pi/tests` automates the process, but to understand
 how this works, let's run the `1-blink` from last lab using `fake-pi`:
 
-            % cd labs/2-cross-check/1-fake-pi/tests
+            % cd labs/4-cross-check/1-fake-pi/tests
             % make
             % ./prog-1-blink > prog-1-blink.out
             % cksum prog-1-blink.out
@@ -491,6 +491,7 @@ For testing:
         # 1-fake-pi/tests/Makefile
         TEST_SRC := $(wildcard ./act-*.c) 
 
+
 ----------------------------------------------------------------------
 #### Step 4. Do similar tracing on the pi (`2-trace`)
 
@@ -508,7 +509,6 @@ Implement the code in `2-trace`:
 
 As with `1-fake-pi` start working through the tests in `2-trace/tests`.
 
-
 ####### checkoff
 
 Note, that initially you will be using our `gpio` implementation in
@@ -518,11 +518,9 @@ and then drop in your gpio and make sure you get the same answer.
    1. `make emit`.
    2. `make check` to make sure it passes (this compares the current run to 
        the output files emitted in (1)).
-   3. copy your `gpio.c` to `libpi/src` (this is where you will put all your
-      source code in the upcoming labs).
-   4. Change `libpi/Makefile` to use your `gpio.c` instead of ours by changing
+   3. Change `libpi/Makefile` to use your `gpio.c` instead of ours by changing
       `SRC = src/gpio.c` and removing the `staff-objs/gpio.o` from `STAFF_OBJS`
-   5. Now verify tracing gives the same values: `make check`: you should get the same results.
+   4. Now verify tracing gives the same values: `make check`: you should get the same results.
 
 ----------------------------------------------------------------------
 #### Extension: simulator validation
