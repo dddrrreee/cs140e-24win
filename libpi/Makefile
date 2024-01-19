@@ -1,9 +1,11 @@
 # simple definitions for making libpi.a
 #  - you should only ever have to modify SRC or STAFF_OBJS
 
-# if you want to use your gpio.o switch these and do `make`
+# to add your gpio.c:
+#   1. copy gpio.c to libpi/src/gpio.c
+#   2. swap the two lines below.
 STAFF_OBJS  +=  ./staff-objs/gpio.o
-# SRC += ../labs/4-cross-checking/1-fake-pi/gpio.c
+# SRC += src/gpio.c
 
 # you would add the path to yours.
 STAFF_OBJS  +=  ./staff-objs/uart.o

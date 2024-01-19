@@ -127,6 +127,7 @@ ifneq ($(MAKECMDGOALS),cleanall)
 endif
 endif
 
+
 # we delete the archive before creating so that the hack of
 # having duplicate symbols in it resolved in order works.
 # otherwise it *appears* we need to use the 
