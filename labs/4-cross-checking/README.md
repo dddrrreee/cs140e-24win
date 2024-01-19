@@ -320,20 +320,19 @@ First things first:
 
   3. Make sure you can compile without errors.
 
-        % make 
+            % make 
        
   4. Change into the `tests` subdirectory and run a single test.
 
-        % cd tests
-        # should run a single test
-        % make run
-        # test should pass.
-        % make check
+            % cd tests
+            # should run a single test
+            % make run
+            # test should pass.
+            % make check
 
 
   5. If you look in the `Makefile` in tests it describes how to 
       run the other tests.  
-
 
 
 ##### How to run the tests.
