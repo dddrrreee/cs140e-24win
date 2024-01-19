@@ -375,9 +375,10 @@ You should compare to your partner and work through the tests.
 
 ##### Making  code behave the same on illegal inputs
 
-The first batch of tests only run on a single legal input.  However,
-the second batch (`2-*.c`) check illegal pin inputs as well.  If we
-don't state how to handle them, it's easy to get different results.
+
+The `0-` and `1-` tests  work on legal inputs.  You should get these
+working.  The next set (`2-*.c`) check illegal pin inputs as well.
+If we don't state how to handle them, it's easy to get different results.
 
 To keep things simple, you should check if a pin is larger than 32
 and, for `void` routines, simply check and return at the start of 
@@ -405,14 +406,13 @@ they are being used to compute an address that we read and write to
 are running without memory protecton, such invalid accesses are extremely bad 
 since they can silently corrupt data we use or issue weird hardware commands.
 
-
 ##### Checkoff
 
 The easiest way to check all the runs:
   1. Set `TEST_SRC`:
 
             # run all the 0 and 1 tests
-            TEST_SRC := $(wildcard ./[0-1]*.c)
+            TEST_SRC := $(wildcard ./[0-2]*.c)
 
   2. Compute the checksum of checksums.
 
