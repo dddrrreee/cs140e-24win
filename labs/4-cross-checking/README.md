@@ -456,7 +456,7 @@ What to do:
       value.
 
 Checkoff:
-   0. NOTE: Do a `git pull` to get our hashes.
+   0. *NOTE: Do a `git pull` to get our hashes*
    1. Make sure the `5-tests*.c` are equivalant to other people.
    2. Rewrite your `gpio_set_input` and `gpio_set_output` to call 
       `gpio_set_function` and then verify you get the same checksums.
@@ -484,12 +484,13 @@ For `fake-pi.c`:
   - extend `fake-pi.c:GET32`: to handle reads of the new function select location.
   - extend `fake-pi.c:PUT32`: to handle writes to the new clear and set locations.
 
-These are the act tests:
+For testing:
+   - *NOTE: Do a `git pull` to get our hashes.*
 
-    # 1-fake-pi/tests/Makefile
-    TEST_SRC := $(wildcard ./act-*.c) 
+   - Enable the act tests:
 
-NOTE: Do a `git pull` to get our hashes.
+        # 1-fake-pi/tests/Makefile
+        TEST_SRC := $(wildcard ./act-*.c) 
 
 ----------------------------------------------------------------------
 #### Step 4. Do similar tracing on the pi (`2-trace`)
@@ -523,7 +524,6 @@ and then drop in your gpio and make sure you get the same answer.
    4. Change `libpi/Makefile` to use your `gpio.c` instead of ours by changing
       `SRC = src/gpio.c` and removing the `staff-objs/gpio.o` from `STAFF_OBJS`
    5. Now verify tracing gives the same values: `make check`: you should get the same results.
-
 
 ----------------------------------------------------------------------
 #### Extension: simulator validation
