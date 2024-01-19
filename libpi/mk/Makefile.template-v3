@@ -60,7 +60,7 @@ LIBS += $(LIB) $(LPI)
 mk = $(LPP)/mk/Makefile.template-v3 ./Makefile $(LPP)/defs.mk
 DEPS += $(MEMMAP) $(LPI)  $(mk)
 
-all:: $(BUILD_DIR) libs $(LIB) $(test_bin) tags $(test_run) 
+all:: $(BUILD_DIR) libs $(LIB) $(test_bin) $(test_run) 
 
 # always create the directory.
 # $(BUILD_DIR): ; mkdir -p $(BUILD_DIR)
