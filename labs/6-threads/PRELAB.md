@@ -17,6 +17,9 @@ Some useful introduction (or review) reading for threads:
      from the useful [Three Easy Pieces](http://pages.cs.wisc.edu/~remzi/OSTEP/#book-chapters)
      textbook.
 
+  3. Optional: Andew Birrell's classic "Programming with threads" paper 
+     [docs/birrell-threads.pdf](docs/birrell-threads.pdf).
+
 Deliverables:
   1. Look through the `9-threads/code/rpi-thread.[ch]` header and skeleton code
      so you see what you will be implementing.
