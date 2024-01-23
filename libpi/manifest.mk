@@ -1,5 +1,5 @@
 BUILD_DIR := ./objs
-LIB := libpi.a
+LIBNAME := libpi.a
 START := ./staff-start.o
 
 # set this to the path of your ttyusb device if it can't find it
@@ -27,14 +27,13 @@ endif
 endif
 
 DEPS += ./src
-
-
-include $(CS140E_2024_PATH)/libpi/mk/Makefile.lib.template
+include $(CS140E_2024_PATH)/libpi/mk/Makefile.lib.template-v2
 
 all:: $(START)
 
-staff-start.o: ./objs/staff-start.o
-	cp ./objs/staff-start.o staff-start.o
+# copy staff-start.o to top level to make it easier to include.
+staff-start.o: $(BUILD_DIR)/staff-start.o
+	cp $(BUILD_DIR)/staff-start.o .
 
 clean::
 	rm -f staff-start.o

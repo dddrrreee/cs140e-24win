@@ -18,8 +18,8 @@ BOOTLOADER ?= pi-install
 MAKEFLAGS += --no-print-directory
 
 # we only look at this output
-GREP_STR ?= 'TRACE:\|ERROR:\|PANIC:' 
-# EXCLUDE ?= grep -v simple_boot
+GREP_STR ?= 'PI:\|TRACE:\|ERROR:\|PANIC:' 
+EXCLUDE ?= grep -v simple_boot
 EXCLUDE ?= cat
 CMD_EXTRA ?= 
 
@@ -78,7 +78,7 @@ printx:
 	@echo    "-------------------------------------------------";
 	@echo    "checking <$*>: ";
 	@echo    "  about to emit new <$*.test>:"
-	echo    "     $(BOOT_CMD) ./$< $(CMD_EXTRA) > $*.test"
+	@echo    "     $(BOOT_CMD) ./$< $(CMD_EXTRA) > $*.test"
 	@$(BOOT_CMD) ./$< $(CMD_EXTRA) 2>&1 > /dev/null | $(EXCLUDE) | sed $(STRIP_REL) | sed $(STRIP_BRACKETS) | grep  $(GREP_STR) > $*.test
 	@echo -n "     new <$*.test> lines = "
 	@cat $*.test | wc -l 
