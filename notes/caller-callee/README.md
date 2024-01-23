@@ -38,8 +38,9 @@ Recall:
 
 So, to summarize, context-switching must save:
 
-  - `r4 --- r12, r13, r14`.   You can use `push` and `pop` to do most of
-    this.
+  - `r4 --- r11, r13, r14`.   You can use `push` and `pop` to do most of
+    this.  (Note: in the past we also saved `r12` since there is ambiguity
+    in the docs, we now assume `gcc` calling conventions only.)
 
 For reference, the [ARM procedure call ABI](http://infocenter.arm.com/help/topic/com.arm.doc.ihi0042f/IHI0042F_aapcs.pdf) document:
 <table><tr><td>
