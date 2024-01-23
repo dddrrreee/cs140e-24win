@@ -15,5 +15,5 @@ void notmain(void) {
     printk("cycles per sec = %d\n", tot);
 
     unsigned exp = 700 * 1000 * 1000;
-    printk("expected - measured = %d cycles\n", exp-tot);
+    printk("expected - measured = %d cycles of error\n", exp-tot);
 }
