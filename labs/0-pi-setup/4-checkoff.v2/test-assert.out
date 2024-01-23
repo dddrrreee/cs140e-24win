@@ -1,0 +1,1 @@
+test-assert.c:notmain:6:DEBUG:ERROR: Assertion `x < 4` failed.

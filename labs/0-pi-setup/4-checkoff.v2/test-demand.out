@@ -1,0 +1,1 @@
+test-demand.c:notmain:6:DEBUG:ERROR: Demand `x < 4` failed:testing demand: this should fail
