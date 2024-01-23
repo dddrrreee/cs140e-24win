@@ -135,9 +135,8 @@ so can be illuminating, but I would try to avoid in reality.
 ----------------------------------------------------------------------------
 ### Part 0: timer interrupts.
 
-Look through the code in `timer-int-ex`, compile it, run it.  Make sure
-you can answer the questions in the comments.  We'll walk through it
-in class.
+Look through the code in `0-timer-int`, compile it, run it.  Make sure you
+can answer the questions in the comments.  We'll walk through it in class.
 
 -----------------------------------------------------------------------------
 ### Part 1: Using interrupts to build a profiler.
@@ -175,7 +174,12 @@ The basic algorithm:
     these correspond to.
 
     NOTE: We do not want to profile our profiling code, so have a way
-    to disable counts when doing this printing.
+    to disable counts when doing this printing.  
+
+    (You'll note this is similar to the problem we ran into for the
+    last lab when we wanted to avoid tracing `put32` and `get32` during
+    printing during tracing --- in general our monitoring systems don't
+    want to monitor themselves.)
 
  4. Expected results are most counts should be in `PUT32`, `GET32`,
     and various `uart` routines.  If you see a bunch of your `gprof`
@@ -201,7 +205,6 @@ You will implement two versions:
   - `1-syscall.c`: this is a real system call.  You will implement the
      code to switch to user level, and then handle two trivial system
      calls.
-
 
 ##### `0-syscall.c`
 
