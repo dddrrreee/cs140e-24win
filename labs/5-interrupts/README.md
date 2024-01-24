@@ -139,7 +139,7 @@ Look through the code in `0-timer-int`, compile it, run it.  Make sure you
 can answer the questions in the comments.  We'll walk through it in class.
 
 -----------------------------------------------------------------------------
-### Part 1: Using interrupts to build a profiler.
+### Part 1: Using interrupts to build a profiler: `1-gprof`
 
 The nice thing about doing everything from scratch is that simple things
 are simple to do.  We don't have to fight a big OS that can't get out
@@ -189,7 +189,7 @@ Congratulations!  You've built something that not many people in the
 Gates building know how to do.
 
 ----------------------------------------------------------------------------
-### Part 2: make a simple system call.
+### Part 2: make a simple system call: `2-syscall`
 
 One we can get timer exceptions, we (perhaps surprisingly) have enough
 infrastructure to make trivial system calls.   Since we are already
@@ -210,29 +210,41 @@ You will implement two versions:
 
 Look in `2-syscall` and write the needed code in:
 
-  1. `interrupts-asm.S`: you should be able to largely rip off the
-     timer interrupt code to forward system call.  NOTE: a huge difference
-     is that we are already running at supervisor level, so all registers
-     are live.  You need to handle this differently.
+  1. `interrupts-asm.S:software_interrupt_asm`: forward system call
+     exceptions to C code.  Similar to the timer interrupt assembly
+     this trampoline will need to: (1) save all caller registers,  (2)
+     jump to `syscall_vector`, (3) restore all caller registers and (4)
+     jump back after the instruction that issued the exception.
 
+     You should be able to largely rip off the timer interrupt code
+     to forward system call.  
 
-  2. `0-syscall.c`: finish the system call vector code (should just be
-     a few lines).  You want to act on system call 1 and reject all
-     other calls with a `-1`.
+     ***NOTE: we are doing a weird thing: invoking system calls (fault
+     handler will run `SUPER`) from code already running at `SUPER` mode.
+     You will need to handle the save and restore slightly differently.***
 
-This doesn't take much code, but you will have to think carefully about which
-registers need to be saved, etc.
+  2. `0-syscall.c:syscall_vector`: finish the system call vector code
+     (should just be a few lines) by extracting the system call number
+     from the actual `swi` instruction (pointed to by `pc`).  You want
+     to act on system call 1 and reject all other calls with a `-1`.
+
+     You can look in the list file to see how it's encoded.  
+
+This doesn't take much code, but you will have to think carefully about
+which registers need to be saved, etc.
 
 ##### `1-syscall.c`
 
-This is a real system call.  You'll need to:
-  1. Make a new interrupt table that uses a different `swi` handler.
+This is a real system call called from `USER` level.  You'll need to:
+
+  1. Since we don't have a legal stack pointer: Make a new interrupt table
+     (put it in `interrupts-asm.S`) that uses a different `swi` handler.
      You should copy and paste the existing one and update any labels.
-     Admittedly this is mechanical work, but you need to think 
-     slightly.
-  2. Implement `run_user_code_asm`: this will switch to user mode,
-     set the stack pointer register to a given stack value, and
-     jump to a give code address.  
+     Admittedly this is mechanical work, but you need to think slightly.
+
+  2. Implement `syscall-asm.S:run_user_code_asm`: this will switch to
+     user mode, set the stack pointer register to a given stack value,
+     and jump to a give code address.
 
      For hints: look at `notes/mode-bugs/bug4-asm.S` for how to roughly
      do what you want at a different level.
@@ -240,8 +252,8 @@ This is a real system call.  You'll need to:
   3. Finish implementing `1-syscall.c:syscall_vector`.  This is
      mainly just checking that you are at the right level.
 
-If this works, congratulations!  You have a working user-level
-system call.  This small amount of code is really all there is to it.
+If this works, congratulations!  You have a working user-level system
+call.  This small amount of code is really all there is to it.
 
 -----------------------------------------------------------------------------
 ### lab extensions:
