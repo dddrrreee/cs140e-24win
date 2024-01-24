@@ -73,7 +73,7 @@ test_run := $(PROGS:.c=.run)
 deps = $(objs:.o=.d) $(PROGS:.c=.d)
 
 # all locations of built objects
-locs := $(objs) $(START) $(PROGS)
+locs := $(objs) $(PROGS)
 dirs :=  $(sort $(dir $(locs)))
 
 # compute object and dep names, relocate to <BUILD_DIR>
@@ -83,9 +83,8 @@ objs := $(foreach o, $(objs), $(BUILD_DIR)/$(notdir $(o)))
 # all objects: built, and pre-built.
 all_objs := $(objs) $(STAFF_OBJS) 
 
-
 # tell make where to look.
-VPATH := $(dirs) ./ $(BUILD_DIR)
+VPATH := ./ $(BUILD_DIR)/ $(dirs) 
 
 all_tags := $(foreach d, $(dirs), $(d)*.[cSh])
 
@@ -126,6 +125,7 @@ FORCE:
 $(LPI):
 	@make -s -C $(LPP)
 
+# how to tell it not to remake start?
 $(BUILD_DIR)/%.elf: $(BUILD_DIR)/%.o $(BUILD_DIR)/%.d $(all_objs) $(DEPS) $(START) $(LIBS) 
 	$(LD) $(LDFLAGS) $(START)  $< $(all_objs) -T $(MEMMAP) -o $@ $(LIBS) $(LIB_POST)
 
