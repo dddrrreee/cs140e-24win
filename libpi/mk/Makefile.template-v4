@@ -85,7 +85,7 @@ all_objs := $(objs) $(STAFF_OBJS)
 
 
 # tell make where to look.
-VPATH := $(dirs)
+VPATH := $(dirs) ./ $(BUILD_DIR)
 
 all_tags := $(foreach d, $(dirs), $(d)*.[cSh])
 
