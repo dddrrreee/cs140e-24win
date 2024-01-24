@@ -69,7 +69,7 @@ lib_deps := $(lib_objs:.o=.d)
 
 # compute all directories for vpath and includes
 lib_dirs :=  $(sort $(dir $(SRC)))
-VPATH := $(lib_dirs)
+VPATH := ./ $(BUILD_DIR) $(lib_dirs)
 
 # all include flags
 all_inc := $(foreach o, $(abspath $(lib_dirs)), -I$o) 
