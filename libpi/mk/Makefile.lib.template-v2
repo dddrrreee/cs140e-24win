@@ -99,7 +99,7 @@ endif
 # 3. make compilation rules.
 #
 
-all:: $(BUILD_DIR) $(GEN_INCLUDES) libs $(LIBNAME) tags
+all:: $(BUILD_DIR) $(GEN_INCLUDES) libs $(LIBNAME) # tags
 
 lib-includes.mk: $(DEPS)
 	@echo "INC += $(all_inc)" > lib-includes.mk
