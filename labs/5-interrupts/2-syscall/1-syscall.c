@@ -8,9 +8,6 @@
 #include "rpi.h"
 #include "rpi-interrupts.h"
 
-/*********************************************************************
- * should not have to modify this code.
- */
 
 // in syscall-asm.S
 void run_user_code_asm(void (*fn)(void), void *stack);
@@ -21,7 +18,6 @@ void run_user_code(void (*fn)(void), void *stack) {
     assert(stack);
     demand((unsigned)stack % 8 == 0, stack must be 8 byte aligned);
 
-    todo("implement <run_user_code_asm> in syscall-asm.S!");
     run_user_code_asm(fn, stack);
     not_reached();
 }
@@ -41,6 +37,10 @@ static inline uint32_t cpsr_get(void) {
 enum { N = 1024 * 64 };
 static uint64_t stack[N];
 
+/*********************************************************************
+ * modify below.
+ */
+
 // this should be running at user level: you don't have to change this
 // routine.
 void user_fn(void) {
@@ -51,9 +51,11 @@ void user_fn(void) {
     assert(&var < &stack[N]);
 
 
-    todo("check that the current mode is USER_LEVEL");
-    // put the cpsr mode in <mode>
+    // you should put the <cpsr> mode in <mode>
     unsigned mode = 0;
+    todo("check that the current mode is USER_LEVEL");
+
+
     if(mode != USER_MODE)
         panic("mode = %b: expected %b\n", mode, USER_MODE);
     else
@@ -68,9 +70,6 @@ void user_fn(void) {
     not_reached();
 }
 
-/*********************************************************************
- * modify below.
- */
 
 // pc should point to the system call instruction.
 //      can see the encoding on a3-29:  lower 24 bits hold the encoding.

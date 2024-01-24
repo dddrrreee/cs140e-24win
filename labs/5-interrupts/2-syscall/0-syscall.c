@@ -1,5 +1,10 @@
 /*
- * simple example of how to do a system call
+ * simple example of how to do a system call.
+ * you have to finish:
+ *   1. <syscall_vector> (below) to get the syscall num 
+ *   2. <software_interrupt_asm> in <interrupts-asm.S>
+ *     to call it correctly.  NOTE: for this step we run at the 
+ *     same level so don't update the stack pointer sp.
  */
 #include "rpi.h"
 #include "rpi-interrupts.h"
