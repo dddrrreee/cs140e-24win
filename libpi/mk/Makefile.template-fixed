@@ -221,7 +221,7 @@ $(progs_elf):
 $(BUILD_DIR)/%.elf: $(BUILD_DIR)/%.o $(BUILD_DIR)/%.d $(LINK_DEPS) $(LIBNAME)
 	$(LD) $(LDFLAGS) $(START) $< -T $(MEMMAP) -o $@ $(LIBS) $(LIBNAME) $(LIB_POST)
 else
-# $(progs_elf):
+$(progs_elf):
 $(BUILD_DIR)/%.elf: $(BUILD_DIR)/%.o $(BUILD_DIR)/%.d $(link_objs) $(LINK_DEPS) $(LIBS)
 	$(LD) $(LDFLAGS) $(START) $< $(link_objs) -T $(MEMMAP) -o $@ $(LIBS) $(LIB_POST)
 endif
