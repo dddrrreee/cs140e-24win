@@ -60,6 +60,7 @@ TRACE:thread_code:in thread , tid=27 with x=26
 TRACE:thread_code:in thread , tid=28 with x=27
 TRACE:thread_code:in thread , tid=29 with x=28
 TRACE:thread_code:in thread , tid=30 with x=29
+TRACE:rpi_exit:done running threads, back to scheduler
 TRACE:rpi_thread_start:done with all threads, returning
 TRACE:notmain:count = 30, sum=435
 TRACE:notmain:SUCCESS!
