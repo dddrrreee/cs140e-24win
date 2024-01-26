@@ -24,6 +24,7 @@ STAFF_OBJS += staff-rpi-thread-asm.o
 # switch these when implemented.
 # COMMON_SRC += rpi-thread.c
 STAFF_OBJS += staff-rpi-thread.o
+STAFF_OBJS += staff-kmalloc.o
 
 # checkoff skips 1 since behavior changes
 
@@ -63,7 +64,7 @@ endif
 checkoff: check
 	@echo "--------------------------------------------------------";
 	@echo "Environment:";
-	@echo "   STAFF_OBJS [should be empty] =<$(STAFF_OBJS)>";
+	@echo "   STAFF_OBJS [should just have staff-kmalloc.o] =<$(STAFF_OBJS)>";
 	@echo "   COMMON_SRC [should have both .o] =<$(COMMON_SRC)>";
 	@echo -n "   total tests=";
 	@ls $(PROGS:.c=.out) | wc -l
