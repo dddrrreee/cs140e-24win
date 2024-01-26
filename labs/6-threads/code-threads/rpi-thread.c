@@ -86,6 +86,7 @@ rpi_thread_t *rpi_cur_thread(void) {
 
 // create a new thread.
 rpi_thread_t *rpi_fork(void (*code)(void *arg), void *arg) {
+    redzone_check(0);
     rpi_thread_t *t = th_alloc();
 
     // write this so that it calls code,arg.
@@ -116,6 +117,8 @@ rpi_thread_t *rpi_fork(void (*code)(void *arg), void *arg) {
 //   - otherwise context switch to the new thread.
 //     make sure to set cur_thread correctly!
 void rpi_exit(int exitcode) {
+    redzone_check(0);
+
     // when you switch back to the scheduler thread:
     //      th_trace("done running threads, back to scheduler\n");
     todo("implement rpi_exit");
@@ -132,6 +135,7 @@ void rpi_exit(int exitcode) {
 //      * context switch to the new thread.
 //        make sure to set cur_thread correctly!
 void rpi_yield(void) {
+    redzone_check(0);
     // if you switch, print the statement:
     //     th_trace("switching from tid=%d to tid=%d\n", old->tid, t->tid);
 
