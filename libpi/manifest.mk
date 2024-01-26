@@ -27,7 +27,8 @@ endif
 endif
 
 DEPS += ./src
-include $(CS140E_2024_PATH)/libpi/mk/Makefile.lib.template-v2
+# include $(CS140E_2024_PATH)/libpi/mk/Makefile.lib.template-v2
+include $(CS140E_2024_PATH)/libpi/mk/Makefile.template-fixed
 
 all:: $(START)
 

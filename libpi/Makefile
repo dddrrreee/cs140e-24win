@@ -19,6 +19,7 @@ SRC :=  $(SRC)                              \
         staff-start.S
 
 DEPS += ./Makefile ./manifest.mk
+COMMON_SRC = $(SRC)
 
 # hack to minimize git conflicts: we do various customizations
 # in there; but probably would be clearer to inline it.
