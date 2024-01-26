@@ -5,7 +5,6 @@
 enum { RZ_NBYTES = 4096 };
 
 static inline int redzone_check(void) {
-    return 1;
     volatile uint32_t *rz = (void*)0;
 
     unsigned nfail = 0;
