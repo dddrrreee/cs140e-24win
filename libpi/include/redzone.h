@@ -4,8 +4,11 @@
 
 enum { RZ_NBYTES = 4096 };
 
-static inline int redzone_check(void) {
+static inline int redzone_check(const char *msg) {
     volatile uint32_t *rz = (void*)0;
+
+    if(msg)
+        output("redzone checking: %s\n", msg);
 
     unsigned nfail = 0;
     for(unsigned i = 0; i < RZ_NBYTES/4; i++) {
@@ -19,7 +22,6 @@ static inline int redzone_check(void) {
 
 static inline void redzone_init(void) {
     memset(0, 0, RZ_NBYTES);
-    assert(redzone_check());
+    assert(redzone_check(0));
 }
 #endif
-

@@ -1,6 +1,7 @@
 #include "rpi.h"
 #include "cycle-count.h"
 #include "memmap.h"
+#include "redzone.h"
 
 void _cstart() {
     // extern int __bss_start__, __bss_end__;
@@ -14,6 +15,8 @@ void _cstart() {
  
     while( bss < bss_end )
         *bss++ = 0;
+
+    redzone_init();
 
     uart_init();
 
