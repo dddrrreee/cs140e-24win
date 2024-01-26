@@ -50,12 +50,13 @@ lab, such bugs are hard to debug.  So before you write a bunch of code:
 #### Before you start: make sure everything works.
 
 Run `make checkoff` in the `code-threads/` directory: it should pass.
-
-  - By default the `code-threads/Makefile` will use our staff code in libpi.
-  - If you run `make checkoff` in `code-threads` all the tests should pass.
-  - Before you start implementing, comment out `USE_STAFF=1` in
-    `code-threads/Makefile` so that the Makefile will use your code.
+1. By default the `code-threads/Makefile` will use our staff code.
     You can flip back and forth to test.
+2. If you run `make checkoff` in `code-threads` all the tests should pass.
+3. Before you start implementing, switch `Makefile:COMMON_SRC` to use
+    your two files `rpi-threads.c` and `rpi-asm-threads.S` and not use
+    ours.  
+4. When you switch to use your code the tests should fail initially.
 
 #### Checkoff:
 
@@ -108,8 +109,7 @@ give you answers to the following questions you need for your threads:
      whether to give the start of an allocated block as the stack
      or the end.
 
-     Write the code in `1-stack-dir.c` to determine this by running code:
-     it should run and print `SUCCESS`.
+     Write the code in `1-stack-dir.c` to determine this by running code.
 
   2. Your context-switching code will save registers
      using the `push` instructions, which pushes a list of registers
@@ -121,7 +121,7 @@ give you answers to the following questions you need for your threads:
      to.  A mistake will lead to hard-to-debug memory corruption bugs.
 
      Look in `2-where-push.c` to see what we need to check this, and 
-     then implement `check_push_asm` in `asm-checks.S`.
+     then implement `push_one` in `asm-checks.S`.
   
   3. When you `push` multiple registers, what is the order they are written
      out? (Or, equivalently: where is each one placed?)
@@ -131,8 +131,8 @@ give you answers to the following questions you need for your threads:
      at the lowest address.  (See: the armv6 document, or 
      [ARM doc](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0473m/dom1359731152499.html) or [this](https://www.heyrick.co.uk/armwiki/STM)).
 
-     Add a small assembly routine to the and a caller that will validate
-     that registers are pushed from smallest to largest.
+     The easist way to do this is to extend your `push_one` above to a 
+     `push_two` and check the return result.
 
      Note: for `push` and `pop` don't include the stack pointer in the
      register list!   
