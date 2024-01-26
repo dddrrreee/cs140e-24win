@@ -202,16 +202,13 @@ What you do not have to do:
   2. Do anything with the thread stack.
 
 Tests: `code-threads/1-*` 
-  - either set `PROGS` manually in the `Makefile`:
+  - set `PROGS` manually in the `Makefile`:
 
             PROGS = $(wildcard ./1-test*.c)
     and run:
 
             % make check
 
-    OR do:
-
-            % make PART=1 check
 
     Whichever method you do should pass.
   - `1-test-run-one.c`: run a single thread to completion.
@@ -230,8 +227,9 @@ Note:
 ----------------------------------------------------------------------
 ### Part 2 and Part 3: these do not exist
 
-Skip.
+Oops, sorry, these don't exist!
 
+Skip.
 
 ----------------------------------------------------------------------
 ### Part 4: building `rpi_fork` and `rpi_start_thread`
