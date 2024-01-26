@@ -227,9 +227,9 @@ Note:
 ----------------------------------------------------------------------
 ### Part 2 and Part 3: these do not exist
 
-Oops, sorry, these don't exist!
+Do a `git pull` and remove the `redzone_init` from `rpi_thread_start`.
 
-Skip.
+That's it.
 
 ----------------------------------------------------------------------
 ### Part 4: building `rpi_fork` and `rpi_start_thread`
