@@ -1,6 +1,7 @@
 // engler, cs140e: starter code for trivial threads package.
 #include "rpi.h"
 #include "rpi-thread.h"
+#include "redzone.h"
 
 // tracing code.  set <trace_p>=0 to stop tracing
 enum { trace_p = 1};
@@ -40,6 +41,7 @@ static unsigned nalloced = 0;
 
 // keep a cache of freed thread blocks.  call kmalloc if run out.
 static rpi_thread_t *th_alloc(void) {
+    redzone_check();
     rpi_thread_t *t = Q_pop(&freeq);
 
     if(!t) {
@@ -53,6 +55,7 @@ static rpi_thread_t *th_alloc(void) {
 }
 
 static void th_free(rpi_thread_t *th) {
+    redzone_check();
     // push on the front in case helps with caching.
     Q_push(&freeq, th);
 }
@@ -143,6 +146,7 @@ void rpi_yield(void) {
  * should work even if the runq is empty.
  */
 void rpi_thread_start(void) {
+    redzone_init();
     th_trace("starting threads!\n");
 
     // no other runnable thread: return.
@@ -156,6 +160,7 @@ void rpi_thread_start(void) {
     todo("implement the rest of rpi_thread_start");
 
 end:
+    redzone_check();
     // if not more threads should print:
     th_trace("done with all threads, returning\n");
 }
