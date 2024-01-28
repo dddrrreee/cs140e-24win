@@ -14,7 +14,8 @@ The big new thing:
 To get you used to dealing with `man` pages and their ilk, you'll
 write four routines needed by your bootloader.  Their prototypes are in
 `libunix/libunix.h` and two simple C files that can serve as starter
-code are in `libunix/read-file.c` and `libunix/find-tty.c`.
+code are in `libunix/read-file.c` and `libunix/find-tty.c`. Once you fill them
+in, please upload them on gradescope
 
 There's a simple test for both in `prelab-tests'.
 
