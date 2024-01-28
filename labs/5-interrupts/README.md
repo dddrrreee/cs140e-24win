@@ -1,5 +1,10 @@
 ### Interrupts.
 
+<p align="center">
+  <img src="images/glow-pi.png" width="450" />
+</p>
+
+
 ***Make sure you understand the readings in the [PRELAB](PRELAB.md)]***: 
   - how the hardware level works for arm exceptions, how to work with 
     modes, how to use the compiler to figure out low level information,
