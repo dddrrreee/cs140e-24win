@@ -17,7 +17,7 @@ This is a stripped down version (explained more below):
  - If any check fails, the pi side sends the Unix side a `BOOT_ERROR`.
 
 
-`
+```
      =======================================================
              pi side             |               unix side
      -------------------------------------------------------
@@ -61,6 +61,7 @@ This is a stripped down version (explained more below):
                                        start echoing any pi output to 
                                        the terminal.
      =======================================================
+```
 
 More descriptively:
 
