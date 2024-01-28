@@ -9,12 +9,13 @@ At a high level, the protocol works as follows:
      compare the received data too.
 
 This is a stripped down version (explained more below):
-  - The `boot_put32` calls transmit a 32-bit quantity,
-    `boot_get32` receives (`boot_get8/boot_put8` is 8 bits).
-  - The pi transmits and receives using its internal UART (the same 
+ - The `boot_put32` calls transmit a 32-bit quantity,
+   `boot_get32` receives (`boot_get8/boot_put8` is 8 bits).
+ - The pi transmits and receives using its internal UART (the same 
     device used for `printk`: implemented next lab).  
-  - The Unix side transmits and receives across an OS managed tty device.
-  - If any check fails, the pi side sends the Unix side a `BOOT_ERROR`.
+ - The Unix side transmits and receives across an OS managed tty device.
+ - If any check fails, the pi side sends the Unix side a `BOOT_ERROR`.
+
 
      =======================================================
              pi side             |               unix side
