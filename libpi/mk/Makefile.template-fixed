@@ -156,6 +156,7 @@ print:
 	@echo "VPATH=<$(VPATH)>"
 	@echo "LIBS=<$(LIBS)>"
 	@echo "LINK_DEPS=<$(LINK_DEPS)>"
+	@echo "START=<$(START)>"
 
 .PHONY: FORCE
 FORCE:
@@ -272,3 +273,16 @@ clean::
 	rm -f *~ tags Makefile.bak  *.test
 
 .PHONY: libs all tags clean FORCE run check
+
+####################################################################
+# TODO: rip out all the libraries and run make on them.  
+
+# # Function to define a rule for each library
+# define library_rule
+# $(1): 
+#    @echo "Rebuilding $(1)"
+#	make -C $(abspath $(1))  $(notdir $(1))
+# endef
+
+# Use foreach and eval to create a rule for each library
+# $(foreach lib,$(LIBS),$(eval $(call library_rule,$(lib))))

@@ -37,6 +37,9 @@
 
 #define THREAD_MAXSTACK (1024 * 8/4)
 typedef struct rpi_thread {
+    // SUGGESTION:
+    //     check that this is within <stack> (see last field)
+    //     should never point outside.
     uint32_t *saved_sp;
 
 	struct rpi_thread *next;
