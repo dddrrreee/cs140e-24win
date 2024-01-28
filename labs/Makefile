@@ -1,5 +1,12 @@
 # Makefile to build or clean all labs.
-SUBDIRS= 1-compile 2-trusting-trust 0-pi-setup # libpi labs libunix
+SUBDIRS += 0-pi-setup 
+SUBDIRS += 1-compile 
+SUBDIRS += 2-trusting-trust 
+SUBDIRS += 3-gpio
+SUBDIRS += 4-cross-checking
+SUBDIRS += 5-interrupts
+SUBDIRS += 6-threads
+SUBDIRS += 7-bootloader
 
 .PHONY: all check clean
 all check clean: $(SUBDIRS)
@@ -12,7 +19,7 @@ clean: TARGET=clean
 
 # recursive call to make
 $(SUBDIRS): force
-	$(MAKE) -s -C $@ $(TARGET)
+	$(MAKE) -s -C $@ $(TARGET) RUN=0
 
 clean:
 	rm -f *~ *.bak
