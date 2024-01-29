@@ -40,7 +40,7 @@ $(error variable TESTS is empty: Makefile invoked incorrectly)
 endif
 
 
-# TEST_RUN   := $(patsubst %$(BIN_SUFFIX), %.run, $(TESTS))  
+TEST_RUN   := $(patsubst %$(BIN_SUFFIX), %.run, $(TESTS))  
 TEST_CHECK := $(patsubst %$(BIN_SUFFIX), %.check, $(TESTS))  
 TEST_CKSUM := $(patsubst %$(BIN_SUFFIX), %.cksum, $(TESTS))  
 TEST_OUT   := $(patsubst %$(BIN_SUFFIX), %.out, $(TESTS))  
@@ -57,10 +57,10 @@ printx:
 	# TESTS=$(TESTS)
 	# TEST_RUN=$(TEST_RUN)
 
-#%.run: %$(BIN_SUFFIX)
-#	@echo "\n----------------[about to run <./$*]-----------------------";
-#	$(BOOT_CMD) ./$< 
-#	@echo "-----------------[done running <./$*>]-----------------------";
+%.run: %$(BIN_SUFFIX)
+	@echo "\n----------------[about to run <./$*]-----------------------";
+	$(BOOT_CMD) ./$< 
+	@echo "-----------------[done running <./$*>]-----------------------";
 
 %.err: %$(BIN_SUFFIX)
 	@-./$<  && echo "Fail: did not detect error" || echo "Success: detected error";
@@ -79,15 +79,34 @@ printx:
 	@echo    "checking <$*>: ";
 	@echo    "  about to emit new <$*.test>:"
 	@echo    "     $(BOOT_CMD) ./$< $(CMD_EXTRA) > $*.test"
-	@$(BOOT_CMD) ./$< $(CMD_EXTRA) 2>&1 > /dev/null | $(EXCLUDE) | sed $(STRIP_REL) | sed $(STRIP_BRACKETS) | grep  $(GREP_STR) > $*.test
-	@echo -n "     new <$*.test> lines = "
-	@cat $*.test | wc -l 
-	@echo -n "     old ref <$*.out>: lines=";
-	@cat $*.out | wc -l 
-	@echo    "  about to compare new <$*.test> to old <$*.out>: ";
-	@diff ./$*.out ./$*.test || (echo "mismatch in reference ($*.out) and test ($*.test): compare them directly to see why"; exit 1)
-	@echo    "  Success!  Matched!";
+	@$(BOOT_CMD) ./$< $(CMD_EXTRA) > $*.test.raw 2>&1                       \
+	|| (                                                                    \
+            echo "ERROR: [$(BOOT_CMD) ./$< $(CMD_EXTRA)] failed:\n";         \
+            echo "        -----------[$*.test.raw start]----------------";  \
+            cat $*.test.raw;                                                \
+            echo "        -----------[$*.test.raw end]------------------\n\n";\
+            exit 1                                                          \
+        )
+
+	@$(EXCLUDE) $*.test.raw | sed $(STRIP_REL) | sed $(STRIP_BRACKETS) | grep  $(GREP_STR) > $*.test
+	@echo "  about to compare contents:"
+	@echo "     diff $*.out $*.test"
+	@diff ./$*.out ./$*.test \
+      || (                                                                  \
+            echo "";                                                        \
+            echo "\t^";                                                     \
+            echo "\t|";                                                     \
+            echo "\t|";                                                     \
+            echo "   ERROR: files don't match!  Compare them to see why:";  \
+            echo "\t$*.out  = `wc -l < $*.out`  lines # correct ref output";\
+            echo "\t$*.test = `wc -l < $*.test` lines # incorrect test output";\
+            echo "   or just run the command by hand:";                     \
+			echo "\t$(BOOT_CMD) ./$< $(CMD_EXTRA)";                         \
+            exit 1;                                                         \
+        )
+	@echo "  SUCCESS!   Test output and reference match."
 	@rm ./$*.test
+	@rm ./$*.test.raw
 
 # we could just cksum all the .outs, but this lets us be more targeted.
 %.cksum: %.out
@@ -100,14 +119,14 @@ emit: $(TEST_OUT)
 endif
 
 check: $(TEST_CHECK)  
-# run: $(TEST_RUN) 
+run: $(TEST_RUN)
 cksum:  $(TEST_CKSUM)
 
 #cleanall:
 #	rm -f *.out *.raw
 clean::
-	rm -f *.raw *~
-
+	rm -f *~ *.test *.test.raw
+ 
 .PHONY: all clean run emit check cksum
 
 .PRECIOUS: %.raw %.out 
