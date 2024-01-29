@@ -96,7 +96,7 @@ More descriptively:
      it does not collide with its own currently running code) it sends a
      `GET_CODE` request along with the CRC value it received in step
      2 (so the server can check it).  Otherwise is sends an error
-     `BAD_CODE_ADDR` and reboots.
+     `BOOT_ERROR` and reboots.
 
      Since the pi could have sent many `GET_PROG_INFO` requests before
      we serviced it, the Unix code will attempt to drain these out.

@@ -1,4 +1,4 @@
-SUBDIRS= 0-lab4-tests  1-trace-all   0-lab5-tests  1-trace-control
+SUBDIRS= lab-tests # 0-lab4-tests  1-trace-all   0-lab5-tests  1-trace-control
 
 .PHONY: all check clean
 all check clean: $(SUBDIRS)
