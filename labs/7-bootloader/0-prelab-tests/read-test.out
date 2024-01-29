@@ -1,4 +1,0 @@
-TRACE: out file for <read-test>
-TRACE:success: expected 6 bytes, have 6
-TRACE:expected string <hello> have <hello>
-TRACE:read-file: success 

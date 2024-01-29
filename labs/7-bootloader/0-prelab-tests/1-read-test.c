@@ -15,17 +15,18 @@ void read_check(unsigned char *buf, unsigned n) {
     assert(data);
 
     // check that the contents match.
-    for(int i = 0; i < n; i++)
+    unsigned i;
+    for(i = 0; i < n; i++)
         if(data[i] != buf[i])
             panic("read_file: %d nbytes differs at offset %d: expect=%x, got=%x\n", n,i, buf[i], data[i]);
 
     // does it zero pad?
-    unsigned leftover = n % 4;
-    for(unsigned i = 0; i < leftover; i++)
-        if(data[n+i])
-            panic("read_file: %d nbytes did not zero pad at offset %d\n", n,n+i);
+    unsigned rem = pi_roundup(n,4);
+    for(; i < rem; i++)
+        if(data[i])
+            panic("read_file: %d nbytes did not zero pad at offset %d\n", n,i);
         else
-            trace("correct: %d nbytes zero pad at offset %d\n", n,n+i);
+            trace("read_file(n=%d): off=%d has correct zero pad\n", n,i);
 
     unlink(name);
     free(data);
