@@ -71,7 +71,14 @@ $(TEST_OUT):
 	@echo    "  about to emit new <$*.test>:"
 	@echo    "     ./$< $(CMD_EXTRA) > $*.test"
 	@echo  "TRACE: out file for <$*>" > $*.test.raw
-	@./$< $(CMD_EXTRA) >> $*.test.raw 2>&1 
+	@./$< $(CMD_EXTRA) >> $*.test.raw 2>&1  \
+        || (                                                    \
+            echo "Error: [./$< $(CMD_EXTRA)] crashed:\n";   \
+            echo "        -----------[$*.test.raw start]----------------";\
+            cat $*.test.raw;                                    \
+            echo "        -----------[$*.test.raw end]------------------";\
+            exit 1                                              \
+        )
 	@$(EXCLUDE) $*.test.raw | sed $(STRIP_REL) | sed $(STRIP_BRACKETS) | grep  $(GREP_STR) > $*.test
 	@echo -n "     new <$*.test> lines = "
 	@cat $*.test | wc -l 
