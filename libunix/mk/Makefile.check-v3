@@ -73,10 +73,10 @@ $(TEST_OUT):
 	@echo  "TRACE: out file for <$*>" > $*.test.raw
 	@./$< $(CMD_EXTRA) >> $*.test.raw 2>&1  \
         || (                                                    \
-            echo "Error: [./$< $(CMD_EXTRA)] crashed:\n";   \
+            echo "ERROR: [./$< $(CMD_EXTRA)] crashed:\n";   \
             echo "        -----------[$*.test.raw start]----------------";\
             cat $*.test.raw;                                    \
-            echo "        -----------[$*.test.raw end]------------------";\
+            echo "        -----------[$*.test.raw end]------------------\n\n";\
             exit 1                                              \
         )
 	@$(EXCLUDE) $*.test.raw | sed $(STRIP_REL) | sed $(STRIP_BRACKETS) | grep  $(GREP_STR) > $*.test
