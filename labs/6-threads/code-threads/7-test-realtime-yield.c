@@ -15,7 +15,7 @@ static void wait_usec(unsigned n) {
     demand(n < 100000, "unlikely large delay = %dusec!\n", n);
     unsigned start = timer_get_usec();
     while(1) {
-        if((timer_get_usec() - start) < n)
+        if((timer_get_usec() - start) > n)
             return;
         rpi_yield();
     }
