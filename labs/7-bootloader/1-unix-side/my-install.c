@@ -19,9 +19,8 @@
 #include <termios.h>
 
 #include "libunix.h"
-#include "simple-boot.h"
+#include "put-code.h"
 
-int trace_p = 0; 
 static char *progname = 0;
 
 static void usage(const char *msg, ...) {

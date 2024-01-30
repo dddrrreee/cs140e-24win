@@ -116,6 +116,11 @@ well of course!)
 --------------------------------------------------------------------
 ### Step 1: write the Unix side `my-install` 
 
+Deliverables:
+  - Implement `1-unix-side/put-code.c:simple_boot`.
+  - The `checkoff/` tests should pass.
+
+
 Debugging the pi code will be painful, especially since it requires
 copying files to the microSD etc.  So we first start with the much nicer
 task of replacing the Unix-side bootloader.  If you write it correctly,
@@ -125,20 +130,20 @@ Make sure you read [the bootloader protocol](./BOOTLOADER.md).
 
 Where is the code:
 
-  1. The sub-directory `unix-side` has the code that will run on
+  1. The sub-directory `1-unix-side` has the code that will run on
      your Unix laptop. You'll implement the code missing in
-     `simple-boot.c:simple_boot`. 
+     `put-code.c:simple_boot`. 
  
-  2. The header file `unix-side/simple-boot.h` has a bunch of useful
-     utility routines you should use.     In particular, it has tracing
-     versions of `PUT` and `GET` that you can use to print the bytes
-     going back and forth.
+  2. The first half of `put-code.c` has a bunch of useful
+     utility routines you should use --- you shouldn't have to modify
+     these.     In particular, it has tracing versions of `put` and
+     `get` that you can use to print the bytes going back and forth.
 
-  3. The header file `../pi-side/simple-boot-defs.h` has the enums
+  3. The header file `../2-pi-side/boot-defs.h` has the enums
      you should use when sending protocol messages. 
 
-  4. The directory `../../libunix` has a set of Unix
-     utility routines.  By now you've implemented two of these:
+  4. The directory `libunix` at the top of the class repo has a set
+     of Unix utility routines.  By now you've implemented two of these:
      `find_ttyusb` and `read_file`.
 
 What to do:
@@ -146,12 +151,12 @@ What to do:
   0. Start working on getting `my-install unix-side/hello.bin` to 
      boot correctly.
   1. You can toggle tracing on and off from the command line.
-     `my-install --trace-control` will emit the bootloader 
-     control messsages.  `my-install --trace-all` will emit all
+     `./my-install --trace-control` will emit the bootloader 
+     control messsages.  `./my-install --trace-all` will emit all
      bootloader messages (including the code)
      so you can compare what you do
      to other people.
-  2. Make sure you check that the `TRACE:simple_boot:` hash output matches
+  2. Make sure you check that the `BOOT:simple_boot:` hash output matches
      other people: if not, there is a bug in your `read_file`.
   3. Once this works, run the tests in the `checkoff` directory.
      The [checkoff README](checkoff/README.md) describes them in 
@@ -164,16 +169,14 @@ What to do:
 
 A key feature you have that 140e offerings did not is the ability to use
 `putk` from your pi-side bootloader code.  (Described more in part 2.)
-This makes debugging wildly easier.  (Embarrassingly, I only realized
-the trick to allow easy printing last year.)  Without output, all bugs
-lead to: "my pi isn't responding," which is difficult function to invert
-back to root cause.
+This makes debugging wildly easier.  Without output, all bugs lead to:
+"my pi isn't responding," which is difficult function to invert back to
+root cause.
 
 However, this does lead to a common mistake on the Unix side:
   - Make sure you use the `get_op` routine for any word that could
     be a protocol opcode.  Otherwise you won't correctly handle when
     the pi-side sends a `putk` message (see below).
-
 
 ##### Example of `my-install --trace-control`
 
@@ -183,7 +186,7 @@ As a comparison, when I run:
 
 I get:
 
-    TRACE:simple_boot: sending 3372 bytes, crc32=cf4943ae
+    BOOT:simple_boot: sending 3372 bytes, crc32=cf4943ae
     BOOT:waiting for a start
     TRACE:GET32:11112222 [GET_PROG_INFO]
     TRACE:PUT32:33334444 [PUT_PROG_INFO]
@@ -199,26 +202,30 @@ I get:
     hello world
     DONE!!!
 
-
 --------------------------------------------------------------------
-### Step 2: write the pi side bootloader
+### Step 2: write the pi side bootloader (`2-pi-side`)
+
+Deliverables:
+  - Implement `2-pi-side/get-code.c` (make sure your code prints
+    your name!)
+  - Copy the bootloader to your sd card.
+  - The `checkoff/` tests should still pass.
 
 Now you'll write the pi-side.  It should mirror the Unix side code and
-`PUT` values the Unix side has done a `GET` on, and vice-versa.
+`put` values the Unix side has done a `get` on, and vice-versa.
 
 Where is the code:
 
-  1. `pi-side/get-code.c`: all the code you write will go in here.
-  2. `pi-side/get-code.h`: has useful helper routines.
-  3. `pi-side/boot-start.S`: it's useful to compare this file to 
+  1. `2-pi-side/get-code.h`: all the code you write will go in here.
+  2. `2-pi-side/boot-start.S`: it's useful to compare this file to 
      `libpi/staff-start.S` and see what the difference is.
-  4. `pi-side/bootloader.c`: this has the `notmain` code that calls
+  4. `2-pi-side/main.c`: this has the `notmain` code that calls
      your `get_code` implementation and then jumps and executes it
      (using `BRANCHTO`).
 
 What you will do:
 
-  1. Implement all the code that is missing in `pi-side/get_code.c`
+  1. Implement all the code that is missing in `2-pi-side/get-code.h`
      by searching for the macro `boot_todo`.
 
   2. `make` should produce a `kernel.img` that you should copy to your
@@ -234,8 +241,7 @@ What you will do:
      develop the code so you can see what state the pi believes it is in.
 
   5. `make check` in the `checkoff` directory should pass and the
-     bootloader
-     should print your name.
+     bootloader should print your name.
 
 #### A common pi-side mistake
 
