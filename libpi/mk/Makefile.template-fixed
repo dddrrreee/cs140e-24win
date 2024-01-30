@@ -43,6 +43,10 @@ endif
 ifneq ($(RUN),0)
     RUN_PROGS = run
 endif
+ifdef START_ASM
+	START = $(BUILD_DIR)/$(START_ASM:.S=.o)
+    $(info "Setting <START> to $(START)");
+endif
 
 ifdef BOOTLOADER
     export BOOTLOADER
@@ -158,6 +162,7 @@ print:
 	@echo "LIBS=<$(LIBS)>"
 	@echo "LINK_DEPS=<$(LINK_DEPS)>"
 	@echo "START=<$(START)>"
+	@echo "BUILD_DIR=<$(BUILD_DIR)>"
 
 .PHONY: FORCE
 FORCE:
