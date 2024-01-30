@@ -6,7 +6,7 @@
  * are *not* expecting any data.
  */
 #include "rpi.h"
-#include "get-code.h"
+#include <get-code.h>
 
 // wait until:
 //   (1) there is data (uart_has_data() == 1): return 1.
@@ -43,7 +43,7 @@ static void wait_for_data(unsigned usec_timeout) {
 // IMPLEMENT this routine.
 //
 // Simple bootloader: put all of your code here.
-int get_code(uint32_t *code_addr) {
+long get_code(uint32_t *code_addr) {
     // 0. keep sending GET_PROG_INFO every 300ms until 
     // there is data: implement this.
     wait_for_data(300 * 1000);

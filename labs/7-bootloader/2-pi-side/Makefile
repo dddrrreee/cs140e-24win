@@ -1,6 +1,6 @@
 # need the makefile to give an error if this doesn't exist
 PROGS := main.c
-COMMON_SRC := get-code.c
+COMMON_SRC := 
 
 # hmm.  not sure about this.
 BUILD_DIR = ./objs
