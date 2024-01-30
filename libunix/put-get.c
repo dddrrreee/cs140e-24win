@@ -9,6 +9,8 @@ _Static_assert(__BYTE_ORDER == __LITTLE_ENDIAN,
 #endif
 
 void put_uint8(int fd, uint8_t b)   { write_exact(fd, &b, 1); }
+
+// this might only work b/c we are only running on little endien.
 void put_uint32(int fd, uint32_t u) { write_exact(fd, &u, 4); }
 
 uint8_t get_uint8(int fd) {
@@ -25,15 +27,16 @@ uint8_t get_uint8(int fd) {
 // read_exact that will keep trying until a timeout.
 //
 // note: the other way to do is to assign these to a char array b and 
-//  return *(unsigned)b
+//      return *(unsigned)b
 // however, the compiler doesn't have to align b to what unsigned 
 // requires, so this can go awry.  easier to just do the simple way.
-// we do with |= to force get_byte to get called in the right order 
-//  (get_byte(fd) | get_byte(fd) << 8 ...) 
+// 
+// note: we use seperate statements (ending with ";") to force get_byte8(fd) 
+// to get called in the right order.  the shorter, simpler:
+//    (get_byte(fd) | get_byte(fd) << 8 ...)
 // isn't guaranteed to be called in that order b/c '|' is not a seq point.
 uint32_t get_uint32(int fd) {
-    uint32_t u;
-    u  = get_uint8(fd);
+    uint32_t u = get_uint8(fd);
     u |= get_uint8(fd) << 8;
     u |= get_uint8(fd) << 16;
     u |= get_uint8(fd) << 24;
