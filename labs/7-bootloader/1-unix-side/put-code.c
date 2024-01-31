@@ -143,7 +143,7 @@ void simple_boot(int fd, uint32_t boot_addr, const uint8_t *buf, unsigned n) {
     // all implementations should have the same message: same bytes,
     // same crc32: cross-check these values to detect if your <read_file> 
     // is busted.
-    boot_output("simple_boot: sending %d bytes, crc32=%x\n", n, crc32(buf,n));
+    trace("simple_boot: sending %d bytes, crc32=%x\n", n, crc32(buf,n));
     boot_output("waiting for a start\n");
 
     // NOTE: only call <get_op> to assign to the <op> var.
