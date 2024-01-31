@@ -7,6 +7,9 @@
 #endif
 #endif
 
+// debug: no lineno etc 
+#define debug_output(msg...) output("DEBUG:" msg)
+
 // print file:function:line with a message.
 #define debug(msg, args...) \
     (printk)("%s:%s:%d:DEBUG:" msg, __FILE__, __FUNCTION__, __LINE__, ##args)

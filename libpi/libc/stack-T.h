@@ -2,14 +2,18 @@
 #define __STACK_T_H__
 
 // engler, 140e: simple generic constant size stack 
-// can extend for variable without much trouble but don't need atm.  
+// constant size = can stack/global allocate it without 
+// dynamic allocation.
+//
+// can extend for variable stack size without much trouble but 
+// don't need atm.  
 //
 //  gen_stack_T(pfx, stack_T, E_T, N)
 //      - all method names are prefixed with "<pfx>_"
 //      - <gen_stack_T> defines the type <stack_T>
 //      - client defines <E_T> the element type of <stack_T>.
 //      - element count: <N>
-
+//
 #define gen_stack_T(pfx, stack_T, E_T, N)                               \
     typedef struct {                                                    \
 		E_T stack[N];                                                   \
@@ -18,10 +22,10 @@
 		                                                                \
     /* this will be a big copy.  i don't know if it matters. */         \
     static inline stack_T pfx ## _mk(void) {                            \
-        return (stack_T) { .cnt = 0 };                                           \
+        return (stack_T) { .cnt = 0 };                                  \
     }                                                                   \
 		                                                                \
-    static inline E_T *pfx ## _push_ptr(stack_T *s) {                    \
+    static inline E_T *pfx ## _push_ptr(stack_T *s) {                   \
         if(s->cnt  > N)                                                 \
             panic("have %d elements, max is %d\n", s->cnt, N);          \
         return &s->stack[s->cnt++];                                     \
@@ -61,14 +65,13 @@
     static inline E_T *pfx ## _first(stack_T *s) {                      \
         return s->cnt == 0 ? 0 : &s->stack[0];                          \
     }                                                                   \
-    static inline E_T *pfx ## _last(stack_T *s) {                        \
+    static inline E_T *pfx ## _last(stack_T *s) {                       \
         return s->cnt == 0 ? 0 : &s->stack[s->cnt-1];                   \
     }                                                                   \
     static inline E_T * pfx ## _next(stack_T *s, E_T *e) {              \
-        return (e == pfx ## _last(s)) ? 0 : e+1;                         \
+        return (e == pfx ## _last(s)) ? 0 : e+1;                        \
     }                                                                   \
     static inline E_T * pfx ## _prev(stack_T *s, E_T *e) {              \
         return (e == pfx ## _first(s)) ? 0 : e-1;                       \
     }
 #endif
-

@@ -19,6 +19,12 @@ src_loc_t src_loc_mk(const char *file, const char *func, unsigned lineno) {
     output(args);                                               \
     clean_reboot();                                                   \
 } while(0)
+#define loc_panic_fn(l, args...) do {                              \
+    output("LOC_PANIC:%s:%s:%d: called from=%s:%s:%d:", __FILE__, __FUNCTION__, __LINE__, (l).file, (l).func, (l).lineno);        \
+    output(args);                                               \
+    clean_reboot();                                                   \
+} while(0)
+
 
 #define loc_debug(l, args...) do {                              \
     output("%s:%s:%d:", (l).file, (l).func, (l).lineno);        \
