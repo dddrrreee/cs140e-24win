@@ -17,7 +17,9 @@ at least 3 times with notes.    Also go through the lab README to get a feel
 for the stuff you need.
 
 The reading:
-  - [mini-UART cheatsheet](../../notes/devices/miniUART.md)
-    in the Notes directory.
-
-  - The actual [UART protocol](https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter) since you are going to write a software version of it.
+      - [miniUART](../../notes/devices/miniUART.md) cheat sheet.
+      - Broadcom document:  Sections 1, 2, 2.1, 2.2, 6.2 (p 102).  Main
+        reading is pages 8---19.
+      - [errata](https://elinux.org/BCM2835_datasheet_errata) has the
+        usual errata.
+      - [UART](https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter)
