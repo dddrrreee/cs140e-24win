@@ -207,7 +207,7 @@ I get:
 ### Step 2: write the pi side bootloader (`2-pi-side`)
 
 Deliverables:
-  - Implement `2-pi-side/get-code.c` (make sure your code prints
+  - Implement `2-pi-side/get-code.h` (make sure your code prints
     your name!)
   - Copy the bootloader to your sd card.
   - The `checkoff/` tests should still pass.
