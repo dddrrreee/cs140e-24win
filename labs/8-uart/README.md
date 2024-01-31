@@ -262,3 +262,6 @@ The code is in `3-uart:
      re-runs the tests from `1-uart` to ensure they behave the same.
      The comments in `sw-uart-veneer.c` describe what is going on.
 
+<p align="center">
+  <img src="images/debug-print.png" width="450" />
+</p>
