@@ -97,7 +97,6 @@ that work well at finding bugs in novel ways.
 After four runs at the architecture manual, you will have a new
 comfort with using it.
 
-***We are here*** ===>
 
   - [5-interupts](5-interrupts/): 
     you will walk through a simple, self-contained implementation of
@@ -152,6 +151,8 @@ driver.
     This approach is overly complicated.  You will do a much simpler,
     more-likely-to-be-correct protocol.  It has the advantage that it
     will later make it easier to boot over the network.
+
+***We are here*** ===>
 
   - [8-uart](8-uart): the last key bit of code we've given you is for
     controlling the UART (`uart.o`); so this lab has you write your own
