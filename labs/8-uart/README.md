@@ -263,5 +263,5 @@ The code is in `3-uart:
      The comments in `sw-uart-veneer.c` describe what is going on.
 
 <p align="center">
-  <img src="images/debug-print.jpg" width="450" />
+  <img src="images/debug-print.jpg" width="550" />
 </p>
