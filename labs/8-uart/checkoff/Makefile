@@ -1,4 +1,4 @@
-PROG_SRC = hash-file.c
+PROGS = hash-file.c
 
 BOOT_DIR = ../../7-bootloader/2-pi-side/
 
@@ -7,7 +7,7 @@ BOOT_DIR = ../../7-bootloader/2-pi-side/
 
 include $(CS140E_2024_PATH)/libunix/mk/Makefile.unix
 
-all: check-boot-hash
+all:: check-boot-hash
 
 checkoff:
 	make -C ./ check-boot-hash
