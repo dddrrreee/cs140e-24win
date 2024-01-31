@@ -159,12 +159,17 @@ uint32_t get_code(void) {
 
     // 3. If the binary will collide with us, abort with a BOOT_ERROR. 
     // 
-    //    for today: assume that code must be below where the 
-    //    booloader code gap starts.  make sure both the start and 
-    //    end is below <get_code>'s address.
-    // 
-    //    more general: use address of PUT32 and __PROG_END__ to detect: 
-    //    see libpi/memmap and the memmap.h header for definitions.
+    //    check that the sent code (<base_addr> through 
+    //    <base_addr>+<nbytes>) doesn't collide with
+    //    the bootloader code using the address of <PUT32>
+    //    (the first code address we need) to __prog_end__
+    //    (the last).
+    //
+    //    refer back to:
+    //       - your gprof lab code
+    //       - libpi/include/memmap.h
+    //       - libpi/memmap 
+    //    for definitions.
     boot_todo("check that binary will not hit the bootloader code");
 
     // 4. send [GET_CODE, cksum] back.
