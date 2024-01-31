@@ -139,6 +139,9 @@ boot_check(int fd, const char *msg, unsigned exp, unsigned got) {
 // Note: if timeout in <set_tty_to_8n1> is too small (set by our caller)
 // you can fail here. when you do a read and the pi doesn't send data 
 // quickly enough.
+//
+// <boot_addr> is sent with <PUT_PROG_INFO> as the address to run the
+// code at.
 void simple_boot(int fd, uint32_t boot_addr, const uint8_t *buf, unsigned n) { 
     // all implementations should have the same message: same bytes,
     // same crc32: cross-check these values to detect if your <read_file> 

@@ -118,8 +118,9 @@ well of course!)
 
 Deliverables:
   - Implement `1-unix-side/put-code.c:simple_boot`.
-  - The `checkoff/` tests should pass.
-
+  - Copy the `kernel.img` to your sd card.
+  - `cd checkoff; make checkoff` should pass.
+  - For testing: also run `checkoff/0-lab4-tests` and `checkoff/0-lab5-tests`.
 
 Debugging the pi code will be painful, especially since it requires
 copying files to the microSD etc.  So we first start with the much nicer
