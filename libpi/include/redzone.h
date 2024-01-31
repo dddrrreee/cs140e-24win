@@ -14,7 +14,8 @@ static inline int redzone_check(const char *msg) {
     for(unsigned i = 0; i < RZ_NBYTES/4; i++) {
         if(rz[i] != 0) {
             nfail++;
-            output("non-zero redzone: off=%x, val=%x fail=%d\n", i*4,rz[i], nfail);
+            // make it so it panics right away.
+            panic("non-zero redzone: off=%x, val=%x fail=%d\n", i*4,rz[i], nfail);
         }
     }
     return nfail == 0;
