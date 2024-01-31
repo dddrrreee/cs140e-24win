@@ -5,6 +5,7 @@
 #else
 #   include "rpi.h"
 #endif
+#include "boot-defs.h"
 
 // hack to trace put/get.
 // if 
@@ -22,6 +23,7 @@ enum { TRACE_FD = 21 };
 enum { TRACE_CONTROL_ONLY = 1, TRACE_ALL = 2 };
 extern int trace_p;
 
-void simple_boot(int fd, const uint8_t *buf, unsigned n);
+// <addr> = pi address to put the code at [buf, buf+n).
+void simple_boot(int fd, uint32_t addr, const uint8_t *buf, unsigned n);
 
 #endif

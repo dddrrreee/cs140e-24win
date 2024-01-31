@@ -66,6 +66,9 @@ int main(int argc, char *argv[]) {
     //      B921600
     unsigned baud_rate = B115200;
 
+    // by default is 0x8000
+    unsigned boot_addr = ARMBASE;
+
     // we do manual option parsing to make things a bit more obvious.
     // you might rewrite using getopt().
     progname = argv[0];
@@ -89,6 +92,11 @@ int main(int argc, char *argv[]) {
             if(!argv[i])
                 usage("missing argument to --baud\n");
             baud_rate = atoi(argv[i]);
+        } else if(strcmp(argv[i], "--addr") == 0) {
+            i++;
+            if(!argv[i])
+                usage("missing argument to --addr\n");
+            boot_addr = atoi(argv[i]);
         } else if(strcmp(argv[i], "--exec") == 0) {
             i++;
             if(!argv[i])
@@ -144,7 +152,7 @@ int main(int argc, char *argv[]) {
     // 4. let's send it!
 	debug_output("%s: tty-usb=<%s> program=<%s>: about to boot\n", 
                 progname, dev_name, pi_prog);
-    simple_boot(fd, code, nbytes);
+    simple_boot(fd, boot_addr, code, nbytes);
 
     // 5. echo output from pi
     if(!exec_argv)
