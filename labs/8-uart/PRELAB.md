@@ -11,7 +11,10 @@ If `printk` doesn't work you can't get any information out of the pi
 other than silence --- not even the crash location, much less the values.
 
 Thus, you should do the readings very carefully.  The less you understand
-the device, the more bugs you'll make and the longer they will take.
+the device, the more bugs you'll make and the longer they will take. We
+suggest reading through the broadcom pages (about 13 pages, below)
+at least 3 times with notes.    Also go through the lab README to get a feel
+for the stuff you need.
 
 The reading:
   - [mini-UART cheatsheet](../../notes/devices/miniUART.md)
