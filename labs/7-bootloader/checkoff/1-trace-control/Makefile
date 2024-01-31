@@ -9,5 +9,7 @@ BOOTLOADER = my-install --trace-control
 
 # we only look at this output
 GREP_STR := "TRACE:"
+# so we don't lose simple_boot
+EXCLUDE := cat
 
 include $(CS140E_2024_PATH)/libpi/mk/Makefile.check-v2

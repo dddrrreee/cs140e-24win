@@ -10,7 +10,10 @@ BOOTLOADER = $(BOOT) --trace-all
 
 # we only look at this output
 # GREP_STR := "TRACE:"
-GREP_STR := 'PI:\|TRACE:\|ERROR:\|PANIC:simple_boot'
+# GREP_STR := 'PI:\|TRACE:\|ERROR:\|PANIC:simple_boot'
+
+# so we don't lose simple_boot
+EXCLUDE := cat
 
 include $(CS140E_2024_PATH)/libpi/mk/Makefile.check-v3
 

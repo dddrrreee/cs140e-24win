@@ -3,14 +3,11 @@ TESTS = $(wildcard ./*.bin)
 # you should not need this.
 # TTYUSB = 
 
-# ugh: my-install does a BOOT:, we do TRACE:
-BOOTLOADER = my-install
+# can swap these around to make sure hw is working.
 BOOTLOADER = pi-install
+BOOTLOADER = my-install
 
-# we only look at this output
-
-GREP_STR := "TRACE:"
-GREP_STR := 'PI:\|TRACE:\|ERROR:\|PANIC:\|simple_boot'
+# so we don't lose simple_boot
 EXCLUDE := cat
 
 include $(CS140E_2024_PATH)/libpi/mk/Makefile.check-v3
