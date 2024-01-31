@@ -5,6 +5,8 @@
 </p>
 
 
+***NOTE: currently rewriting a lot of the code.  Please don't modify it!***
+
 By the end of this lab, you'll have written your own device driver for
 the pi's mini-UART hardware, which is what communicates with the TTY-USB
 device you plug into your laptop.  This driver is the last "major" piece
