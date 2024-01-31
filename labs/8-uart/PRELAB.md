@@ -19,3 +19,5 @@ for the stuff you need.
 The reading:
   - [mini-UART cheatsheet](../../notes/devices/miniUART.md)
     in the Notes directory.
+
+  - The actual [UART protocol](https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter) since you are going to write a software version of it.
