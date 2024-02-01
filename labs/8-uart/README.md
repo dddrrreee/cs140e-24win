@@ -1,7 +1,7 @@
 ## Lab: write your own UART implementation.
 
 <p align="center">
-  <img src="images/rpi-cables.png" width="450" />
+  <img src="images/uart-meme.jpg" width="450" />
 </p>
 
 
@@ -209,6 +209,10 @@ The fake pi is in `2-fake-pi`.
 -----------------------------------------------------------------------
 ### Part 4. implement `sw_put8` for a software UART.
 
+<p align="center">
+  <img src="images/debug-print.jpg" width="550" />
+</p>
+
 Note:
    - To use our `sw-uart.o`:
      you can uncomment the line in `3-sw-uart:Makefile` and comment
@@ -262,6 +266,7 @@ The code is in `3-uart:
      re-runs the tests from `1-uart` to ensure they behave the same.
      The comments in `sw-uart-veneer.c` describe what is going on.
 
+
 <p align="center">
-  <img src="images/debug-print.jpg" width="550" />
+  <img src="images/rpi-cables.png" width="450" />
 </p>

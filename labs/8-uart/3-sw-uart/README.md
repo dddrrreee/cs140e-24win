@@ -21,3 +21,7 @@ Make sure everything works by:
 Then start writing `sw_uart_putc` in `sw-uart.c`:
   1. Change the Makefile to use the local one by uncommenting it.
 
+have them write a sw_uart_get8 and a sw_uart_put8 that loops back with
+a fairly low error rate.
+
+have them write a timed write N cycles.
