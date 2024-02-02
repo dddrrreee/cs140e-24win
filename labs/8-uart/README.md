@@ -345,32 +345,65 @@ Now change your bootloader to use the new `uart.c`:
 ##### Part 3. `3-fake-pi`
 
 
-***BEFORE YOU START DO A PULL***
-***BEFORE YOU START DO A PULL***
-***BEFORE YOU START DO A PULL***
-***BEFORE YOU START DO A PULL***
-***BEFORE YOU START DO A PULL***
-***BEFORE YOU START DO A PULL***
-***BEFORE YOU START DO A PULL***
+For the output I get:
+```
+        % cd 3-fake-pi
+        % make
+        % cd tests-uart
+        % make
+        % make emit
+        % make checkoff
 
-The fake pi is in `3-fake-pi`.
+        individual checksums = 
+        852325631 5396 0-uart-getc.out
+        1030750329 808 0-uart-init.out
+        1334889765 1577 1-hello.out
+        3030943895 229 0-uart-putc.out
+        checksum(checksum) = 
+        2291128381 121
 
-  1. You'll have to modify the `Makefile` so that it knows where to find your
-     `uart.c`.  If you give it the path, it should work.  If not let me know.
+```
 
-     `cd` into `tests-uart` and run the test for `0-uart-init.c`.  You
-     may have addresses written in order (there are multiple legal 
-     orders). If you don't match ours,  check with someone else and
-     have some reason that the reorder you do is ok.
+You might get different output if you use different registers.  Check with
+your partner!
+
+
+The first part of  my `3-fake-pi/tests-uart/0-uart-init.out`:
+
+```
+    TRACE: out file for <0-uart-init>
+    TRACE:0: calling pi code
+    TRACE:1: dev_barrier 
+    TRACE:2: GET32(0x20200004) = 0x643c9869
+    TRACE:3: PUT32(0x20200004) = 0x643ca869
+    TRACE:4: GET32(0x20200004) = 0x643ca869
+    TRACE:5: PUT32(0x20200004) = 0x643d2869
+    TRACE:6: dev_barrier 
+    TRACE:7: GET32(0x20215004) = 0x0
+    TRACE:8: PUT32(0x20215004) = 0x1
+    TRACE:9: dev_barrier 
+    TRACE:10: UART: PUT32(0x20215060) = 0x0 
+    TRACE:11: UART: turning UART off PUT32(20215060)=0
+    ...
+```
+
+Some notes:
+
+  1.  If you look in the `3-fake-pi/Makefile` you see it's getting your
+      `gpio.c` and `uart.c` and pulling them into fake-pi.
+
+  2. If you look in fakepi you see there is some logic to buffer
+     the UART writes while the tx and rx is disabled (the control
+     register). When the control is turned on, all buffered writes 
+     get written.
+
+  3. `cd` into `3-fake-pi/tests-uart` and run the test for
+     `0-uart-init.c`.  You may have addresses written in order (there
+     are multiple legal orders). If you don't match ours,  check with
+     someone else and have some reason that the reorder you do is ok.
 
      You'll have to compare your `.out` files with other people.  You
      probably want to run these by hand one at a time.
-
-     NOTE: A big disadvantage of these checks is that they require
-     the same reads and writes be done in the same order.  This is
-     unrealistic and makes checking kinda of a pain.   We will fix this
-     in the homework.
-
 
 <p align="center">
   <img src="images/rpi-cables.png" width="450" />
