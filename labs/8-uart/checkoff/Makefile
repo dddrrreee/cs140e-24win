@@ -1,6 +1,6 @@
 PROGS = hash-file.c
 
-BOOT_DIR = ../../7-bootloader/2-pi-side/
+BOOT_DIR = ../../7-bootloader/2-pi-side/objs/
 
 #CS140E_USE_STAFF = 1
 #BOOT_DIR = ../../7-bootloader/2-pi-side.staff/
