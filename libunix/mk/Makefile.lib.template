@@ -4,6 +4,9 @@
 BUILD_DIR ?= ./objs
 MAKEFLAGS += --no-print-directory
 
+ifndef BUILD_DIR
+$(error "BUILD_DIR empty")
+endif
 
 ifndef LIBNAME
 $(error LIBNAME is not set in the calling Makefile)
@@ -72,7 +75,7 @@ endif
 endif
 
 clean::
-	rm -rf *~  *.bak  $(LIBNAME) lib-includes.mk
+	rm -rf *~  *.bak  $(LIBNAME) # lib-includes.mk
 	rm -rf $(BUILD_DIR)
 
 .PHONY: all clean $(BUILD_DIR)

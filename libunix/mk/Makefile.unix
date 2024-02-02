@@ -69,13 +69,13 @@ CFLAGS += $(OPT_LEVEL) -Wall -g -std=gnu99  -Werror -Wno-unused-function -Wno-un
 # added the include path for libpi-fake
 DEPS += $(MAKEFILE_LIST)
 
-all::  $(progs) $(RUN_PROGS) # $(TEST_RUN) # $(OBJS)  
+all:: libs $(LIBS) $(progs) $(RUN_PROGS) # $(TEST_RUN) # $(OBJS)  
 
 print:
 	@echo "libs=$(LIBS)"
 	@echo "LU=$(LU)"
 
-libs::
+libs:: FORCE
 	@make -C $(LIBUNIX_PATH)
 
 $(LU): FORCE
@@ -94,8 +94,8 @@ $(BUILD_DIR): FORCE
 .PHONY: FORCE
 FORCE:
 
-$(progs):%: $(BUILD_DIR)/%.o $(BUILD_DIR)/%.d $(common_objs) $(DEPS) $(LU)
-	$(CC) $< $(common_objs) -o $@ $(LU)
+$(progs):%: $(BUILD_DIR)/%.o $(BUILD_DIR)/%.d $(common_objs) $(DEPS) $(LU) $(LIBS)
+	$(CC) $< $(common_objs) -o $@ $(LIBS) $(LU)
 
 %.o:%.c
 %.d:%.c
@@ -123,7 +123,7 @@ emit:
 endif
 
 check: libs $(DEPS) $(progs)
-	@make -f $(MK_CHK) check "TESTS=$(progs)"
+	@make -f $(MK_CHK) check "TESTS=$(progs)" "PROLOGUE=$(PROLOGUE)"
 
 ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(MAKECMDGOALS),cleanall)

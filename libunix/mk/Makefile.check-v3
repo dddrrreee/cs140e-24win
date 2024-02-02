@@ -20,6 +20,12 @@ GREP_STR ?= 'PI:\|TRACE:\|ERROR:\|PANIC:'
 EXCLUDE ?= cat
 CMD_EXTRA ?= 
 
+ifneq ($(PROLOGUE),0)
+PRO = TRACE
+else
+$(error "pro=$(PROLOGUE)")
+endif
+
 # strip all bracketed tags in output messages
 STRIP_BRACKETS := 's/\[.*\]//'
 STRIP_REL := 's/\.\.\///'
@@ -60,7 +66,7 @@ print:
 $(TEST_OUT):
 %.out: %$(BIN_SUFFIX)
 	@echo -n "generating <$*.out> and <$*.raw>: ";
-	@echo  "TRACE: out file for <$*>" > $*.raw
+	@echo  "$(PRO): out file for <$*>" > $*.raw
 	@./$< >>  $*.raw 2>&1
 	@$(EXCLUDE) $*.raw | sed $(STRIP_BRACKETS) | grep $(GREP_STR) > $*.out
 	@echo " success!";
@@ -70,7 +76,7 @@ $(TEST_OUT):
 	@echo    "checking <$*>: ";
 	@echo    "  about to emit new <$*.test>:"
 	@echo    "     ./$< $(CMD_EXTRA) > $*.test"
-	@echo  "TRACE: out file for <$*>" > $*.test.raw
+	echo  "$(PRO): out file for <$*>" > $*.test.raw
 	@./$< $(CMD_EXTRA) >> $*.test.raw 2>&1  \
         || (                                                    \
             echo "ERROR: [./$< $(CMD_EXTRA)] crashed:\n";   \
