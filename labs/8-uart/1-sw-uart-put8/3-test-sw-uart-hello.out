@@ -1,0 +1,14 @@
+TRACE:notmain:about to print `hello world` 10x
+TRACE:notmain:if your pi locks up, it means you are not transmitting
+TRACE: from sw-uart: WORKED!!
+TRACE: hello from sw-uart 0!
+TRACE: hello from sw-uart 1!
+TRACE: hello from sw-uart 2!
+TRACE: hello from sw-uart 3!
+TRACE: hello from sw-uart 4!
+TRACE: hello from sw-uart 5!
+TRACE: hello from sw-uart 6!
+TRACE: hello from sw-uart 7!
+TRACE: hello from sw-uart 8!
+TRACE: hello from sw-uart 9!
+TRACE:notmain:if you see `WORKED` above, sw uart worked!

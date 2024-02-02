@@ -1,0 +1,20 @@
+staff-find-ttyusb.c:find_ttyusb_last:89:DEBUG:FOUND: </dev/ttyUSB0>
+my-install.c:main:150:DEBUG:my-install: tty-usb=</dev/ttyUSB0> program=<./1-test-wait-ncycles.bin>: about to boot
+TRACE:simple_boot: sending 3840 bytes, crc32=8d7f45b5
+BOOT:waiting for a start
+BOOT:bootloader: Done.
+	trial=0: measured = 601, expected 600, err = 1, tot err = 1
+	trial=1: measured = 1200, expected 1200, err = 0, tot err = 1
+	trial=2: measured = 1807, expected 1800, err = 7, tot err = 8
+	trial=3: measured = 2406, expected 2400, err = 6, tot err = 14
+	trial=4: measured = 3001, expected 3000, err = 1, tot err = 15
+	trial=5: measured = 3606, expected 3600, err = 6, tot err = 21
+	trial=6: measured = 4205, expected 4200, err = 5, tot err = 26
+	trial=7: measured = 4801, expected 4800, err = 1, tot err = 27
+	trial=8: measured = 5407, expected 5400, err = 7, tot err = 34
+	trial=9: measured = 6005, expected 6000, err = 5, tot err = 39
+total error = 39 cycles, out of 60000 total cycles
+TRACE:notmain:SUCCESS: low enough error!
+DONE!!!
+
+BOOT: bootloader: pi exited.  cleaning up

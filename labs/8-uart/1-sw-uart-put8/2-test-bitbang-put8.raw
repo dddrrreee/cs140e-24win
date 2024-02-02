@@ -1,0 +1,38 @@
+staff-find-ttyusb.c:find_ttyusb_last:89:DEBUG:FOUND: </dev/ttyUSB0>
+my-install.c:main:150:DEBUG:my-install: tty-usb=</dev/ttyUSB0> program=<./2-test-bitbang-put8.bin>: about to boot
+TRACE:simple_boot: sending 5636 bytes, crc32=6ed7c10c
+BOOT:waiting for a start
+BOOT:bootloader: Done.
+----------------------------------------------------
+example of remapping gpio_write(): will see more error than in <0-test-delay.c>
+done with remap example: time log has 9 entries:
+	0: v=0: [value of first reading]
+	1: v=1: measured = 911, expected 1000, err = 89, tot err = 89
+	2: v=0: measured = 1905, expected 2000, err = 95, tot err = 184
+	3: v=1: measured = 3019, expected 3000, err = 19, tot err = 203
+	4: v=0: measured = 3904, expected 4000, err = 96, tot err = 299
+	5: v=1: measured = 4957, expected 5000, err = 43, tot err = 342
+	6: v=0: measured = 5958, expected 6000, err = 42, tot err = 384
+	7: v=1: measured = 6991, expected 7000, err = 9, tot err = 393
+	8: v=0: measured = 7953, expected 8000, err = 47, tot err = 440
+total error = 440 cycles, out of 9000 total cycles
+TRACE:time_log_emit:SUCCESS: low enough cycles used
+----------------------------------------------------
+sw uart: cycles per bit=6076 for baud=115200
+done with sw-uart example: time log has 10 entries:
+	0: v=0: [value of first reading]
+	1: v=0: measured = 6123, expected 6076, err = 47, tot err = 47
+	2: v=0: measured = 12243, expected 12152, err = 91, tot err = 138
+	3: v=0: measured = 18330, expected 18228, err = 102, tot err = 240
+	4: v=1: measured = 24323, expected 24304, err = 19, tot err = 259
+	5: v=0: measured = 30418, expected 30380, err = 38, tot err = 297
+	6: v=1: measured = 36525, expected 36456, err = 69, tot err = 366
+	7: v=1: measured = 42643, expected 42532, err = 111, tot err = 477
+	8: v=0: measured = 48627, expected 48608, err = 19, tot err = 496
+	9: v=1: measured = 54728, expected 54684, err = 44, tot err = 540
+total error = 540 cycles, out of 60760 total cycles
+TRACE:time_log_emit:SUCCESS: low enough cycles used
+----------------------------------------------------
+DONE!!!
+
+BOOT: bootloader: pi exited.  cleaning up
