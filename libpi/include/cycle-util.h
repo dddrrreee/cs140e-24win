@@ -4,6 +4,8 @@
 #include "rpi.h"
 #include "cycle-count.h"
 
+// XXX: should we even give these?
+
 // delay <n> cycles assuming we started counting cycles at time
 // <start>.
 static inline unsigned delay_ncycles(unsigned start, unsigned n) {
@@ -44,7 +46,6 @@ write_cyc_until(unsigned pin, unsigned v, unsigned start, unsigned ncycles) {
     
         volatile unsigned *gpio_lev0  = (void*)(GPIO_BASE + 0x34);
         unsigned off = (pin%32);
-        // this can sign extend?
         return (*gpio_lev0 >> off) & 1;
     }
 #endif
@@ -61,7 +62,8 @@ wait_until_cyc(unsigned pin, unsigned v, unsigned s, unsigned ncycles) {
 }
 
 // usec: does not have to be that accurate since the time is just for timeout.
-static inline int wait_until_usec(int pin, int v, unsigned timeout_usec) {
+static inline int 
+wait_until_usec(int pin, int v, unsigned timeout_usec) {
     if(GPIO_READ_RAW(pin) == v)
         return 1;
     unsigned start = timer_get_usec_raw();

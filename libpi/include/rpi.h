@@ -48,6 +48,11 @@ int printk(const char *format, ...);
 // vprintf with a lot of restrictions.
 int vprintk(const char *fmt, va_list ap);
 
+// print string to <buf>
+#include <stdarg.h>
+int snprintk(char *buf, unsigned buflen, const char *fmt, ...);
+int vsnprintk(char *buf, unsigned buflen, const char *fmt, va_list ap);
+
 /*****************************************************************************
  * uart routines: you will implement these.
  */

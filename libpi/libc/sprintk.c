@@ -1,9 +1,13 @@
 #include "rpi.h"
 
-#ifndef putchar
-#   define putchar rpi_putchar
-#endif
+static uint8_t *buf_ptr = 0, *buf_end;
 
+// gross: we just redo printk with a different putchar.  
+// XXX: refactor.
+static void putchar(uint8_t c) {
+    assert(buf_ptr < buf_end);
+    *buf_ptr++ = c;
+}
 static void emit_val(unsigned base, uint32_t u) {
     char num[33], *p = num;
 
@@ -36,7 +40,10 @@ static void emit_val(unsigned base, uint32_t u) {
 
 // a really simple printk. 
 // need to do <sprintk>
-int vprintk(const char *fmt, va_list ap) {
+int vsnprintk(char *buf, unsigned n, const char *fmt, va_list ap) {
+    buf_ptr = buf;
+    buf_end = buf + n;
+
     for(; *fmt; fmt++) {
         if(*fmt != '%')
             putchar(*fmt);
@@ -99,15 +106,17 @@ int vprintk(const char *fmt, va_list ap) {
             }
         }
     }
+    *buf_ptr++ = 0;
     return 0;
 }
 
-int printk(const char *fmt, ...) {
+int snprintk(char *buf, unsigned n, const char *fmt, ...) {
     va_list args;
+
 
     int ret;
     va_start(args, fmt);
-       ret = vprintk(fmt, args);
+       ret = vsnprintk(buf, n, fmt, args);
     va_end(args);
     return ret;
 }

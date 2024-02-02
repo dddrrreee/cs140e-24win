@@ -1,22 +1,25 @@
 #ifndef __CYCLE_COUNT_H__
+#define __CYCLE_COUNT_H__
 // use r/pi cycle counters so that we can do tighter timings.
 
 #ifndef RPI_UNIX
 // must do init first.
-#define cycle_cnt_init() do {                                   \
-    unsigned in = 1;                                            \
-    asm volatile("MCR p15, 0, %0, c15, c12, 0" :: "r"(in));     \
-} while(0)
+static inline void cycle_cnt_init(void) {
+    uint32_t in = 1;
+    asm volatile("MCR p15, 0, %0, c15, c12, 0" :: "r"(in));
+}
 
-// read.  should add a write().
-#define cycle_cnt_read() ({	 					                \
-	unsigned _out;							                    \
-  	asm volatile ("MRC p15, 0, %0, c15, c12, 1" : "=r"(_out));	\
-	_out;								                        \
-})
+// read cycle counter: should add a write().
+static inline uint32_t cycle_cnt_read(void) {
+	uint32_t out;
+  	asm volatile("MRC p15, 0, %0, c15, c12, 1" : "=r"(out));
+    return out;
+}
+
 #else
 
-// if we are doing fake testing, have to provide fake versions of these.
+// if we are doing fake-pi testing, have to provide fake 
+// versions of these.
 void cycle_cnt_init(void);
 unsigned cycle_cnt_read(void);
 
