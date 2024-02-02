@@ -1,0 +1,7 @@
+TRACE: out file for <0-uart-putc>
+TRACE:0: calling pi code
+TRACE:1: dev_barrier 
+TRACE:2: GET32(0x20215054) = 0x2eb141f2
+TRACE:3: UART: PUT32(0x20215040) = 0x68 
+TRACE:4: dev_barrier 
+TRACE: pi exited cleanly: 20 calls to random
