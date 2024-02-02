@@ -34,6 +34,7 @@ void _cstart() {
     // i don't think any downside to doing here.
     cycle_cnt_init();
     uart_destroy();
+    uart_init();
     notmain(); 
 	clean_reboot();
 }
