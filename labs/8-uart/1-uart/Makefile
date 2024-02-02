@@ -16,7 +16,7 @@ COMMON_SRC += uart.c
 BOOTLOADER = my-install
 CAN_EMIT = 0
 
-EXCLUDE = grep -v simple_boot
+# EXCLUDE = grep -v simple_boot
 include $(CS140E_2024_PATH)/libpi/mk/Makefile.template-fixed
 
 # we check that echo'ing input works.  gross hack b/c we didn't make it

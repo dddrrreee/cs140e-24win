@@ -5,8 +5,6 @@
 </p>
 
 
-***NOTE: currently rewriting a lot of the code.  Please don't modify it!***
-
 By the end of this lab, you'll have written your own device driver for
 the pi's mini-UART hardware, which is what communicates with the TTY-USB
 device you plug into your laptop.  This driver is the last "major" piece
@@ -14,10 +12,6 @@ of the pi runtime that you have not built yourself.  At this point, you
 can print out the entire system, look at each line of code, and should
 hopefully know why it is there and what it is doing.  Importantly you have
 reached that magic point of understanding where: there is nothing else.
-
-*NOTE*:
-  - Make sure you read through the [mini-UART cheatsheet](../../notes/devices/miniUART.md)
-    in the Notes directory.
 
 In addition, you'll implement your own *software* UART implementation
 that can entirely bypass the pi hardware and talk directly to the
@@ -54,6 +48,11 @@ Multiple reasons:
       Difficult to do this on a "real" system such as MacOS or Linux.
 
 ### Checkoff
+
+You can do either part 1 (writing a software UART put8) or part 2 (doing
+the hardware UART) first.  Doing the SW-uart will make debugging easier,
+but if you want to play in hard mode, doing the hardware UART without
+any help is historically accurate.
 
 Show that:
    1. You have a quick way of switching directories, especially switching to
@@ -111,6 +110,106 @@ to find what you need and interpolate the rest.
 The main thing is to not get too worked up by not understanding something,
 and slide forward to what you do get, and cut down the residue until
 you have what you need.
+
+-----------------------------------------------------------------------
+### Part 1. implement `sw_put8` for a software UART.
+
+<p align="center">
+  <img src="images/debug-print.jpg" width="550" />
+</p>
+
+One of the hardest things about writing the hardware UART driver is that
+there is zero visibility into it when things go wrong.  
+
+  - To put it in practical terms: Last year's class had about 1/4 of the
+    students staying well past 1am with all sorts of nasty bugs.  Not much
+    code, but the difficulty in debugging made it one of the 
+    hardest labs in some ways.
+
+So this year we won't do that.  To mitigate this problem, before starting
+on the hardware we'll do a general purpose hack and write a software
+UART implementation that uses GPIO to  "bit-bang" the UART protocol.
+(Jonathan Kula did this in 2021's class as part of his final project.)
+This will let you debug the hardware UART driver using print statements.
+
+Two additional advantages of bit-banging:
+
+ 1. You will understand what the hardware is actually doing to implement
+    UART.
+
+    While the hardware folks in the class likely won't make this
+    assumption-mistake it's easy as software people (e.g., me) to assume
+    things such as: "well, the tty-usb device wants to talk to a 8n1-UART
+    so I need to configure the pi hardware UART to do so."  This belief,
+    of course, is completely false --- the 8n1 "protocol" is just a fancy
+    word for setting pins high or low for some amount of time for output,
+    and reading them similarly for input.  So, of course, we can do this
+    just using GPIO.  (You can do the same for other protocols as well,
+    such as I2C, that are built-in to the pi's hardware.)
+
+ 2. You'll also see that doing things using hardware is often
+    much much harder than software.  In fact, given GPIO and a way to
+    measure time, you can easily port your UART implementation to other
+    hardware platforms in a few minutes.  Much easier than writing a
+    hardware driver!  No datasheet, no erratta, etc.
+
+As described in 
+[UART](https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter)
+the protocol to transmit a byte `B` at a baud rate B is pretty simple.
+
+  1. For a given baud rate, compute how many micro-seconds
+     `T` you write each bit.  For example, for 115,200, this is:
+     `(1000*1000)/115200 = 8.68`.  (NOTE: we will use cycles rather
+     than micro-seconds since that is much easier to make accurate.
+     The A+ runs at `700MHz` so that is 700 * 1000 * 1000 cycles per
+     second or about `6076` cycles per bit.)
+
+To transmit:
+  1. write a 0 (start) for T.
+  2. write each bit value in the given byte for T (starting at bit 0, 
+     bit 1, ...).
+  3. write a 1 (stop) for at-least T.
+
+
+What to do:
+  1. Implement `wait_ncycles_exact` in `1-sw-uart-put8/wait-routines.h`.
+     And use `1-test-delay.c` to test it.  This test uses your routine
+     to repeatedly delay by a fixed amount, measures the actual amount,
+     and then prints out the error.  If you do things right you should
+     get fairly low error.  E.g., I had about 45 cycles of error in 
+     total for 10 samples:
+
+```
+        trial=0: measured = 601, expected 600, err = 1, tot err = 1
+        trial=1: measured = 1200, expected 1200, err = 0, tot err = 1
+        trial=2: measured = 1808, expected 1800, err = 8, tot err = 9
+        trial=3: measured = 2407, expected 2400, err = 7, tot err = 16
+        trial=4: measured = 3003, expected 3000, err = 3, tot err = 19
+        trial=5: measured = 3608, expected 3600, err = 8, tot err = 27
+        trial=6: measured = 4207, expected 4200, err = 7, tot err = 34
+        trial=7: measured = 4803, expected 4800, err = 3, tot err = 37
+        trial=8: measured = 5408, expected 5400, err = 8, tot err = 45
+        trial=9: measured = 6000, expected 6000, err = 0, tot err = 45
+    total error = 45 cycles, out of 6000 total cycles
+```
+
+
+
+
+
+The code is in `3-uart:
+
+  1. Your software UART code goes in `sw-uart.c`.
+  2. You should start testing it by doing a `make run` or 
+     `make check` of `hello.c`.
+  3. Then `make checkoff` should pass.  It does a linker trick to replace
+     the libpi.a UART implementation with your software uart and 
+     re-runs the tests from `1-uart` to ensure they behave the same.
+     The comments in `sw-uart-veneer.c` describe what is going on.
+
+
+-----------------------------------------------------------------------
+
 
 -----------------------------------------------------------------------
 ### Part 1. implement a UART device deriver:
@@ -206,47 +305,13 @@ The fake pi is in `2-fake-pi`.
      unrealistic and makes checking kinda of a pain.   We will fix this
      in the homework.
 
------------------------------------------------------------------------
-### Part 4. implement `sw_put8` for a software UART.
 
 <p align="center">
-  <img src="images/debug-print.jpg" width="550" />
+  <img src="images/rpi-cables.png" width="450" />
 </p>
 
-Note:
-   - To use our `sw-uart.o`:
-     you can uncomment the line in `3-sw-uart:Makefile` and comment
-     out yours.
-
-This part of the lab is from a cute hack Jonathan Kula did in 2021's
-class as part of his final project.
-
-While the hardware folks in the class likely won't make this
-assumption-mistake it's easy as software people (e.g., me) to assume
-things such as: "well, the tty-usb device wants to talk to a 8n1-UART
-so I need to configure the pi hardware UART to do so."  This belief,
-of course, is completely false --- the 8n1 "protocol" is just a fancy
-word for setting pins high or low for some amount of time for output,
-and reading them similarly for input.  So, of course, we can do this
-just using GPIO.  (You can do the same for other protocols as well,
-such as I2C, that are built-in to the pi's hardware.)
-
-As described in 
-[UART](https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter)
-the protocol to transmit a byte `B` at a baud rate B is pretty simple.
-
-  1. For a given baud rate, compute how many micro-seconds
-     `T` you write each bit.  For example, for 115,200, this is:
-     `(1000*1000)/115200 = 8.68`.  (NOTE: we will use cycles rather
-     than micro-seconds since that is much easier to make accurate.
-     The A+ runs at `700MHz` so that is 700 * 1000 * 1000 cycles per
-     second or about `6076` cycles per bit.)
-
-To transmit:
-  1. write a 0 (start) for T.
-  2. write each bit value in the given byte for T (starting at bit 0, bit 1, ...).
-  3. write a 1 (stop) for at-least T.
-
+---------------------------------------------------------------------
+## Extension: `sw_uart_get8`
 Adding input is good.  Two issues:
   1. The GPIO pins (obvious) have no buffering, so if you are reading
      from the RX pin when the input arrives it will disappear.
@@ -255,18 +320,3 @@ Adding input is good.  Two issues:
      I'd have your code read until you see a start bit, delay `T/2` and then
      start sampling the data bits so that you are right in the center of 
      the bit transmission.
-
-The code is in `3-uart:
-
-  1. Your software UART code goes in `sw-uart.c`.
-  2. You should start testing it by doing a `make run` or 
-     `make check` of `hello.c`.
-  3. Then `make checkoff` should pass.  It does a linker trick to replace
-     the libpi.a UART implementation with your software uart and 
-     re-runs the tests from `1-uart` to ensure they behave the same.
-     The comments in `sw-uart-veneer.c` describe what is going on.
-
-
-<p align="center">
-  <img src="images/rpi-cables.png" width="450" />
-</p>
