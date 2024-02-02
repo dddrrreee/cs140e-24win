@@ -273,6 +273,19 @@ void put32(volatile void *addr, uint32_t v) {
     PUT32((uint32_t)(uint64_t)addr, v);
 }
 
+uint8_t GET8(uint32_t addr) {
+    assert(addr%4 == 0);
+    return GET32(addr) & 0xff;
+}
+
+void PUT8(uint32_t addr, uint8_t v) {
+    demand(addr%4 == 0, we are not handling non-4 byte aligned);
+    uint32_t x = GET32(addr);
+    x &= ~0xff;
+    x |= v;
+    PUT32(addr, x);
+}
+
 uint32_t DEV_VAL32(uint32_t x) {
     trace("DEV_VAL32=0x%x\n", x);
     return x;
