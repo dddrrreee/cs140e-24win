@@ -118,6 +118,16 @@ you have what you need.
   <img src="images/debug-print.jpg" width="550" />
 </p>
 
+Checkoff summary:
+   1. Implement the two `sw_uart_init_helper` and `sw_uart_put8` 
+      routines in `sw-uart.c`.  
+
+   2. Switch `libpi/Makefile` to use your code.
+
+   3. `make checkoff` should pass: it just tests that you can 
+     print `hello`.
+
+
 One of the hardest things about writing the hardware UART driver is that
 there is zero visibility into it when things go wrong.  
 
@@ -193,33 +203,75 @@ What to do:
     total error = 45 cycles, out of 6000 total cycles
 ```
 
+  2. Using `wait_ncycles_exact` you should be able to implement
+     a bit-banged UART routine to emit a 8-bit character
+     `bitbang_uart_put8` in `2-test-sw-put8.c`.
 
+     The most common problem people run into when doing so is that
+     their timings are off, which will make printing always (or, worse,
+     sometimes) fail.  Again, we want visibility.  To get it we 
+     use the logging code above and check when writes are occuring.
 
+     The file has code and an example (`log_example()`) on how to time
+     `gpio_writes` easily to check that you are doing `gpio_write`'s
+     at the right time and with the right values.  Do the same thing
+     for your bit-banged code.  If your timing is reasonable, and the
+     values are correct the code should just work.
 
+     When running `bitbang_uart_put8(&sw, 'h')` I get:
 
-The code is in `3-uart:
+```
+    sw uart: cycles per bit=6076 for baud=115200
+    done with sw-uart example: time log has 10 entries:
+        0: v=0: [value of first reading]
+        1: v=0: measured = 6137, expected 6076, err = 61, tot err = 61
+        2: v=0: measured = 12224, expected 12152, err = 72, tot err = 133
+        3: v=0: measured = 18275, expected 18228, err = 47, tot err = 180
+        4: v=1: measured = 24315, expected 24304, err = 11, tot err = 191
+        5: v=0: measured = 30424, expected 30380, err = 44, tot err = 235
+        6: v=1: measured = 36503, expected 36456, err = 47, tot err = 282
+        7: v=1: measured = 42585, expected 42532, err = 53, tot err = 335
+        8: v=0: measured = 48661, expected 48608, err = 53, tot err = 388
+        9: v=1: measured = 54795, expected 54684, err = 111, tot err = 499
+    total error = 499 cycles, out of 60760 total cycles
+```
+     If you get something similar your code should just work.
 
-  1. Your software UART code goes in `sw-uart.c`.
-  2. You should start testing it by doing a `make run` or 
-     `make check` of `hello.c`.
-  3. Then `make checkoff` should pass.  It does a linker trick to replace
-     the libpi.a UART implementation with your software uart and 
-     re-runs the tests from `1-uart` to ensure they behave the same.
-     The comments in `sw-uart-veneer.c` describe what is going on.
+  3. Now implement the two routines in `sw-uart.c`.  You'll need
+     to setup the transmit and receive GPIO pins (output and input
+     respectively) and drop in your bitbangged code.  When you
+     do this, `3-hello.c` should just work.  If you want to 
+     play around you can uncomment the staff binary.
 
+  4. Switch your `libpi/Makefile` to use `sw-uart.c` by
+     adding:
+
+        # libpi/Makefile
+        SRC += ../labs/8-uart/1-sw-uart-put8/sw-uart.c
+
+      To the start commenting `sw-uart.c` out this directory's `Makefile`.
+      `make check` should still work.
+
+NOTE: debugging:
+
+  - To use your softare UART code in the next step, you would just include
+    `sw-uart.h` into (`uart.c`), create a software UART structure using
+    `sw_uart_init` and then use the print routines.
+
+  - COMMON MISTAKE: running the software uart will destroy some of
+    the hardware UART's state (the GPIO pins), so put these last in setup
+    or make sure you remove all uses of the software uart when you want
+    to run with the hardware.
 
 -----------------------------------------------------------------------
-
-
------------------------------------------------------------------------
-### Part 1. implement a UART device deriver:
+### Part 2. implement a UART device deriver:
 
 Our general development style will be to write a new piece of
 functionality in a private lab directory where it won't mess with anything
 else, test or (better) equivalence check it, and then, migrate it into
 your main `libpi` library so it can be used by subsequent programs.
 
-Concretely, you will implement the routines in `8-lab/1-uart/uart.c`.
+Concretely, you will implement the routines in `8-lab/2-uart/uart.c`.
 The main tricky ones:
 
   1. `void uart_init(void)`: called to setup the miniUART.  It should
