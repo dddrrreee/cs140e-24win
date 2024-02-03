@@ -342,7 +342,7 @@ Now change your bootloader to use the new `uart.c`:
      to make sure they still work, too.
   
 -----------------------------------------------------------------------
-##### Part 3. `3-fake-pi`
+##### Part 3. `3-fake-pi` - Not required for this year's checkoff
 
 
 For the output I get:
