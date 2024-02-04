@@ -1,4 +1,4 @@
-SUBDIRS=  1-uart 3-sw-uart
+SUBDIRS=  1-sw-uart-put8 2-uart 3-fake-pi
 
 .PHONY: all check clean
 all check clean: $(SUBDIRS)

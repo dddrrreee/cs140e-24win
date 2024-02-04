@@ -7,6 +7,7 @@ SUBDIRS += 4-cross-checking
 SUBDIRS += 5-interrupts
 SUBDIRS += 6-threads
 SUBDIRS += 7-bootloader
+SUBDIRS += 8-uart
 
 .PHONY: all check clean
 all check clean: $(SUBDIRS)
