@@ -333,7 +333,7 @@ Now change your bootloader to use the new `uart.c`:
 
         SRC += ../labs/8-uart/2-uart/uart.c
 
-  2. Add `UART` to to your bootloader where it prints your name and recompile.
+  2. Print "UART" alongside your name in your `get-code.h`
   3. Copy it as `kernel.img` to your SD card.
   4. Nothing you changed should have made any difference in behavior.
      So: Make sure that `2-uart` tests still pass after replacing the
@@ -342,7 +342,7 @@ Now change your bootloader to use the new `uart.c`:
      to make sure they still work, too.
   
 -----------------------------------------------------------------------
-##### Part 3. `3-fake-pi`
+##### Part 3. `3-fake-pi` - Not required for this year's checkoff
 
 
 For the output I get:
