@@ -35,4 +35,4 @@ Low-level ARM readings for the lab:
 
 
 Since the documents can be a bit much, we also give a 
-[cheat sheet for chapter 13](./DEBUG-cheat-sheet.md)](https://github.com/dddrrreee/cs140e-24win/blob/main/notes/debug-hw/DEBUG-cheat-sheet.md)https://github.com/dddrrreee/cs140e-24win/blob/main/notes/debug-hw/DEBUG-cheat-sheet.md.
+[cheat sheet for chapter 13](https://github.com/dddrrreee/cs140e-24win/blob/main/notes/debug-hw/DEBUG-cheat-sheet.md)https://github.com/dddrrreee/cs140e-24win/blob/main/notes/debug-hw/DEBUG-cheat-sheet.md.
