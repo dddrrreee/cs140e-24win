@@ -270,6 +270,9 @@ endif
 #$(progs_list):
 #$(built_deps):
 
+gen-binaries: $(progs_bin)
+.PHONY: $(progs_bin)
+
 # XXX: should do tags of all the source.  make a variable.
 tags::
 	ctags $(all_tags) $(LPP)/*.[Ssch] $(LPP)/*/*.[chSs]
