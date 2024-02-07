@@ -8,7 +8,7 @@
 #   include "rpi-interrupts.h"
 #   include "rpi-inline-asm.h"
 #else
-#   define printk printf
+// #   define printk printf
 #   include <assert.h>
 #   include <stdio.h>
 #   include <stdlib.h>

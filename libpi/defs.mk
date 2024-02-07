@@ -19,15 +19,21 @@ LPI ?= $(LPP)/libpi.a
 
 # let the client override these.
 START ?= $(LPP)/staff-start.o
+DEFAULT_START := $(LPP)/staff-start.o
 MEMMAP ?= $(LPP)/memmap
 
 # include path: user can override
-INC += -I$(LPP)/include -I$(LPP)/ -I$(LPP)/src -I. -I$(LPP)/libc
+INC += -I$(LPP)/include -I$(LPP)/ -I$(LPP)/src -I.  -I$(LPP)/libc -I$(LPP)/staff-private
 # optimization level: client can override
 OPT_LEVEL ?= -Og
 
 # various warnings.  any warning = error, so you must fix it.
-CFLAGS += -D__RPI__ $(OPT_LEVEL) -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=arm1176jzf-s -mtune=arm1176jzf-s  -std=gnu99 $(INC) -ggdb -Wno-pointer-sign  $(CFLAGS_EXTRA) -Werror  -Wno-unused-function -Wno-unused-variable 
+CFLAGS += -D__RPI__ $(OPT_LEVEL) -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=arm1176jzf-s -mtune=arm1176jzf-s  -std=gnu99 $(INC) -ggdb -Wno-pointer-sign  -Werror  -Wno-unused-function -Wno-unused-variable 
+
+ifdef CFLAGS_EXTRA
+CFLAGS += CFLAGS_EXTRA
+endif
+
 # -ffunction-sections -fdata-sections -Wl,--gc-sections
 
 # workaround for gcc struct assignment bug 

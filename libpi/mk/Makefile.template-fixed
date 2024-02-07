@@ -48,6 +48,8 @@ ifdef START_ASM
     $(info "Setting <START> to $(START)");
 endif
 
+BOOTLOADER ?= pi-install
+
 ifdef BOOTLOADER
     export BOOTLOADER
 endif

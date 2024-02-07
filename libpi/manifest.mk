@@ -27,14 +27,17 @@ endif
 endif
 
 DEPS += ./src
-# include $(CS140E_2024_PATH)/libpi/mk/Makefile.lib.template-v2
-include $(CS140E_2024_PATH)/libpi/mk/Makefile.template-fixed
 
-all:: $(START)
+# we need these first so that the catchall .o rule in Makefile.robust
+# doesn't claim them.
+all:: ./staff-start.o
 
 # copy staff-start.o to top level to make it easier to include.
 staff-start.o: $(BUILD_DIR)/staff-start.o
 	cp $(BUILD_DIR)/staff-start.o .
+
+# include $(CS140E_2024_PATH)/libpi/mk/Makefile.robust
+include $(CS140E_2024_PATH)/libpi/mk/Makefile.template-fixed
 
 clean::
 	rm -f staff-start.o

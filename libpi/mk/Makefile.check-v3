@@ -35,8 +35,10 @@ BIN_SUFFIX ?= .bin
 
 # this will be passed in by the caller.
 # TESTS      := $(patsubst %.c, %, $(TESTS_SRC)) 
+ifneq ($(MAKECMDGOALS),clean)
 ifndef TESTS
 $(error variable TESTS is empty: Makefile invoked incorrectly)
+endif
 endif
 
 
@@ -70,10 +72,19 @@ printx:
 # we pull everything into .out so that it's easier to debug.
 %.out: %$(BIN_SUFFIX)
 	@echo -n "generating <$*.out> and <$*.raw>: ";
-	@$(BOOT_CMD) ./$< >  $*.raw 2>&1
+	@$(BOOT_CMD) ./$< >  $*.raw 2>&1                                        \
+	|| (                                                                    \
+            echo "ERROR: [$(BOOT_CMD) ./$< $(CMD_EXTRA)] failed:\n";        \
+            echo "        -----------[$*.test.raw start]----------------";  \
+            cat $*.test.raw;                                                \
+            echo "        -----------[$*.test.raw end]------------------\n\n";\
+            exit 1                                                          \
+        )
 	@$(EXCLUDE) $*.raw | sed $(STRIP_BRACKETS) | grep $(GREP_STR) > $*.out
 	@echo " success!";
 
+# need to merge the .out and .check rules so we don't have to keep
+# replicating.
 %.check: %$(BIN_SUFFIX)
 	@echo    "-------------------------------------------------";
 	@echo    "checking <$*>: ";
@@ -129,4 +140,5 @@ clean::
  
 .PHONY: all clean run emit check cksum
 
+# need to redo so we don't have this.
 .PRECIOUS: %.raw %.out 

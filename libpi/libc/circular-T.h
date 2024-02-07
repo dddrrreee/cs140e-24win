@@ -10,7 +10,7 @@
 #   include "rpi.h"
 #   include "rpi-interrupts.h"
 #else
-#   define printk printf
+// #   define printk printf
 #   include <assert.h>
 #   include <stdio.h>
 #   include <stdlib.h>
