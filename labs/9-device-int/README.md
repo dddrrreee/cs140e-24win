@@ -26,25 +26,15 @@ bunch that are not written, so ask if you want :).
 ------------------------------------------------------------------------
 ### Housekeeping:
 
-The uart lab was pretty rough.  We've made a couple changes to hopefully
-make things more smooth:
-  1. Many people would hit the same hard bugs.  So, in the future:  If 
-     you hit anything interesting write it up and post Ed.  This will
-     count towards your extension credit especially if it helps a bunch
-     of people.  It also gives us a good record of what kind of traps
-     nailed people.
+To make things easy for switching we will always include a `staff/libpi.a`
+in each lab: this will make it easy to flip back and forth from your
+libpi to a (hopefully) working staff version rather than messing
+around in your `libpi` directory.
 
-  2. To make things easy for switching we will always include a `libpi.a`
-     in each lab: this will make it easy to flip back and forth from your
-     libpi to a (hopefully) working staff version rather than messing
-     around in your `libpi` directory.
-
-     Whenever you hit an "impossible error" I would always recommend
-     flipping back to a clean state and seeing if it is still there.  If
-     so there's likely some issue with your environment (your pi, your  
-     laptop, the USB cable, etc).
-
-   3. If you have any further suggestions, let us know!
+Whenever you hit an "impossible error" I would always recommend
+flipping back to a clean state and seeing if it is still there.  If
+so there's likely some issue with your environment (your pi, your  
+laptop, the USB cable, etc).
 
 ------------------------------------------------------------------------
 ### Part 1: use the vector register: `1-vector-base`
