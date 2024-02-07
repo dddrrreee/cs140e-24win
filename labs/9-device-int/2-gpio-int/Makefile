@@ -1,7 +1,7 @@
-$(error "still modifying code don't mess w!")
-
 PROG_SRC = $(wildcard ./[67]*.c)
 SRC = fake-pi.c  fake-random.c  pi-random.c
+
+# this is your code.
 SRC +=  gpio-int.c  
 
 LPP = $(CS140E_2024_PATH)/libpi

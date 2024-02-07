@@ -1,5 +1,3 @@
-$(error "still modifying code don't mess w!")
-
 # to use your gpio-int.c swap these.
 # COMMON_SRC := ../2-gpio-int/gpio-int.c
 STAFF_OBJS += $(CS140E_2024_PATH)/libpi/staff-objs/gpio-int.o
@@ -7,8 +5,8 @@ STAFF_OBJS += $(CS140E_2024_PATH)/libpi/staff-objs/gpio-int.o
 #STAFF_OBJS += $(CS140E_2024_PATH)/libpi/staff-objs/interrupts-asm.o
 #STAFF_OBJS += $(CS140E_2024_PATH)/libpi/staff-objs/interrupts-vec-asm.o
 
-# comment out if you want to use your libpi
-LPI = ../staff-objs/libpi.a
+# uncomment this if our libpi
+# LPI = ../staff-objs/libpi.a
 
 # level 3: do N iterations of event type.
 # easiest: one type of event.
