@@ -271,7 +271,8 @@ endif
 #$(built_deps):
 
 gen-binaries: $(progs_bin)
-.PHONY: $(progs_bin)
+
+.PHONY: gen-binaries $(progs_bin)
 
 # XXX: should do tags of all the source.  make a variable.
 tags::
