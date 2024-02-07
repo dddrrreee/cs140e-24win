@@ -238,12 +238,10 @@ endif
 $(prebuilt_objs):
 	$(error "ERROR: PREBUILT_OBJ <$@> does not exist!")
 
-$(progs_list):
-%.list: $(BUILD_DIR)/%.elf
+$(progs_list): %.list: $(BUILD_DIR)/%.elf
 	$(OD) -d $< > $@
 
-$(progs_bin):
-%.bin: %.list $(DEPS)
+$(progs_bin): %.bin: $(BUILD_DIR)/%.elf %.list $(DEPS)
 	$(OCP) $(BUILD_DIR)/$*.elf -O binary $*.bin
 
 %.run: %.bin
@@ -271,8 +269,7 @@ endif
 #$(built_deps):
 
 gen-binaries: $(progs_bin)
-
-.PHONY: gen-binaries $(progs_bin)
+.PHONY: gen-binaries 
 
 # XXX: should do tags of all the source.  make a variable.
 tags::
