@@ -4,9 +4,9 @@
 # LIBNAME
 
 ifdef CS140E_USE_STAFF
-    LIBUNIX_PATH := $(CS140E_STAFF_2023_PATH)/libunix
+    LIBUNIX_PATH := $(CS140E_STAFF_2024_PATH)/libunix
 else
-    LIBUNIX_PATH := $(CS140E_2023_PATH)/libunix
+    LIBUNIX_PATH := $(CS140E_2024_PATH)/libunix
 endif
 
 PROG_OBJS := $(PROG_SRC:.c=.o)
