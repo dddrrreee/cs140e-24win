@@ -39,8 +39,9 @@ COMMON_SRC += interrupt-vec.c interrupt-asm.S
 
 CAN_EMIT=0
 EXCLUDE ?= grep -v simple_boot
-include $(CS140E_2024_PATH)/libpi/mk/Makefile.template-fixed
+# include $(CS140E_2024_PATH)/libpi/mk/Makefile.template-fixed
+include $(CS140E_2024_PATH)/libpi/mk/Makefile.robust
 
 # do a checkoff.
-#checkoff:
-#	make -f checkoff.mk
+checkoff:
+	make -f checkoff.mk
