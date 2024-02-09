@@ -258,6 +258,30 @@ How to get the instruction fault status register (IFSR):
 </td></tr></table>
 
 -----------------------------------------------------------------------------
-### Part 3: port your code to a simple interface
+### Part 3: port your watchpoint code to a simple interface
+
+So far we've done very low level hacking to get things working --- this is
+great for a time-limited situation, since there aren't much moving pieces.
+It's not so great if you want to use the stuff later.
+
+The final part of the lab is trivially wrapping your code up in a
+simple-minded interface that (1) slightly abstracts the interface and
+(2) handles determining exception type and just calling the required
+client handler.
+
+Here you'll wrap up your watchpoint code in a simple system that manages 
+a single watchpoint:
+  1. The interface is in the header file `mini-watch.h` which gives 
+     the prototypes and the types.
+  2. The implementation is in the file `mini-watch.c` --- you should be
+     able to steal most of the code in `1-watchpt-test.c` for the
+     different routines.
+
+Two tests:
+  - `5-mini-watch-test.c` just re-does `1-watchpt-test.c` in the new interface.
+  - `6-mini-watch-byte-access.c` - checks that you fault on byte addresses.
+
+-----------------------------------------------------------------------------
+### Part 4: port your breakpoint code to a simple interface
 
 ***IF YOU SEE THIS, do a git pull ***
