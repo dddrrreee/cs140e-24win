@@ -2,6 +2,10 @@
 
 ***NOTE: This lab directory has the wrong name: we are doing debug hardware***
 
+<p align="center">
+  <img src="images/fetch-quest-task.png" width="450" />
+</p>
+
 
 Today is a "fetch-quest" style lab that has you setup simple breakpoint
 and watchpoints.  It should mostly be defining inline assembly routines
