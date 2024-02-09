@@ -289,6 +289,7 @@ NOTE you need to make three changes to compile:
 1. Add 
 
         COMMON_SRC += mini-watch.c
+        COMMON_SRC += mini-step.c
 
    To your makefile.
 
