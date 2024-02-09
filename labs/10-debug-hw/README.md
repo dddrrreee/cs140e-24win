@@ -325,3 +325,76 @@ TRACE: cnt=9: pc=0x8068:  {no changes}
 TRACE: cnt=10: pc=0x806c:  {no changes}
 TRACE:notmain:done nop10()!
 ```
+
+-----------------------------------------------------------------------------
+### Extension: make an always-on assertion system
+
+Assertions are great, but they  have the downside that they are only
+checked when you call them.  If there is only one mutation location,
+this can be easy: just put the assertion there.  Unfortunately if there
+are many such sites or there is corruption,  by the time you check,
+too much time has passed and you can't figure out what happened.
+
+You can use watchpoints and breakpoints to make "always on" assertions.
+  1. Set a store watchpoint on a memory location.
+  2. Each store to this location will cause a fault.
+  3. Disable the watchpoint.
+  4. Run an assert check.
+  5. If it fails, give an error.
+
+How to continue?
+  1. Set a breakpoint on the next instruction.
+  2. Jump back and let the mutation occur.
+  3. When you get the breakpoint exception, re-enable the watchpoint and
+     disable the breakpoint.
+
+-----------------------------------------------------------------------------
+### Extension: handle multiple watch and breakpoints.
+
+In general, as a safety measure, we should probably always enable
+watchpoint and breakpoints on `NULL`.   However, we'd also like to be
+able to catch breakpoints on other addresses.
+
+Extend your code to add support for a second simultaneous watchpoint and
+breakpoint to a different address.  In the handler differentiate it if
+it is a null pointer or a from the second value.
+
+For this:
+  1. Set a breakpoint on `foo` and see that you catch it.
+  2. Set a watchpoint on a value and see that you catch it.
+
+
+-----------------------------------------------------------------------------
+### Extension: a more general breakpoint setup.
+
+We hard-coded the breakpoint numbers and watchpoints to keep things simple.
+You'd probably want a less architecture-specific method.  One approach
+is to allocate breakpoints/watchpoints until there are no more available.
+
+    // returns 1 if there were free breakpoints and it could set.
+    // 0 otherwise.
+    int bkpt_set(uint32_t addr);
+    // delete <addr>: error if wasn't already set.
+    void bkpt_delete(uint32_t addr);
+
+    // same: for watchpoints.
+    int watchpt_set(uint32_t addr);
+    int watchpt_delete(uint32_t addr);
+
+
+Note: you may want to design your own interface. The above is likely
+not the best one possible.
+
+-----------------------------------------------------------------------------
+### Extension:  Failure-oblivious computing.
+
+Possibly the most-unsound paper in all of systems research is Rinard
+et al's "Failure-oblivious computing", which made buggy server programs
+"work" by handling memory corruption as follows:
+   1. Discard out of bound writes.
+   2. Return a random value for out of bound reads (starting at 0, 1, 2, ...).
+
+We can only handle a single address, but we can do a similar thing.   Change
+your exception code to take the complete set of registers, and restore from
+this set (so that you can change it).
+
