@@ -1,4 +1,3 @@
-$(error "don't use yet, changing")
 # SUPPORT_OBJS := debug-fault.o
 
 # comment this out to use your code

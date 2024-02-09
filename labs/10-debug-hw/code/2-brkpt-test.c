@@ -1,12 +1,12 @@
-// should have the same output as 1-brkpt-test.c
-
 // simple breakpoint test:
 //  1. set a single breakpoint on <foo>.
-//  2. in exception handler, make sure it's a debug exception and disable.
+//  2. in exception handler, make sure the fault pc = <foo> and disable
+//     the breakpoint.
 //  3. if that worked, do 1&2 <n> times to make sure works.
 #include "rpi.h"
 #include "vector-base.h"
 #include "armv6-debug-impl.h"
+#include "full-except.h"
 
 // the routine we fault on: we don't want to use GET32 or PUT32
 // since that would break printing.
@@ -33,16 +33,19 @@ static volatile int n_faults = 0;
       - hardware sets up the normal prefetch abort state.
       - Instruction causing the fault is in `r14` plus 4.
 */
-void prefetch_abort_vector(unsigned lr) {
+static void brkpt_fault(regs_t *r) {
     // lr needs to get adjusted for watchpoint fault?
     // we should be able to return lr?
     if(!was_brkpt_fault())
         panic("should only get a breakpoint fault\n");
+    assert(cp14_bcr0_is_enabled());
 
     // 13-34: effect of exception on watchpoint registers.
-    output("lr=%x, foo=%x\n", lr, foo);
-    assert(lr == (uint32_t)foo);
+    uint32_t pc = r->regs[15];
+    output("pc=%x, foo=%x\n", pc, foo);
+    assert(pc == (uint32_t)foo);
 
+    // not sure why we did this.
     output("ifar=%x\n", cp15_ifar_get());
     output("ifsr=%x\n", cp15_ifsr_get());
     output("dscr[2:5]=%b\n", bits_get(cp14_dscr_get(), 2, 5));
@@ -50,21 +53,24 @@ void prefetch_abort_vector(unsigned lr) {
     // increment fault count, disable the fault and jump back.
     n_faults++;
     cp14_bcr0_disable();
+
     assert(!cp14_bcr0_is_enabled());
+    // switch back and run the faulting instruction.
+    switchto(r);
 }
 
-
 void notmain(void) {
-    // 1. install exception handlers: must have a valid trampoline for
-    // prefetch_abort_vector
-    unimplemented();
+    // 1. install exception handlers.
+
+    // install exception handlers.
+    full_except_install(0);
+    full_except_set_prefetch(brkpt_fault);
 
     // 2. enable the debug coprocessor.
     cp14_enable();
 
     // just started, should not be enabled.
     assert(!cp14_bcr0_is_enabled());
-
 
     /*
       3. set a simple breakpoint.  from 13-45:
@@ -79,24 +85,19 @@ void notmain(void) {
             BCR[0] = 1
         prefetch flush.
     */
+    // just started, should not be enabled.
+    assert(!cp14_bcr0_is_enabled());
 
-    /* 
-     * see 13-17 for how to set bits
-     * set:
-     *   - match
-     *   - disable linking
-     *   - match in secure and non-secure world
-     *   - match load of any location in word
-     *   - supervisor or not
-     *   - enabled.
-     */
+    // see 13-17 for how to set bits
     uint32_t b = 0;
 
+    if(!b)
+        panic("must set b to the right bits\n");
 
-    // set breakpoint using bcr0 and bvr0
-    unimplemented();
-
+    cp14_bcr0_set(b);
+    cp14_bvr0_set((uint32_t)foo);
     assert(cp14_bcr0_is_enabled());
+
     output("set breakpoint for addr %p\n", foo);
 
     output("about to call %p: should see a fault!\n", foo);

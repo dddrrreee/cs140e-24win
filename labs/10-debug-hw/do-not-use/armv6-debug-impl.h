@@ -8,12 +8,12 @@
 coproc_mk(status, p14, 0, c0, c1, 0)
 
 // you'll need to define these and a bunch of other routines.
-static inline uint32_t cp15_dfsr_get(void);
-static inline uint32_t cp15_ifar_get(void);
-static inline uint32_t cp15_ifsr_get(void);
-static inline uint32_t cp14_dscr_get(void);
+static inline uint32_t cp15_dfsr_get(void) { todo("implement"); }
+static inline uint32_t cp15_ifar_get(void) { todo("implement"); }
+static inline uint32_t cp15_ifsr_get(void) { todo("implement"); }
+static inline uint32_t cp14_dscr_get(void) { todo("implement"); }
 
-static inline uint32_t cp14_wcr0_set(uint32_t r);
+static inline uint32_t cp14_wcr0_set(uint32_t r) { todo("implement"); }
 
 // return 1 if enabled, 0 otherwise.  
 //    - we wind up reading the status register a bunch:
