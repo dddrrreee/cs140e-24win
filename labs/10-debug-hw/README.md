@@ -286,14 +286,15 @@ Two tests:
 
 NOTE you need to make three changes to compile:
 
-  1. Add 
+1. Add 
 
         COMMON_SRC += mini-watch.c
 
-    To your makefile.
+   To your makefile.
 
-  2. Also change `mini-step.c:uart_can_putc` to `uart_can_put8`.
-  3. If you get a `kmalloc` linking error you'll have to add it to `libpi/Makefile`:
+2. Also change `mini-step.c:uart_can_putc` to `uart_can_put8`.
+3. If you get a `kmalloc` linking error you'll have to add 
+   it to `libpi/Makefile`:
 
         STAFF_OBJS  +=  ./staff-objs/kmalloc.o
 
