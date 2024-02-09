@@ -81,8 +81,7 @@ MK_FN(nop_10)
     nop
     nop
     nop
-    mov r0, #0
-    swi 1
+    bx lr
     asm_not_reached()
 
 MK_FN(mov_ident)
@@ -100,5 +99,5 @@ MK_FN(mov_ident)
     mov r11, #11
     mov r12, #12
     mov r13, #13
-    mov r14, #14
-    swi 1
+    bx lr
+    asm_not_reached()
