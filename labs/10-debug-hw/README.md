@@ -284,6 +284,20 @@ Two tests:
 -----------------------------------------------------------------------------
 ### Part 4: port your breakpoint code to a simple single-step
 
+NOTE you need to make three changes to compile:
+
+  1. Add 
+
+        COMMON_SRC += mini-watch.c
+
+    To your makefile.
+
+  2. Also change `mini-step.c:uart_can_putc` to `uart_can_put8`.
+  3. If you get a `kmalloc` linking error you'll have to add it to `libpi/Makefile`:
+
+        STAFF_OBJS  +=  ./staff-objs/kmalloc.o
+
+
 Interface is in `mini-step.h`.  Your code should go in `mini-step.c`.
 You call it with a routine and it will run it in single-step mode.
 There are two tests :
