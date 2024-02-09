@@ -41,5 +41,5 @@ TRACE:	r11 changed: old=0x0, new=0xb
 TRACE: cnt=13: pc=0x80d4:
 TRACE:	r12 changed: old=0x0, new=0xc
 TRACE: cnt=14: pc=0x80d8:
-TRACE:	r13 changed: old=0x140f0, new=0xd
+TRACE:	r13 changed: old=0x108000, new=0xd
 TRACE:notmain:done mov_ident()!

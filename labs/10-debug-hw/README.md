@@ -282,6 +282,46 @@ Two tests:
   - `6-mini-watch-byte-access.c` - checks that you fault on byte addresses.
 
 -----------------------------------------------------------------------------
-### Part 4: port your breakpoint code to a simple interface
+### Part 4: port your breakpoint code to a simple single-step
 
-***IF YOU SEE THIS, do a git pull ***
+Interface is in `mini-step.h`.  Your code should go in `mini-step.c`.
+You call it with a routine and it will run it in single-step mode.
+There are two tests :
+  - `7-mini-step-trace-only.c`: traces the pc values that run.
+  - `7-mini-step-diff.c`: prints the registers that changed when
+    running (you can use this to infer instruction semantics).
+
+So for the example code:
+
+```
+00008044 <nop_10>:
+    8044:   e320f000    nop {0}
+    8048:   e320f000    nop {0}
+    804c:   e320f000    nop {0}
+    8050:   e320f000    nop {0}
+    8054:   e320f000    nop {0}
+    8058:   e320f000    nop {0}
+    805c:   e320f000    nop {0}
+    8060:   e320f000    nop {0}
+    8064:   e320f000    nop {0}
+    8068:   e320f000    nop {0}
+    806c:   e12fff1e    bx  lr
+```
+
+`7-mini-step-diff.c` will result in:
+
+```
+TRACE:notmain:about to run nop10()!
+TRACE: cnt=0: pc=0x8044:  {first instruction}
+TRACE: cnt=1: pc=0x8048:  {no changes}
+TRACE: cnt=2: pc=0x804c:  {no changes}
+TRACE: cnt=3: pc=0x8050:  {no changes}
+TRACE: cnt=4: pc=0x8054:  {no changes}
+TRACE: cnt=5: pc=0x8058:  {no changes}
+TRACE: cnt=6: pc=0x805c:  {no changes}
+TRACE: cnt=7: pc=0x8060:  {no changes}
+TRACE: cnt=8: pc=0x8064:  {no changes}
+TRACE: cnt=9: pc=0x8068:  {no changes}
+TRACE: cnt=10: pc=0x806c:  {no changes}
+TRACE:notmain:done nop10()!
+```
