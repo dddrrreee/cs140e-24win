@@ -1,14 +1,13 @@
 # makefile 0.
 #
-# a very simple-minded Makefile that:
+# a very simple-minded Makefile that hardcodes all dependencies
+# and:
 #  1. produces an executable file <main> by compiling
 #     C files <a.c>, <b.c>, <c.c>, <main.c> and a header 
 #     file <header.h>
 #  2. checks that the <main> is the same as a reference
 #     <main.ref>
 #
-# makefile 
-#  1. hardcodes all dependencies.
 all: main test
 
 # hardcode that <main> depends on <a.c> <b.c> <c.c> <main.c> and
@@ -24,21 +23,21 @@ all: main test
 #  % make        # should not re-compile <main>
 #  % touch header.h
 #  % make        # will produce <main>
+#
+# note: we don't ever compile these files to a .o we just
+# compile them as a big single command using gcc.  this is 
+# the simplest, easiest way to do this.  for small projects
+# there's no reason to mess with incremental compilation.
 main: a.c b.c c.c main.c header.h
 	# main: rule
 	$(CC) a.c b.c c.c main.c -o main
-
-# tell `make` the <test> and <clean> rules don't 
-# produce anything.
-.PHONY: clean
-.PHONY: test
 
 # make sure <main> produces the same result as reference
 # output in <main.ref>:
 #  1. run <main> and put the output in file <out>;
 #  2. check if they differ using <diff>
 #
-# This will rerun each time you run `make -f Makefile.0`
+# This will rerun each time you run `make`
 test: main
 	# test: rule
 	./main > out
@@ -49,3 +48,8 @@ test: main
 # cleanup remove outputs and temporary files
 clean:
 	rm -f main out *~ *.bak
+
+# tell `make` that these rules don't produce a file
+# of the same name (they are phoney -- fake --- target
+# names)
+.PHONY: all test clean 

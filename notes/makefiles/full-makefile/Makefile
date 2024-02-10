@@ -73,7 +73,6 @@ C_SRC = foo/foo.c bar/bar.c a.c  foo.c
 # all your common asm files.
 ASM_SRC := asm.S
 
-
 # all prebuilt .o's
 PREBUILT_OBJS := prebuilt-b.o
 
