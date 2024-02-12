@@ -28,10 +28,6 @@ main: main.o a.o b.o c.o
 	# doing %.o=$@ [this is $$@] and and %.c=$< [this is $$<]
 	$(CC) $(CFLAGS) -c $<  -o $@
 
-# add this extra rule to detect if we missed a .o 
-%.o:
-	$(error "should never run this: some .o not handled: <$@>")
-
 # same as before
 test: main
 	./main > out

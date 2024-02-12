@@ -1,6 +1,9 @@
-## 3-example
+## 3-wildcards
 
-Now we use wildcards to automatically gather up all source and make it.
+We start taking bigger steps towards having a completely generic makefile
+that you can use in most projects by using wildcards and makefile variables.
+
+We use wildcards to automatically gather up all source and make it.
 We avoid the use of dependencies by also using wildcards to get all
 header files and stating that every source file depends on all header.
 

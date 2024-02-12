@@ -1,9 +1,11 @@
-## 4-example
+## 4-auto-dependency-gen
 
 We now use the `-MMD` flag to automatically generate dependencies rather
-than hardcode a bunch of stuff (which can go wrong in bad ways).
+than hardcode the headers that each .c depends on (which can go wrong
+in bad ways).
 
-This makefile is one of the few you'll need in your whole career:
+We are well on our way to having a makefile that you can use for
+most cases in your career:
   - compile all the `.c` files in a directory
   - into an executable in the same directory
   - with automatic dependencies.

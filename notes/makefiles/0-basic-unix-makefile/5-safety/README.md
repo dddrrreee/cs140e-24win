@@ -1,20 +1,14 @@
-## 4-example
+## 5-safety
 
-We now use the `-MMD` flag to automatically generate dependencies rather
-than hardcode a bunch of stuff (which can go wrong in bad ways).
+This is the final version of the makefile.  
+You should be able to use this for most situations without much fussing.
+It 
+  - uses wildcards to get all the source dependencies.
+  - automatically generates the dependencies
+  - ... the include flags to pass to the compiler.
+  - disables built-in make rules so we don't get
+    suprised and explicitly lists out the files each rule
+    applies to for the same reason.
 
-This makefile is one of the few you'll need in your whole career:
-  - compile all the `.c` files in a directory
-  - into an executable in the same directory
-  - with automatic dependencies.
-
-You shoudl test that:
-  - `touch a.c`
-  - `touch b.c`
-  - `touch c.c`
-  - `touch header.h`
-All work as expected.
-
-Also: look in the `.d` files to see why they work (it should be obvious
-how you'd write them by hand, since that is what we did in `0-most-basic`
-and `1-incremental-compilation`).
+It has a bunch of extra checking and safety steps that are useful but
+not required --- you can delete them if you want it to be shorter.
