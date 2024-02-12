@@ -1,7 +1,7 @@
 ## 1-incremental-compilation
 
-Slightly more fancy Makefile --- rewritten so that we only compile those
-`.c` that have changed or include a header that has changed.
+[Slightly more fancy Makefile](./Makefile) --- rewritten so that we only
+compile those `.c` that have changed or include a header that has changed.
 
 Two behavior changes:
 

@@ -1,6 +1,6 @@
 ## 5-safety
 
-This is the final version of the makefile.  
+[This is the final version of the makefile](./Makefile).  
 You should be able to use this for most situations without much fussing.
 It 
   - uses wildcards to get all the source dependencies.

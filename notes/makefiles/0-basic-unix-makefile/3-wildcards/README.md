@@ -1,5 +1,6 @@
 ## 3-wildcards
 
+[An even more generic Makefile](./Makefile):
 We start taking bigger steps towards having a completely generic makefile
 that you can use in most projects by using wildcards and makefile variables.
 

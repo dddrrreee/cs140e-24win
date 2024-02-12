@@ -1,7 +1,8 @@
 ## 2-pattern-rules
 
-Now we add a pattern-matching rule to make our code slightly more
-automatic and use the `make` built-in variables `$<` and `$@`.
+[A more generic Makefile](./Makefile): Now we add a pattern-matching
+rule to make our code slightly more automatic and use the `make` built-in
+variables `$<` and `$@`.
 
         %.o: %.c header.h
             # doing %.o=$@ [this is $$@] and and %.c=$< [this is $$<]

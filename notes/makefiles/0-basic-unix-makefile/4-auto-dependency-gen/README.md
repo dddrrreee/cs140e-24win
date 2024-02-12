@@ -1,5 +1,6 @@
 ## 4-auto-dependency-gen
 
+[Makefile with auto-dependencies](./Makefile):
 We now use the `-MMD` flag to automatically generate dependencies rather
 than hardcode the headers that each .c depends on (which can go wrong
 in bad ways).
