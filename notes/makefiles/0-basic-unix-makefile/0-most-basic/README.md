@@ -1,8 +1,8 @@
 ## 0: basic unix makefile.
 
-Very simple makefile that compiles a set of C files that include 
-a header file `header.h` into a executable `main` and then compares
-its output to a reference output.
+[Very simple makefile](./Makefile) that compiles a set of C files that
+include a header file `header.h` into a executable `main` and then
+compares its output to a reference output.
 
 It manually specifies dependencies and doean't use
 incremental compilation.  Advantages:
