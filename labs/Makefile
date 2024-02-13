@@ -10,8 +10,8 @@ SUBDIRS += 7-bootloader
 SUBDIRS += 8-uart
 SUBDIRS += 9-device-int
 SUBDIRS += 10-debug-hw
-SUBDIRS += 11-ss-equiv
-SUBDIRS += 12-imu-i2c
+SUBDIRS += 11-imu-i2c
+SUBDIRS += 12-ss-equiv
 
 .PHONY: all check clean
 all check clean: $(SUBDIRS)
