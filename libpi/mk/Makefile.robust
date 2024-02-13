@@ -76,8 +76,10 @@
 # 1. Setup variables.
 #
 
-# check that they don't use relative paths out.  can probably handle
+# check that they don't use relative paths.  can probably handle
 # them, but it's easier to just give an error.
+#
+# error message assumes this is for libpi:
 $(foreach file, $(COMMON_SRC),                      \
     $(if $(findstring ../, $(file)),                \
         $(error "$(file) has a relative path: copy it into libpi/src")))
@@ -132,11 +134,13 @@ ifeq ($(BUILD_DIR),.)
 endif
 # Ditto.
 ifeq ($(BUILD_DIR),)
-    $(error "<BUILD_DIR> cannot be empty.")
+    $(error "<BUILD_DIR> cannot be empty!")
 endif
 
 BOOTLOADER ?= pi-install
-# honestly i don't recall why we have these.
+
+# We had these so they get passed to <Makefile.check>: probably
+# better to just pass them on the command line. [FIXME]
 ifdef BOOTLOADER
     export BOOTLOADER
 endif
@@ -152,7 +156,6 @@ endif
 #   - tool names: <CC>, <OD>, etc
 include $(CS140E_2024_PATH)/libpi/defs.mk
 
-
 # if they don't want to override the check makefile.
 ifndef MK_CHK
     MK_CHK := $(LPP)/mk/Makefile.check-v3
@@ -162,7 +165,6 @@ endif
 ifneq ($(RUN),0)
     RUN_PROGS = run
 endif
-
 
 ###############################################################
 # make all the different target names.
@@ -179,16 +181,21 @@ all_deps := $(all_objs:.o=.d)
 # flags for generating .d
 DEPFLAGS =  -MT $@ -MMD -MP -MF $(BUILD_DIR)/$*.d
 
-# all bin and list files: these are not in the <BUILD_DIR>
+# all .bin and .list files: these are the only generated
+# files that do not get placed in <BUILD_DIR>
 all_bins := $(PROGS:.c=.bin)
 all_list := $(PROGS:.c=.list)
-# all elf: these are in <BUILD_DIR>
+
+# all .elf files: these are in <BUILD_DIR>
 all_elf  := $(prog_objs:.o=.elf)
 
-# pull out all makefiles from the confusingly named
-# <MAKEFILE_LIST> (which can contain .d files)
+# pull out every Makefile from the confusingly-named
+# <MAKEFILE_LIST> (which can contain .d files if they
+# get included)
 MK_LIST := $(filter-out %.d, $(MAKEFILE_LIST))
 
+# this is part of a hack to automatically run 
+# "make clean" whenever the makefile gets modified.
 TIME_STAMP := $(BUILD_DIR)/.timestamp
 ifdef CLEAN_IF_MAKEFILE_CHANGES
     ifneq ($(CLEAN_IF_MAKEFILE_CHANGES),0)
@@ -227,7 +234,7 @@ $(TIME_STAMP): $(MK_LIST)
 	@mkdir -p $(dir $@)
 	@touch $@
 
-# a fake target that forces a rule to always run.
+# a fake target used to force a rule to always run.
 .PHONY: FORCE
 FORCE:
 
@@ -240,12 +247,15 @@ ifneq ($(LIBNAME),libpi-fp.a)
 #
 # b/c of the weird way we do START we need to state its a result
 # of running $(LPI) so that -j10 will work.
+#
+# [FIXME: I think we can just put this *after* the 
+# LIBNAME rule?]
 $(DEFAULT_START) $(LPI): FORCE
 	@+make -C $(LPP)  "PROGS="
 endif
 endif
 
-# rule to generate all <BUILD_DIR>/.elf files.
+# Rule to generate all <BUILD_DIR>/.elf files.
 link_objs := $(asm_objs) $(csrc_objs) 
 link_deps := $(link_objs:.o=.d)
 link_objs += $(PREBUILT_OBJS)
@@ -260,7 +270,7 @@ $(LIBNAME): $(link_deps) $(link_objs) $(DEPS)
 	$(AR) srf $@ $(link_objs) 
 	$(OD) -D $@ > $@.list
 
-# if we have made a lib, link against it, otherwise 
+# if we have made a <LIBNAME> lib, link against it, otherwise 
 # link against the .o's.
 ifdef LIBNAME
     elf_objs := $(LIBNAME)
@@ -275,14 +285,13 @@ $(all_elf): %.elf: %.o %.d $(elf_objs) $(elf_deps) $(LINK_DEPS) $(LIBS)
 	$(LD) $(START) $< $(elf_objs) -T $(MEMMAP) -o $@ $(LIBS)
 
 # every .elf gets disassembled into a .list.  use `-D` if
-# you want to see the C source.
+# you want to see the C source. [Have an option?]
 $(all_list): %.list: $(BUILD_DIR)/%.elf
 	$(OD) -d $< > $@
 
-# make a .bin from every .elf.
+# make a .bin from every <BUILD_DIR>/.elf.
 $(all_bins): %.bin: $(BUILD_DIR)/%.elf %.list $(DEPS)
 	$(OCP) $< -O binary $@
-
 
 # delete built-in rules for .c and .d
 %.o:%.c
@@ -295,8 +304,8 @@ $(c_objs): $(BUILD_DIR)/%.o: %.c $(BUILD_DIR)/%.d  $(DEPS)
 
 # delete built in rules for .S
 %.o:%.S
-%.s:%.S
 %.d:%.S
+%.s:%.S
 %.o:%.s
 
 # all .S asm files use this rule: note the explicit .d 
@@ -312,26 +321,31 @@ $(S): $(BUILD_DIR)/%.o: %.S $(BUILD_DIR)/%.d $(DEPS)
 # any .d
 $(START_OBJ:.o=.d) $(all_deps): %.d: ;
 
+# error checking:
 $(prebuilt_objs):
 	$(error "ERROR: PREBUILT_OBJ <$@> does not exist!")
-# I had a weird case where these were actually triggerig.  I think
-# it can happen if the enclosing makefile defines suffixes.  But
-# am not sure.  We do the check just to be sure.
+
+# I had a weird case where the rules below were actually triggerig.  
+# Can happen if the enclosing makefile defines its own .o rules 
+# and they come after the include for this Makefile.  Might be better 
+# to get rid of these checks?
 %.o:
 	$(error "FATAL: we disabled implicit .o: trying to make unknown <$@> from <$<>\n")
 %.s:
 	$(error "FATAL: we disabled implicit .s: but trying to make $@\n")
 
-# include this after the compilation rules
+# include this after the compilation rules: make sure this is last
+# so that the dependencies it defines don't mess with the compilation
+# rules.
 ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(MAKECMDGOALS),cleanall)
 -include $(all_deps)  # include dep files
 endif
 endif
 
-
 ###############################################################
-# checking/run commands
+# checking/run commands: currently we use recursive make to invoke
+# the checking makefile.  It may be better to just include it.
 
 progs_run    := $(PROGS:.c=.run)
 
@@ -339,8 +353,11 @@ $(progs_run): %.run: %.bin
 	$(BOOTLOADER) $(TTYUSB) ./$<
 run: $(progs_run)
 
+# named pattern that can be added as a dependency: will force
+# all binaries to be generated.
 gen-binaries: $(all_bins)
 
+# we use <CAN_EMIT> to prevent mistaken re-emit of .out files.
 ifneq ($(CAN_EMIT), 0)
 emit: $(DEPS) $(all_bins) FORCE
 	@make -e -f $(MK_CHK) emit "TESTS=$(all_bins)"
@@ -353,7 +370,7 @@ check: $(DEPS) $(all_bins)
 
 ###############################################################
 # example of computing ctags across a bunch of different places.
-#   make tags
+#   "make tags"
 # 
 # macos complains about non-unique names so we do some sort/uniq
 # stuff.
@@ -362,6 +379,7 @@ check: $(DEPS) $(all_bins)
 libpi_src  +=  $(sort $(wildcard $(LPP)/*.[cS] $(LPP)/*/*.[cS]))
 
 # find all the .c .S and .h files we depend on.
+
 # all .c and .S in this project
 all_src  := $(PROGS) $(C_SRC) $(ASM_SRC) $(libpi_src)
 # now find all .h in every directory
@@ -370,8 +388,13 @@ all_hdrs += $(foreach d, $(src_dirs), $(wildcard $d/*.h))
 # unique set of files so macos ctags does not complain.
 all_tags := $(sort $(all_src) $(all_hdrs))
 
+# we always generate it, but we could also add all the files as
+# a dependency.
 tags: 
 	@ctags $(all_tags)
+
+# important since the <tags> file exists.
+.PHONY: tags
 
 ###############################################################
 # common support rules.  nothing fancy about them.
@@ -403,7 +426,7 @@ deep-clean:
 
 # all targets that do not generate a file with the target
 # name.
-.PHONY: clean all print tags deep-clean libs
+.PHONY: clean all print deep-clean libs
 
 # print useful variables to help see what is going on.
 #
@@ -432,7 +455,3 @@ print:
 	@echo "DEPS         =<$(DEPS)>"
 	@echo "LINK_DEPS    =<$(LINK_DEPS)>"
 	@echo "MK_LIST      =$(MK_LIST)"
-
-
-
-

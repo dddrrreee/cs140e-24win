@@ -16,6 +16,7 @@ OCP = $(ARM)-objcopy
 CS140E_2024_LIBPI_PATH = $(CS140E_2024_PATH)/libpi
 LPP = $(CS140E_2024_LIBPI_PATH)
 LPI ?= $(LPP)/libpi.a
+LGCC ?= $(CS140E_2024_PATH)/lib/libgcc.a
 
 # let the client override these.
 START ?= $(LPP)/staff-start.o
@@ -23,7 +24,7 @@ DEFAULT_START := $(LPP)/staff-start.o
 MEMMAP ?= $(LPP)/memmap
 
 # include path: user can override
-INC += -I$(LPP)/include -I$(LPP)/ -I$(LPP)/src -I.  -I$(LPP)/libc -I$(LPP)/staff-private
+INC += -I. -I$(LPP)/include -I$(LPP)/ -I$(LPP)/src  -I$(LPP)/libc -I$(LPP)/staff-private
 # optimization level: client can override
 OPT_LEVEL ?= -Og
 
