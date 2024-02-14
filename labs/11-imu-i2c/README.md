@@ -5,17 +5,19 @@
 </p>
 
 
-***NOTE:***
-- change `mpu6050_reset`:
+***Errata:***
+- change the `bit_set` in `mpu6050_reset`:
 
         if(bit_set(imu_rd(addr, PWR_MGMT_1), 6))
             output("device booted up in sleep mode!\n");
 
-- to:
+- to `bit_is_on`:
 
         if(bit_is_on(imu_rd(addr, PWR_MGMT_1), 6))
             output("device booted up in sleep mode!\n");
 
+- Also the checked in registers for the gyro are not correct.
+  You should use the table.  (E.g., `CONFIG` and `GYRO_CONFIG`).
 
 Today we're going to communicate with the InvenSense MPU-6050
 accelerometer + gyroscope using the I2C protocol.  Inertial measruement
