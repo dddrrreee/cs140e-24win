@@ -1,5 +1,5 @@
-PROGS = driver-gyro.c
-PROGS += driver-accel.c
+PROGS = driver-accel.c
+# PROGS = driver-gyro.c
 
 # when you build yours swap this.
 # COMMON_SRC = mpu-6050.c

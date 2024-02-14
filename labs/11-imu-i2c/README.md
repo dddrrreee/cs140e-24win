@@ -160,9 +160,9 @@ read/write with what values:
 </p>
 
 What to do:
- 1. Plug in your mpu-6050 and make sure that the staff code works (it should
-    give *roughly* 1000 readings for the different axis that are pointed to
-    the ceiling).
+ 1. Plug in your mpu-6050 and make sure that the staff code works.
+    It should give *roughly* 1000mg or -1000mg readings for the different
+    axis that are pointed to the ceiling.
  2. Look in the driver code `driver-accel.c` to see how it's calling
     the accel code.
  3. Look at the interface description in `mpu-6050.h`.
