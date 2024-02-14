@@ -1,9 +1,7 @@
 ## Using an i2c mems-based IMU (accelerometer + gyroscope)
 
-
-<p float="left">
-  <img src="images/6050-top.jpg" width="300" />
-  <img src="images/6050-side.jpg" width="300" />
+<p align="center">
+  <img src="images/robot-pi.png" width="450" />
 </p>
 
 
@@ -156,6 +154,11 @@ read/write with what values:
 ---------------------------------------------------------------------------
 ### 1: fill in the accelerometer code in the code directory.
 
+<p float="center">
+  <img src="images/6050-top.jpg" width="300" />
+  <img src="images/6050-side.jpg" width="300" />
+</p>
+
 What to do:
  1. Plug in your mpu-6050 and make sure that the staff code works (it should
     give *roughly* 1000 readings for the different axis that are pointed to
@@ -221,6 +224,3 @@ Different writeups in `./docs` for different directions:
    4. [Location](./docs/madgewick-estimate.pdf)
 
 
-<p align="center">
-  <img src="images/robot-pi.png" width="450" />
-</p>
