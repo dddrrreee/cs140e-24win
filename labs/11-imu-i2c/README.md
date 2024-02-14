@@ -6,15 +6,15 @@
 
 
 ***NOTE:***
- - change `mpu6050_reset`:
+- change `mpu6050_reset`:
 
-    if(bit_set(imu_rd(addr, PWR_MGMT_1), 6))
-        output("device booted up in sleep mode!\n");
+        if(bit_set(imu_rd(addr, PWR_MGMT_1), 6))
+            output("device booted up in sleep mode!\n");
 
- - to:
+- to:
 
-    if(bit_is_on(imu_rd(addr, PWR_MGMT_1), 6))
-        output("device booted up in sleep mode!\n");
+        if(bit_is_on(imu_rd(addr, PWR_MGMT_1), 6))
+            output("device booted up in sleep mode!\n");
 
 
 Today we're going to communicate with the InvenSense MPU-6050
