@@ -46,26 +46,15 @@ Hard (Daniel) mode:
    scratch.  The needed interface is narrow (reset, initialize, has-data,
    read-data) without any datastructures.  It's an interesting exercise.
 
-NOTE:
-  - The 240lx lab last year used the *6500* not the *6050* MPU which
-    has some slight differences. In particular, the 6050 needs an extra
-    step during bootup that the 6500 does not, or it won't give any
-    non-zero readings.
-
-  - We use the "data ready" interrupt to see when new data is available.
-    With the checked-in i2c implementation this check will *never* fail 
-    because the speed is too slow.   I checked in a faster staff i2c
-    (or you can write your own!) to fix this.  Interesting bug to 
-    track down since it's also consistent with misconfiguration.
-     
 
 The `docs` directory has a bunch of documents.  The two main ones for
 the MPU-6050:
-  - The register map document that defines the the "register" number used
-    to control the device: `docs/MPU-6050-reg-map.pdf`): 
-  - The device description that gives a more general device overview
-    along with self-test and startup delays:
-    `docs/MPU-6050-spec.pdf`).
+  - [MPU-6050-reg-map.pdf](./docs/MPU-6050-reg-map.pdf): 
+    The different device "registers" used to initialize and get readings.
+  - [MPU-6050-spec.pdf](./docs/MPU-6050-spec.pdf): The device description that 
+    gives a more general device overview along with self-test and startup delays.
+  - [Broadcom-i2c.pdf](./docs/broadcom-i2c.pdf): excerpted broadcom I2c.
+
 
 Some other documents in no particular order:
   - [A nice clear SPARKFUN tutorial on gyros](https://learn.sparkfun.com/tutorials/gyroscope/all).
@@ -171,6 +160,14 @@ What to do:
 
 Use the datasheet and application note from the docs directory.
 There are notes in the code.
+
+Note:
+  - We use the "data ready" interrupt to see when new data is available.
+    With the checked-in i2c implementation this check will *never* fail 
+    because the speed is too slow.   I checked in a faster staff i2c
+    (or you can write your own!) to fix this.  Interesting bug to 
+    track down since it's also consistent with misconfiguration.
+
 
 ---------------------------------------------------------------------------
 ### 2: fill in the gyroscope code in the code directory.
