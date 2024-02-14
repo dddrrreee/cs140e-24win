@@ -1,10 +1,29 @@
 ## Using an i2c mems-based IMU (accelerometer + gyroscope)
 
+
+<p float="left">
+  <img src="images/6050-top.jpg" width="300" />
+  <img src="images/6050-side.jpg" width="300" />
+</p>
+
+
+
 Today we're going to communicate with the InvenSense MPU-6050
 accelerometer + gyroscope using the I2C protocol.  Inertial measruement
 units  (IMUs) are useful for measuring and controlling stuff based
 on motion.  (E.g., gesture-based device control, step counting,  sports
 movement tracking, movement reactive light shows, etc.)
+
+Why:
+ 1. The code isn't complicated, and is a good break from debugging
+    explosive execution stuff.
+ 2. Doing different devices is a good good basis for final projects.  
+ 3. The exact lab today can be used as a cheat code in other classes
+    that have final projects --- e.g., just do what Tina did and 
+    add an accel to your ai project (about 10 minutes) and immediately
+    stand out from the other few hundred students.
+ 4. I2c is common, so it's good to get experience.  It's also 
+    good to get practice with another device.
 
 The plan is to:
   1. Write the 6050 device driver to configure and use the accelerometer
@@ -23,6 +42,11 @@ There are a ton of extensions.   Literally tons.  Many I wish I had
 time to do, so with modest effort you can crank my boomer envy to 11.
 (In my ideal world people go off and figure out how to do different
 tricks and then do a show-and-tell next lab as a follow on.)
+
+Hard (Daniel) mode:
+ - You can easily ignore our starter code and write everything from
+   scratch.  The needed interface is narrow (reset, initialize, has-data,
+   read-data) without any datastructures.  It's an interesting exercise.
 
 NOTE:
   - The 240lx lab last year used the *6500* not the *6050* MPU which
@@ -45,8 +69,9 @@ the MPU-6050:
     along with self-test and startup delays:
     `docs/MPU-6050-spec.pdf`).
 
-
-[A nice clear SPARKFUN tutorial on gyros](https://learn.sparkfun.com/tutorials/gyroscope/all).
+Some other documents in no particular order:
+  - [A nice clear SPARKFUN tutorial on gyros](https://learn.sparkfun.com/tutorials/gyroscope/all).
+  - [MPU6050 overview](https://mjwhite8119.github.io/Robots/mpu6050).
 
 ---------------------------------------------------------------------------
 ### Incomplete cheat sheet of page numbers.
@@ -129,22 +154,36 @@ read/write with what values:
     chip and its responsive.
 
 ---------------------------------------------------------------------------
-### Part1: fill in the accelerometer code in the code directory.
+### 1: fill in the accelerometer code in the code directory.
 
-Get your hardware hooked up and see that the staff binary worked.
+What to do:
+ 1. Plug in your mpu-6050 and make sure that the staff code works (it should
+    give *roughly* 1000 readings for the different axis that are pointed to
+    the ceiling).
+ 2. Look in the driver code `driver-accel.c` to see how it's calling
+    the accel code.
+ 3. Look at the interface description in `mpu-6050.h`.
+ 4. Write the accel routines in `mpu-6050.c`.
+ 5. Make sure that the results make sort-of sense.
 
 Use the datasheet and application note from the docs directory.
 There are notes in the code.
 
 ---------------------------------------------------------------------------
-### Part2: fill in the gyroscope code in the code directory.
+### 2: fill in the gyroscope code in the code directory.
+
+Similar to accel:
+ 1. Look at the readings from our code.
+ 2. Look at `driver-gyro.c`
+ 3. Look at the interface in `mpu-6050.h`.
+ 4. Write the gyro routines in `mpu-6050.c`.
 
 Use the datasheet and application note from the prelab.  Start with
 the simple cookbook example they give and make sure your stuff looks
 reasonable!
 
 ---------------------------------------------------------------------------
-### Extension: display the readings using your light strip.
+### Extension: display the readings using your light strip or LED
 
 The nice thing about the light strip is that you can do high-dimensional displays easily.
 One dumb way:
@@ -155,6 +194,17 @@ One dumb way:
    - display!
 
 ---------------------------------------------------------------------------
+### Extension: write your own bit-banged i2c
+
+This is fun, and not hard from the wikipedia.
+
+---------------------------------------------------------------------------
+### Extension: multiple devices + i2c
+
+If you have your own i2c, you can easily hook up more than one device.
+This is a good step towards a sensor glove or a wearable harness.
+
+---------------------------------------------------------------------------
 ### Some Legit Extensions
 
 If you finish, there's lots of tricks to play.  A major one is doing
@@ -162,8 +212,7 @@ correcton to the device errors.  The accel / gyro device is not that
 accurate without correction.  This article discusses the issues and what
 can be done (simply):
 
-    - [Correct for hard-ion](https://www.fierceelectronics.com/components/compensating-for-tilt-hard-iron-and-soft-iron-effects)
-
+  - [Correct for hard-ion](https://www.fierceelectronics.com/components/compensating-for-tilt-hard-iron-and-soft-iron-effects)
 
 Different writeups in `./docs` for different directions:
    1. [Make a legit compass](./docs/AN203_Compass_Heading_Using_Magnetometers.pdf)
@@ -171,3 +220,7 @@ Different writeups in `./docs` for different directions:
    3. [Even more compass + Calibrate](./docs/AN4248.pdf)
    4. [Location](./docs/madgewick-estimate.pdf)
 
+
+<p align="center">
+  <img src="images/robot-pi.png" width="450" />
+</p>
