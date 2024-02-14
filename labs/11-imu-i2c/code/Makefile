@@ -5,7 +5,6 @@ PROGS += driver-accel.c
 # COMMON_SRC = mpu-6050.c
 STAFF_OBJS += staff-mpu-6050.o
 
-
 # if you make your own i2c, get rid of this.
 STAFF_OBJS += staff-i2c.o 
 
