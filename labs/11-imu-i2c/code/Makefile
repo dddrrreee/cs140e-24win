@@ -6,7 +6,9 @@ PROGS = driver-accel.c
 STAFF_OBJS += staff-mpu-6050.o
 
 # if you make your own i2c, get rid of this.
-STAFF_OBJS += staff-i2c.o 
+# default: is too slow.
+# STAFF_OBJS += staff-i2c.o 
+STAFF_OBJS += staff-faster-i2c.o 
 
 # set to 1 if you want it to automatically run.
 RUN=0

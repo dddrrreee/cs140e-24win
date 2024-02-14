@@ -50,7 +50,7 @@ void accel_sps(accel_t *h) {
 
 void notmain(void) {
     delay_ms(100);   // allow time for i2c/device to boot up.
-    i2c_init();
+    i2c_init();      // can change this to use the <i2c_init_clk_div> for faster.
     delay_ms(100);   // allow time for i2c/dev to settle after init.
 
     // from application note.
