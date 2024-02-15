@@ -97,4 +97,7 @@ void close_open_fds(void);
 const char *find_pi_binary(const char *name);
 
 #define gcc_mb() asm volatile ("" : : : "memory")
+
+#include "demand.h"
+
 #endif

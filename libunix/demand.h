@@ -1,5 +1,5 @@
-#ifndef __DEMAND_H__
-#define __DEMAND_H__
+#ifndef __LIBUNIX_DEMAND_H__
+#define __LIBUNIX_DEMAND_H__
 // engler, cs140e.
 // various helpful error-checking / debugging macros.
 //
@@ -126,6 +126,7 @@
     fprintf(stderr, ##msg);						                            \
     exit(1);                                                                \
 } while(0)
+
 
 // die with a panic message; prepend file,function,linenumber.
 #define panic(msg...) do { 						                            \
