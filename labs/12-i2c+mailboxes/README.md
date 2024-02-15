@@ -36,6 +36,22 @@ Two pieces:
 
     So we'll do a few examples so you can get a handle on it.
     
+Checkoff:
+  1. i2c hardware driver.  Should drop into last lab and give sensible
+     values.  
+  2. Mailbox: get your pi's revision, physical memory size and temperature. 
+  
+Various extension ideas:
+  1. SW i2c.  This is useful for banging a bunch of devices. 
+  2. Overclock your pi and measure how much faster you can get it before 
+     things break down.  Ideally you'd read the temperature and downthrottle
+     when things get "too hot" (not sure what that is :).
+  3. Drive a bunch of accels at once.
+  4. Do loop back where you SW i2c to yourself and see how fast you 
+     can make it: use two threads, one for sender, one for receiver,
+     and do a cswitch when they are waiting using  delays (the code
+     in libpi will call `rpi_wait` that you can just write to call
+     `rpi_yield`).
 
 ------------------------------------------------------------------------------
 ### 1. I2C driver: `code-i2c/i2c.c`
@@ -102,7 +118,7 @@ So that's what we will do.  Some hints:
 
   1. As always: if you want to write the code completely from scratch,
      I think doing so is a valuable exercise.  However, in the interests
-     of time I put some starter code in `code/`.  Extend it
+     of time I put some starter code in `code-mailbox/`.  Extend it
      to query for physical memory size along with a couple of other
      things that seem useful.
 
@@ -250,7 +266,7 @@ hardware devices:
     each mailbox operation.
 
 -------------------------------------------------------------------
-#### What to do for mailboxes
+#### What to do for mailboxes: revision number, memory size, temperature.
 
 There's a bunch of stuff to do.   Two simple things to start with:  
   1. Get your pi's revision.  You can check that this value makes sense
