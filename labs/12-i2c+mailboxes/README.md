@@ -103,7 +103,7 @@ Reading data: `i2c_read`:
 
      Set the control reg to read and start transfer.
 
-     Wait until the transfer is done.
+     Wait until the transfer has started.
 
   2. Read the bytes: you'll have to check that there is a byte available
      each time.
