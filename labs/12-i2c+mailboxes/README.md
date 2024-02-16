@@ -56,6 +56,16 @@ Various extension ideas:
 ------------------------------------------------------------------------------
 ### 1. I2C driver: `code-i2c/i2c.c`
 
+***NOTE: three easy mistakes***:
+  - Most registers have fields you can just write to clear, but 
+    if the register has a device enable flag in it, you better keep 
+    this bit set!
+  - Printing to debug can mess up i2c and cause a correct driver
+    to act incorrectly.  So be careful (I wasted 20 minutes).
+  - If the device gets in a bad state you'll have to do a hard 
+    power cycle of everything or it will just ignore you.  (You'll
+    be able to tell b/c the staff i2c driver won't work either.)
+
 By now you should be able to bang out this driver pretty quickly.
 Hints:
   1. We'll use BSC1.  The document states we can't use BSC2.  I haven't
@@ -104,6 +114,11 @@ Write has the same transfer start (step 1) and end (step 3). As with
 uart you'll have to wait until there is space and then you write 8 bits
 using a `PUT32` (not `PUT8`).
 
+The code:
+  1. There is currently just a simple program that reads the device ID.
+  2. To run your accel you'll either copy or symlink the code into a subdirectory
+     in `code-i2c` or put `mpu6050.c` and `mpu6050.h` into libpi, the driver
+     into `code-i2c`, and link against it.
 
 ------------------------------------------------------------------------------
 ### 2. mailboxes `code-mailbox/mailbox.c`

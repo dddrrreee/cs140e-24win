@@ -1,4 +1,4 @@
-SUBDIRS= code-mailbox code-i2c
+SUBDIRS= code-mailbox code-i2c code-sw-i2c
 
 .PHONY: all check clean
 all check clean: $(SUBDIRS)
