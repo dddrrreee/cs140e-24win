@@ -105,7 +105,7 @@ Reading data: `i2c_read`:
 
      Wait until the transfer is done.
 
-  2. Send the bytes: you'll have to check that there is space.
+  2. Read the bytes: you'll have to check that there is space.
 
   3. Do the end of a transfer: use status to wait for `DONE` (p32).  Then
      check that TA is 0, and there were no errors.
