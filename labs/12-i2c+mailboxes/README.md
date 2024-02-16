@@ -99,6 +99,9 @@ Reading data: `i2c_read`:
      stretch timeout and there were no errors.  We shouldn't see any of
      these today.
 
+     Clear the DONE field in status since it appears it can still be
+     set from a previous invocation.
+
      Set the device address and length.
 
      Set the control reg to read and start transfer.
