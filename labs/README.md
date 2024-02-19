@@ -201,12 +201,36 @@ driver.
     able to detect such corruption quickly.
 
 
+---------------------------------------------------------------------
+### 5. Device break
+
+It's mid-term week so we take a bit of a breather and do some 
+fun/useful device stuff:
+
+11-imu-i2c
+12-i2c+mailboxes  
+
+  - [11-imu-i2c](11-imu-i2c):  you'll write a driver for the
+    InvenSense MPU-6050 accelerometer + gyroscope using the I2C protocol.
+    Inertial measruement units (IMUs) are useful for measuring and
+    controlling stuff based on motion.  (E.g., gesture-based device
+    control, step counting,  sports movement tracking, movement reactive
+    light shows, etc.)
+
+  - [12-i2c](12-i2c): You used our staff i2c code to
+    communicate with your accel/gyro, so it makes sense to write it
+    yourself.  In addition you'll write some code to extract
+    information about the pi using its mailbox interface.
+
+
+---------------------------------------------------------------------
+### 6. Execution (Part III)
+
   - [11-equiv-proc](11-equiv-proc): we will give you a few hundred line,
-    trivial OS ---
-    system calls, no virtual memory or file systems --- and you will
-    add user processes to it.  Being able to stare at a tiny, complete
-    system will give you a concrete place to stand and understand what
-    is going on in an OS.
+    trivial OS --- system calls, no virtual memory or file systems ---
+    and you will add user processes to it.  Being able to stare at a
+    tiny, complete system will give you a concrete place to stand and
+    understand what is going on in an OS.
 
     In addition: in order to make it so you are surprised if your OS
     code is broken --- you'll implement a novel, wildly useful trick
