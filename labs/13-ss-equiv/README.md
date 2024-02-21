@@ -180,6 +180,10 @@ A couple of notes:
      forth however we want, whereas once we go to user mode we need a
      system call to get back.  
 
+  3. Probably the easiest approach to restore the privileged registers
+     is to (1) do a full `msr` switch to the right mode (as in
+     `libpi/staff-start.S`) and then (2) do a `ldm` of all the registers.
+
 -----------------------------------------------------------------------
 ### Check off your final project and spec out parts, todo.
 
