@@ -1,6 +1,6 @@
 ## Single step equivalance checking
 
-***NOTES:
+***NOTE:
   - You can set the mode using a register e.g., r0 via the
     assembly instruction:
 
