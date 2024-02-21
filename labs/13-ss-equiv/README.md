@@ -184,6 +184,10 @@ A couple of notes:
      is to (1) do a full `msr` switch to the right mode (as in
      `libpi/staff-start.S`) and then (2) do a `ldm` of all the registers.
 
+  4. Also, and this is my fault: your privileged mode save and restore
+     should work for any privileged mode, not just a specific hardcoded
+     one.  So you should use `msr` not `cps`.
+
 -----------------------------------------------------------------------
 ### Check off your final project and spec out parts, todo.
 
