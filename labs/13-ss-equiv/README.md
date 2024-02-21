@@ -4,14 +4,12 @@
   <img src="images/pi-ss-equiv.jpg" width="700" />
 </p>
 
-
-
 Initially we were going to do today's lab in one shot, but we'll split
 it across two labs so that:
   1. People can check off from last week since so many people missed.
   2. You can meet and start doing your project: you should get your
-     project approved today and put in at least a couple hours work
-     getting parts and coordinating.   
+     project approved today and ideally put in at least a couple hours
+     work getting parts and coordinating.
 
 The downside is that today is more of a pre-lab since the cool final
 result will happen thursday.
@@ -143,12 +141,25 @@ Great, now you have the main building blocks: we'll put all the pieces
 above together on Thusrday, hopefully in a way
 that blows your mind.
 
+---------------------------------------------------------------
+## Part 3: saving and restoring privileged registers.
+
+For this final part, you'll write code to save and restore registers when
+you're coming from and going to privileged (not user mode).  You should
+make copies of the tests above (with appropriate renaming) and modify
+them to go between some non-user mode (presumably not `SUPER` or `SYS`).
+You already have the pieces for this so it's mainly a re-enforcement.
+
 -----------------------------------------------------------------------
 ### Check off your final project and spec out parts, todo.
 
-You should check off your project description, spec out parts, have
-a rough todo, ask any questions, etc.  A couple hours now will
-save you later.
+You should:
+  1. Check off your project description;
+  2. Spec out parts;
+  3. Get the datasheets and see that they are reasonable;
+  4. Have a rough todo.
+
+A couple hours now will save you later.
 
 <p align="center">
   <img src="images/pi-goofy.png" width="700" />
