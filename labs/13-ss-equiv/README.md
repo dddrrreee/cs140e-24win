@@ -23,6 +23,7 @@ prove invaluable next week when we do virtual memory --- a topic that
 has extremely hard-to-track-down bugs if you just use "normal" testing
 of running programs and checking print statements and exit codes.
 
+
 Today you'll build the pieces for the final step on thursday.  There's not
 much code, we build it up in small pieces, and it tests itself, so that's
 a nice improvement over some labs.
@@ -138,13 +139,16 @@ routines.  We will now verify them using ministep without much work and
 to a degree you'd be surprised if they are broken.  (I would be, but
 I would not be without passing the next step.)
 
+Great, now you have the main building blocks: we'll put all the pieces 
+above together on Thusrday, hopefully in a way
+that blows your mind.
+
 -----------------------------------------------------------------------
 ### Check off your final project and spec out parts, todo.
 
-We'll put all the pieces above together on thusrday, hopefully in a way
-that blows your mind.
-
-
+You should check off your project description, spec out parts, have
+a rough todo, ask any questions, etc.  A couple hours now will
+save you later.
 
 <p align="center">
   <img src="images/pi-goofy.png" width="700" />
