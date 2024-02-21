@@ -168,6 +168,18 @@ make copies of the tests above (with appropriate renaming) and modify
 them to go between some non-user mode (presumably not `SUPER` or `SYS`).
 You already have the pieces for this so it's mainly a re-enforcement.
 
+A couple of notes:
+  1. The challenge here is that the caret operator `^` *only* loads
+     or stores to user mode registers, not to any other (privileged)
+     mode, so won't help us here.  So, since you don't have caret,
+     what do you do?   The good thing is that `0-user-sp-lr-asm.S`
+     has most of the pieces already so you can just use those.
+
+  2. In some sense it is easier to save and restore state between
+     privileged modes versus user mode since we can switch back and
+     forth however we want, whereas once we go to user mode we need a
+     system call to get back.  
+
 -----------------------------------------------------------------------
 ### Check off your final project and spec out parts, todo.
 
