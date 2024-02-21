@@ -1,9 +1,16 @@
 #include "rpi-asm.h"
 
-
-@ save all the registers in ascending order.
+@ save all the general registers and the spsr in 
+@ ascending order onto a block of memory on the
+@ stack.  the pointer to the base of this to 
+@ do_syscall (defined in `2-reg-save.c` and 
+@ `2-reg-save-full.c`).
+@
 swi_trampoline:
     asm_todo("implement this")
+
+    @ note: this trampoline does not resume.
+    asm_not_reached();
 
 @ only handle single step.
 .align 5; 
