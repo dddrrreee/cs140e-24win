@@ -1,5 +1,14 @@
 ## Single step equivalance checking
 
+***NOTES:
+  - You can set the mode using a register e.g., r0 via the
+    assembly instruction:
+
+            msr cpsr_c, r0
+ 
+  - `prefetch_flush` expects a register it can trash.  Usually you
+     want a caller-saved that isn't in use.***
+
 <p align="center">
   <img src="images/pi-ss-equiv.jpg" width="700" />
 </p>
