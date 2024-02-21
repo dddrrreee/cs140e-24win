@@ -6,12 +6,14 @@
 </p>
 
 ***NOTE***:
-  - You can set the mode using a register e.g., r0 via the
-    assembly instruction:
+  - You can set the `cpsr` mode using a register e.g., r0 via the
+    `msr` assembly instruction with the `_c` modifier:
 
             msr cpsr_c, r0
  
-  - `prefetch_flush` expects a register it can trash.  Usually you
+    You can see an example of where we use `msr` in `libpi/staff-start.S`
+
+  - `prefetch_flush(r)` expects a register `r` it can trash.  Usually you
      want a caller-saved that isn't in use.***
 
 Initially we were going to do today's lab in one shot, but we'll split
