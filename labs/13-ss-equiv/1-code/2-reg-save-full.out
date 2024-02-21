@@ -13,6 +13,6 @@ TRACE:do_syscall:reg=0xa
 TRACE:do_syscall:reg=0xb
 TRACE:do_syscall:reg=0xc
 TRACE:do_syscall:reg=0xd
-TRACE:do_syscall:reg=0xe
+TRACE:do_syscall:reg=0x9000000
 TRACE:do_syscall:reg=0x80e4
 TRACE:do_syscall:reg=0x10
