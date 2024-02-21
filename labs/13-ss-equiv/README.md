@@ -108,6 +108,9 @@ order into a single 17-entry block of memory on the exception stack and
 pass that to the system call exception handler.  This is the other half
 of getting to full processes.
 
+***Note: if you get a compiler error for `vector-base.h`  you need to put
+your `vector-base.h` in `libpi/src` and it should take care of it.***
+
 There are two different tests:
   1. The simplest test harness: `2-reg-save.c` that uses the `rfe_asm`
      above to run user code that calls a system call handler.
