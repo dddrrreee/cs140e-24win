@@ -1,12 +1,14 @@
 ## Single step equivalance checking
 
 
+
 <p align="center">
   <img src="images/pi-ss-equiv.jpg" width="700" />
 </p>
 
+
 ***NOTE***:
-  - You can set the `cpsr` mode using a register e.g., r0 via the
+  - You can set just the `cpsr` mode using a register e.g., r0 via the
     `msr` assembly instruction with the `_c` modifier:
 
             msr cpsr_c, r0
@@ -161,6 +163,17 @@ that blows your mind.
 
 ---------------------------------------------------------------
 ## Part 3: saving and restoring privileged registers.
+
+***Major confusion***:
+  - If you use `msr` you'll notice the 8th bit in `cpsr` is set, but if
+    you use `rfe` it is not.     This appears to be a quirk in the
+    GNU assembler.  If you want to force `msr` to set all the bits it
+    appears you need to have the following suffixes:
+
+            msr   cpsr_cxsf, r1
+
+    Or the GNU assembler will emit machine code that does not set it.
+    For today we'll take the 8th bit set or not set.
 
 For this final part, you'll write code to save and restore registers when
 you're coming from and going to privileged (not user mode).  You should

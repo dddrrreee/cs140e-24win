@@ -52,6 +52,7 @@ void notmain(void) {
     uint32_t regs[17];
     for(unsigned i = 0; i < 15; i++)
         regs[i] = i;
+    regs[13] = INT_STACK_ADDR;
     regs[15] = (uint32_t)swi_fn;   // in <start.S>
     regs[16] = USER_MODE;
     trace("about to jump to pc=[%x] with cpsr=%x\n",
