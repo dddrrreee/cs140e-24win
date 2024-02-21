@@ -11,5 +11,8 @@ TRACE:notmain:part 2 passed
 TRACE:notmain:-----------------------------------------------------------
 TRACE:notmain:part 3: set/get USER sp/lr using single ldm/stm ^ instruction
 TRACE:notmain:	got USER sp=0xfeedface
-TRACE:notmain:	got USER lr=0xfeedface
+TRACE:notmain:	got USER lr=0xdeadbeef
 TRACE:notmain:part 3: passed
+TRACE:notmain:-----------------------------------------------------------
+TRACE:notmain:part 4: now write and check mode_get_lr_sp_asm
+TRACE:notmain:sp=0xfeedface, lr=0xdeadbeef

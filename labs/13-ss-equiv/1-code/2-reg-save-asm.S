@@ -1,16 +1,14 @@
-#include "regs-save-restore.h"
+#include "rpi-asm.h"
 
-MK_FN(switchto_user_asm)
-    asm_todo("implement this");
 
 @ save all the registers in ascending order.
 swi_trampoline:
-    TRAMPOLINE_FULL_REGS(do_syscall)
+    asm_todo("implement this")
 
 @ only handle single step.
 .align 5; 
-.globl test_restore_handlers
-test_restore_handlers:
+.globl swi_test_handlers
+swi_test_handlers:
     b unhandled_reset
     b unhandled_undefined_instruction
     b swi_trampoline
@@ -20,3 +18,6 @@ test_restore_handlers:
     b unhandled_fiq
 
 
+.weak do_syscall
+do_syscall:
+    asm_not_reached();

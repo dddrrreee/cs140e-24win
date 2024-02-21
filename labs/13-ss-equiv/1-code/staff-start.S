@@ -101,4 +101,11 @@ MK_FN(mov_ident)
     mov r12, #12
     mov r13, #13
     mov r14, #14
+.global swi_fn
+swi_fn:
     swi 1
+
+@MK_FN(swi_fn)
+@    swi 1
+@    asm_not_reached();
+

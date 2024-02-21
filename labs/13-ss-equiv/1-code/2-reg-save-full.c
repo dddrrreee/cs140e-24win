@@ -1,9 +1,6 @@
 /* 
-    save/restore all registers in ascending order.
-    
-    should get same result as test 3.
+    save all registers in ascending order.
 
-        TRACE:do_syscall:in syscall: sysno=0
         TRACE:do_syscall:reg[1]=0x1
         TRACE:do_syscall:reg[2]=0x2
         TRACE:do_syscall:reg[3]=0x3
@@ -25,7 +22,6 @@
 #include "rpi.h"
 #include "asm-helpers.h"
 #include "cpsr-util.h"
-#include "breakpoint.h"
 #include "vector-base.h"
 
 int do_syscall(uint32_t regs[17]) {
@@ -40,20 +36,25 @@ int do_syscall(uint32_t regs[17]) {
     clean_reboot();
 }
 
-void switchto_user_asm(uint32_t regs[16]);
+
+void swi_fn(void);
+void switchto_user_asm(uint32_t regs[17]);
+
+void nop_10(void);
 void mov_ident(void);
 
 void notmain(void) {
-    extern uint32_t test_restore_handlers[];
-    vector_base_set(test_restore_handlers);
-    // brkpt_mismatch_start(); 
+    extern uint32_t swi_test_handlers[];
+    vector_base_set(swi_test_handlers);
 
     output("about to check that swi test works\n");
-    // from <1-srs-rfe.c>
-    uint32_t regs[17];
-    memset(regs, 0, sizeof regs);
 
-    regs[15] = (uint32_t)mov_ident;   // in <start.S>
+    uint32_t regs[17];
+    for(unsigned i = 0; i < 15; i++)
+        regs[i] = i;
+    regs[15] = (uint32_t)swi_fn;   // in <start.S>
     regs[16] = USER_MODE;
+    trace("about to jump to pc=[%x] with cpsr=%x\n",
+            regs[15], regs[16]);
     switchto_user_asm(regs);
 }

@@ -50,22 +50,33 @@ MK_FN(mem_user_sp_set)
 
 @ address to a uint32_t word is passed in r0
 MK_FN(mem_user_lr_get)
-    asm_todo(implement this);
+    asm_todo("implement this");
     bx lr
 
 @ address to a uint32_t word is passed in r0
 MK_FN(mem_user_lr_set)
-    asm_todo(implement this);
+    asm_todo("implement this");
     bx lr
 
 @ address to an array with two uint32_t words 
 @ is passed in r0
 MK_FN(mem_user_sp_lr_get)
-    asm_todo(implement this);
+    asm_todo("implement this");
     bx lr
 
 @ address to an array with two uint32_t words 
 @ is passed in r0
 MK_FN(mem_user_sp_lr_set)
-    asm_todo(implement this);
+    asm_todo("implement this");
     bx lr
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ switch to a given mode to get the values we want.
+@
+@ can test by using the code above to test and then switching
+
+@ void mode_get_lr_sp_asm(mode, &sp, &lr)
+MK_FN(mode_get_lr_sp_asm)
+    asm_todo("implement this");
+    bx lr
+

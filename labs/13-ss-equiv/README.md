@@ -1,133 +1,139 @@
 ## Single step equivalance checking
 
-Today you're going to do a wildly useful trick for ruthlessly detecting
-subtle operating system mistakes.  It will prove invaluable next week
-when we do virtual memory --- a topic that has extremely hard-to-track-down
-bugs if you just use "normal" testing of running programs and checking
-print statements and exit codes.
+Initially we were going to do today's lab in one shot, but we'll split
+it across two labs so that:
+  1. People can check off from last week since so many people missed.
+  2. You can meet and start doing your project: you should get your
+     project approved today and put in at least a couple hours work
+     getting parts and coordinating.   
 
-There's not much code, we build it up in small pieces, and it tests
-itself, so that's a nice improvement over some labs.
+The downside is that today is more of a pre-lab since the cool final
+result will happen thursday.
+
+
+The entire lab (part1 + part 2) will be building a wildly useful trick
+for ruthlessly detecting subtle operating system mistakes.  It will
+prove invaluable next week when we do virtual memory --- a topic that
+has extremely hard-to-track-down bugs if you just use "normal" testing
+of running programs and checking print statements and exit codes.
+
+Today you'll build the pieces for the final step on thursday.  There's not
+much code, we build it up in small pieces, and it tests itself, so that's
+a nice improvement over some labs.
 
 Goals:
   1. Be able to pre-emptively switch between user processes.
   2. Hash every single register on every single instruction 
      executed so that no difference can ever be missed.
 
-Roadmap:
-  0. Read and write the banked user registers using the `ldm` and `stm`
-     idiom. Test: `0-user-sp-lr.c`. Code to write: `0-user-sp-lr-asm.S`.
-  1. Implement the code to use `srs` and `rfe`.  
+---------------------------------------------------------------
+## Part 0: reading and writing registers at different modes.
 
+Here you'll learn how to read and write the user-level registers
+from kernel mode using the `ldm` and `stm` idiom in an easy-to-test
+and examine way.  You'll also write the code to read and write other
+mode registers.  You'll use these as a basis for writing process and
+exception switching code.
 
-     Note, the  `srs` instruction is a little weird: it only works with
-     the `sp` register and you have to specify which mode `sp` to use:
+Two files:
+  - Test harness: `0-user-sp-lr.c`.  You don't have to implement anything,
+    though you should definitely insert assertions or print statements
+    if things act weirdly!
 
-            srs sp, #SUPER_MODE
+  - All code to write: `0-user-sp-lr-asm.S`. 
 
-     so in our case you'll have to copy the `sp` to another register,
-     move `r0` into it, do the `srs` then restore the `sp`.
+Look at the comments in both files and implement each part at a time
+(four parts in total).  This is a pretty mechanical fetch quest.
 
-     Test: `1-srs-rfe.c`.  Code to write in: `1-srs-rfe-asm.S`.
+---------------------------------------------------------------
+## Part 1: using `rfe` to switch to user level.
 
-  2. Setup simple single stepping.   Put your code in `breakpoint.c`
-     (there is a `staff-breakpoint.o` you can use).
-     It should implement the routines in `breakpoint.h`.    
+Here you'll implement different examples that use the `rfe` instruction.
+The `rfe` instruction lets you simultaneously set both the `pc` and `cpsr`
+at once and is a key part of how you context switch into a user process.
 
-     Test: `2-simple-single-step.c` and `2-simple-single-step-asm.S`.
+Unlike your thread context-switch code you can't switch into a user-level
+process by simply setting the `pc` register because you *also* have to
+change the `cpsr` to switch from privileged kernel mode to unprivileged
+`USER` mode.  If you did this mode switch before jumping to user code
+you'd get a privileged fault (since the `pc` would still be in kernel
+memory).  And doing it after has similar issues. The `rfe` instruction
+lets you set both at once.
 
-     When run on the `nop_10` it should trace the expected instructions.
-     You can verify this from the `.list` file to double check.
+To see how `rfe` works:
+  1. RTFM the manual.
+  2. Then look at the complete example `1-rfe-example.c`, with associated
+     assembly code in: `1-rfe-asm.S:rfe_asm` and
+     `1-rfe-asm.S:rfe_trampoline_asm`.  Make sure the comments and output
+     make sense or the next 6 lines of code could easily take a few hours.
 
-  3. Implement the assembly to save all registers in ascending order
-     into a single block of memory on the exception stack and pass that
-     to the system call exception handler.  
-     This is the first step of getting to full processes.   
+There are two tests.
+Since messing up assembly can be hard to debug, we split restoring
+registers into
+one small change (test 1), and then a larger one (test 2):
 
-     Test: `3-reg-save.c`.  Code to implement: `3-reg-save-asm.S`.
+ 1. `1-rfe-blk.c`.  This changes `1-rfe-example.c` in a minor way
+    to take a 17-entry array (as you would use with process switching)
+    instead of a 2-entry one.
 
-  4. Implement the assembly to take an array saved in the previous step
-     and restore it, including mode switching.   Test: `4-reg-restore.c`
-     Code to write: `4-reg-restore-asm.S`.
+    What to do: You should write the code `1-rfe-asm.S:blk_rfe_asm`
+    to handle a 17-entry array with the `pc` at offset 15, and the
+    `cpsr` you want to restore at offset 16.  It's a trivial change,
+    but you want this correct before doing the next step.
 
-  5. Wrap up the code from the previous step in a macro that you put
-     in `regs-save-restore.h` (provided) and use it to implement both
-     the `swi_trampoline` and `single_step_trampoline`.
-     The test: `5-single-step-one.S`.  Code to implement:
-     `5-single-step-one-asm.S`.
-  6. Implement the single step handler in `6-single-step-proc.c`.  Your
-     output should match when just running the `nop` routines (`printk`
-     can change.
+ 2. `1-rfe-load-sp.c`.  This sets all the registers in the
+    17-entry block and eliminates the need for a trampoline used in
+    `1-rfe-asm.S` to setup the stack pointer.
 
-  7. Pull the pieces of code you need into a small two or three files in
-     a seperate directory and do some kind of interesting test.  Two of
-     the most "straightforward" options: (1) add timer interrupts with
-     a very small timeout and/or (2) speed up the code signifantly.
-     Speedup is fun because we don't have much code and we have a very
-     thorough correctness check.
+    What to do: You'll write `1-rfe-asm.S:switch_to_user_asm` to load
+    user mode registers `r0-r14` and then do an `rfe`.  This is just
+    a matter of copying and modifying some of your part 1 assembly.
 
-     Note: for interrupts, you may need to modify the hashed `cpsr`.
+    ***Note, the test in its current form only validates `r0-r3`, `sp`,
+    `pc` and mode (we will do the others below).***
 
-     Another interesting option (I'd love to see this): do overclocking
-     and see where exactly things start breaking down.  For this you
-     need to use the mailbox interface (lab 10 from last year has some
-     on this, though there is a bug in the mailbox message description
-     we can explain).
+At this point you have a partially validated register switch: we'll
+do the rest of it in the next few stages.
 
-     A simple option: add bug finding to the single step handler: check
-     that the stack pointer is within the process's stack, that the pc
-     is within the code text segment, and anything else you can figure out.
+---------------------------------------------------------------
+## Part 2: saving all user registers.
 
-     A simple option: add statistics so we have more visibility into what
-     is happening --- how many processes run, how long they took, how 
-     many instructions singled stepped, switched, etc.  Answering
-     the question "what happened?" better.
+Here you'll implement the assembly to save all registers in ascending
+order into a single 17-entry block of memory on the exception stack and
+pass that to the system call exception handler.  This is the other half
+of getting to full processes.
 
+There are two different tests:
+  1. The simplest test harness: `3-reg-save.c` that uses the `rfe_asm`
+     above to run user code that calls a system call handler.
 
-Extension:
-  - I meant to build this but didn't: a massive source of bugs has been
-    people not saving or restoring registers in exception handlers.
-    You should be able to check this by using both match and mismatch
-    exceptions to grab the pc right after an exception handler returns
-    and checking that the current registers are what you expect.  
+     The code to implement: `3-reg-save-asm.S:`swi_trampoline`.  This
+     should save all registers into a 17 entry block on the interrupt
+     stack and pass the base of this array into the system call routine
+     which will simply print them and reboot.  Make sure you increment
+     and compute offsets correctly.
 
-The high bit of all of this:
-  1. You have pre-emptive save/restore code that can switch between
-     user processes.
-  2. I'd say this code has been verified.
-  3. No one does (1) and (2) in this way.  I'd wager you have the smallest
-     system ever written with this kind of power.
-  4. From this point forward we can do series of small steps and make sure
-     that *nothing* ever changes the hashes.  This will make the rest of
-     the quarter much smoother when it comes to VM or other stuff.
+     The idea here is that that we run `staff-start.S:mov_ident` which
+     loads each register with its number (r1 has 1, r2 has 2, etc)
+     and then calls our system call.  This makes saving easy to debug:
+     `r0-r14` in the 17-entry register block should have its offset
+     as a value.  `r15` should be the pc of the swi instruction and
+     r16 should have `USER` as a mode.
 
-Workflow using this trick:
-  1. Run processes one at a time, get their hashes and store them.
-  2. As long as you run the processes at the same address with the
-     same stack, these values should not change.
-  3. You can then re-run these processes concurrently, over and over
-     and make sure nothing changes. (See caveat below.)
-  4. You can also add features and check that the hashes remain the same.
-     Assuming you have a seperation between the "user" code and the kernel,
-     then turning virtual memory off or on, adding interrupts, changing
-     compiler options should not change anything.  
+  2. The more fancy testing harness: this works similar to above,
+     but it does not use `mov_ident` but instead initializes a 17-entry
+     register block and then uses your `switchto_user_asm` (form part 1)
+     to load the registers and jump to the swi instruction directly.
+     Output should be the same as the first test.  If any register
+     is off, you should be able to see.
 
-The caveat for today is that since we bundled all the code in the same binary,
-any change that affects code layout can change the hash.   For us, any
-assembly routine in `code/staff-start.S` won't change layout (since its
-linked first in the binary and is assembly code) so you can mix and match
-these as you like.  Any routine that requires a stack will change if you 
-allocate multiple since the second will be at a different location.  Similarly,
-if the code interacts with the UART because of timing differences.
+At this point you have a partially tested set of user save and restore
+routines.  We will now verify them using ministep without much work and
+to a degree you'd be surprised if they are broken.  (I would be, but
+I would not be without passing the next step.)
 
-When we go to full user processes that are seperated from the kernel
-(there's not much needed!) then these restrictions go away.  We did
-things the way we did to reduce the number of moving parts in the lab.  But
-it is weird.
+-----------------------------------------------------------------------
+### Check off your final project and spec out parts, todo.
 
-
-
-### Checkoff: 
-
-  - You can run multiple processes and your hashes pass and match other
-     people.
+We'll put all the pieces above together on thusrday, hopefully in a way
+that blows your mind.
