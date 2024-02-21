@@ -1,5 +1,11 @@
 ## Single step equivalance checking
 
+<p align="center">
+  <img src="images/pi-ss-equiv.jpg" width="450" />
+</p>
+
+
+
 Initially we were going to do today's lab in one shot, but we'll split
 it across two labs so that:
   1. People can check off from last week since so many people missed.
@@ -137,3 +143,9 @@ I would not be without passing the next step.)
 
 We'll put all the pieces above together on thusrday, hopefully in a way
 that blows your mind.
+
+
+
+<p align="center">
+  <img src="images/pi-goofy.png" width="450" />
+</p>
