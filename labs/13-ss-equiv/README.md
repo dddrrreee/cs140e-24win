@@ -1,5 +1,10 @@
 ## Single step equivalance checking
 
+
+<p align="center">
+  <img src="images/pi-ss-equiv.jpg" width="700" />
+</p>
+
 ***NOTE:
   - You can set the mode using a register e.g., r0 via the
     assembly instruction:
@@ -8,10 +13,6 @@
  
   - `prefetch_flush` expects a register it can trash.  Usually you
      want a caller-saved that isn't in use.***
-
-<p align="center">
-  <img src="images/pi-ss-equiv.jpg" width="700" />
-</p>
 
 Initially we were going to do today's lab in one shot, but we'll split
 it across two labs so that:
