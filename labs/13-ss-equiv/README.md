@@ -16,6 +16,9 @@
   - `prefetch_flush(r)` expects a register `r` it can trash.  Usually you
      want a caller-saved that isn't in use.***
 
+  - For part 0: you can assume `mode_get_lr_sp_asm` is *not* called
+    for USER mode.  We'll have a seperate routine for that.  
+
 Initially we were going to do today's lab in one shot, but we'll split
 it across two labs so that:
   1. People can check off from last week since so many people missed.
