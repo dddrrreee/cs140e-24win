@@ -1,7 +1,7 @@
 ## Single step equivalance checking
 
 <p align="center">
-  <img src="images/pi-ss-equiv.jpg" width="450" />
+  <img src="images/pi-ss-equiv.jpg" width="700" />
 </p>
 
 
@@ -147,5 +147,5 @@ that blows your mind.
 
 
 <p align="center">
-  <img src="images/pi-goofy.png" width="450" />
+  <img src="images/pi-goofy.png" width="700" />
 </p>
