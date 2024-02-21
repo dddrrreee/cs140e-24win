@@ -5,7 +5,7 @@
   <img src="images/pi-ss-equiv.jpg" width="700" />
 </p>
 
-***NOTE:
+***NOTE***:
   - You can set the mode using a register e.g., r0 via the
     assembly instruction:
 
