@@ -168,6 +168,7 @@ make copies of the tests above (with appropriate renaming) and modify
 them to go between some non-user mode (presumably not `SUPER` or `SYS`).
 You already have the pieces for this so it's mainly a re-enforcement.
 
+
 A couple of notes:
   1. The challenge here is that the caret operator `^` *only* loads
      or stores to user mode registers, not to any other (privileged)
@@ -187,6 +188,36 @@ A couple of notes:
   4. Also, and this is my fault: your privileged mode save and restore
      should work for any privileged mode, not just a specific hardcoded
      one.  So you should use `msr` not `cps`.
+
+
+
+***NOTE: you are allowed to do the following easier, equivalant way 
+that requires less thinking***
+
+  1. Keep the `swi_trampoline` as-is from part 2.  It assumes
+     you assumes you came from user mode.  Thus, for the part 3 test
+     it will save everything correctly *except* `sp` and `lr` (since it
+     assumed we came from the wrong place).  So we will just fix these
+     up in C code (next step).
+
+  2. In the C code for `do_syscall`: check which mode you came from using
+     the passed in register array `regs` (`cpsr` should be stored
+     at `regs[16]`).
+
+     If you came from USER keep running as before since the registers 
+     are saved correctly. 
+
+     If you didn't come from USER, then you want to patch the `sp` and
+     `lr` locations in the reg array (`&regs[13]` and `&regs[14]`).
+
+     This is easy because you already wrote a routine that will
+     get these two registers from an arbitrary privileged mode:
+
+            // 0-user-sp-lr-asm.S
+            void mode_get_lr_sp_asm(uint32_t mode, uint32_t *sp, uint32_t *lr)
+
+     Just call it to fix things up using the `cpsr` value saved in
+     the `reg` array (`reg[16]`).
 
 -----------------------------------------------------------------------
 ### Check off your final project and spec out parts, todo.
