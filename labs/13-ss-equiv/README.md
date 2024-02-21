@@ -86,7 +86,7 @@ one small change (test 1), and then a larger one (test 2):
     `cpsr` you want to restore at offset 16.  It's a trivial change,
     but you want this correct before doing the next step.
 
- 2. `1-rfe-load-sp.c`.  This sets all the registers in the
+ 2. `1-rfe-switchto-user.c`.  This sets all the registers in the
     17-entry block and eliminates the need for a trampoline used in
     `1-rfe-asm.S` to setup the stack pointer.
 
@@ -109,10 +109,10 @@ pass that to the system call exception handler.  This is the other half
 of getting to full processes.
 
 There are two different tests:
-  1. The simplest test harness: `3-reg-save.c` that uses the `rfe_asm`
+  1. The simplest test harness: `2-reg-save.c` that uses the `rfe_asm`
      above to run user code that calls a system call handler.
 
-     The code to implement: `3-reg-save-asm.S:`swi_trampoline`.  This
+     The code to implement: `2-reg-save-asm.S:`swi_trampoline`.  This
      should save all registers into a 17 entry block on the interrupt
      stack and pass the base of this array into the system call routine
      which will simply print them and reboot.  Make sure you increment
