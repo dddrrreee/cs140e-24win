@@ -1,5 +1,8 @@
 ## Controlling a  WS2812B light string.
 
+***NOTE: the comment for `t0h` is incorrect: you call `write_1` for
+`t0h` and `t1h`, and `write_0` for `t0l` and `t0h`. ***
+
 Today you'll write the code to control a WS2812B light string.
 The WS2812B is fairly common, fairly cheap.  Each pixel has 8-bits of
 color (red-green-blue) and you can turn on individual lights in the array.
