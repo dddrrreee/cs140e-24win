@@ -119,7 +119,7 @@ You will have to do some small changes to `mini-step.c`.
         // stepping through the uart code --- note: we could
         // just check the pc and the address range of
         // uart.o
-        while(!uart_can_putc())
+        while(!uart_can_put8())
             ;
 
         switchto(r);
