@@ -130,6 +130,37 @@ You will have to do some small changes to `mini-step.c`.
 
   4. Modify your makefile to compile `equiv-threads.c`.
 
+
+  5. Useful debug:
+
+```
+// print the register diferrences
+static void reg_dump(int tid, int cnt, regs_t *r) {
+    uint32_t pc = r->regs[15];
+    output("non-zero registers: tid=%d: pc=%x:", tid, pc);
+    if(!cnt) {
+        output("  {first instruction}\n");
+    } else {
+        int changes = 0;
+        output("{ ");
+        for(unsigned i = 0; i<17; i++) {
+            if(r->regs[i]) {
+                output(" r%d=%x, ", i, r->regs[i]);
+                changes++;
+            }
+            if(changes && changes % 5 == 0)
+                output("\n");
+        }
+        if(!changes)
+            output("  {no changes}\n");
+        else
+            output("}\n");
+    }
+}
+```
+
+
+
 Now you should be able to run two tests:
   1. `9-equiv-test.c` this runs code without a stack.  The code is at
       the same place for all of us, so will give the same answer.
@@ -137,3 +168,4 @@ Now you should be able to run two tests:
   2. `10-equiv-test.c`: this is more involved and prints output.
 
 These should just run if your code is correct.
+
