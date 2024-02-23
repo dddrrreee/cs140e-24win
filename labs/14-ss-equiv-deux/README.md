@@ -90,3 +90,50 @@ Maybe the easiest way to start:
 
 Now do a "git pull" and hopefully the code for the crazy threads package
 is checked in.
+
+----------------------------------------------------------------------
+### Part 2: not much code but crazy: pre-emptive threads
+
+For this part you have to copy from `code-patch-2`.
+
+You will have to do some small changes to `mini-step.c`.
+
+ 1. Get rid of the `static inline` for:
+
+
+        // change this from static inline in mini-step.c
+        void mismatch_on(void);
+        // change this from static inline in mini-step.c
+        void mismatch_off(void);
+        // change this from static inline in mini-step.c
+        uint32_t mismatch_pc_set(uint32_t pc);
+
+ 2.  Add this new routine `mini-step.c`:
+
+    void mismatch_run(regs_t *r) {
+        uint32_t pc = r->regs[REGS_PC];
+
+        mismatch_pc_set(pc);
+
+        // otherwise there is a race condition if we are 
+        // stepping through the uart code --- note: we could
+        // just check the pc and the address range of
+        // uart.o
+        while(!uart_can_putc())
+            ;
+
+        switchto(r);
+    }
+
+  3. Your system call handler in `full-except-asm.S` will have to load the
+     `INT_STACK` pointer into sp.
+
+  4. Modify your makefile to compile `equiv-threads.c`.
+
+Now you should be able to run two tests:
+  1. `9-equiv-test.c` this runs code without a stack.  The code is at
+      the same place for all of us, so will give the same answer.
+
+  2. `10-equiv-test.c`: this is more involved and prints output.
+
+These should just run if your code is correct.
