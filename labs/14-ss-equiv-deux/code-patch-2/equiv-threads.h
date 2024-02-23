@@ -1,3 +1,6 @@
+#ifndef __EQUIV_THREAD_H__
+#define __EQUIV_THREAD_H__
+
 /*******************************************************************
  * simple process support.
  */
