@@ -54,13 +54,14 @@ Now apply the patch:
 Great you now have a working copy that you can modify!
 
 What's new:
- - `8-syscall-test.c`: a new system call test that shows how to setup
-    a simple system call.
  - `switchto-asm.S` the routines you'll pull-in from last lab.
  - `full-except-asm.S`: the exception trampolines you'll pull-in from
     last lab.
- - full-except.c got some rewrites.
- - `switchto.h` also got some rewrites.
+ - `full-except.c` got some slight rewrites for system call exceptions.
+ - `switchto.h` also got some rewrites to make it more regular.
+ - `8-syscall-test.c`: a new system call test that shows how to setup
+    a simple system call.  This weakly tests that your system call
+    trampoline works correctly.
 
 ----------------------------------------------------------------------
 ### Part 1: start replacing routines and make sure tests pass.
