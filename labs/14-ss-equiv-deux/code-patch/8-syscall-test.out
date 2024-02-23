@@ -1,0 +1,22 @@
+TRACE:syscall_handler:hi from handler: r0=0, pc=, sp=0x107fe4, spsr=0x190
+TRACE:syscall_test:iter=0: result=1
+TRACE:syscall_handler:hi from handler: r0=1, pc=, sp=0x107fe4, spsr=0x190
+TRACE:syscall_test:iter=1: result=2
+TRACE:syscall_handler:hi from handler: r0=2, pc=, sp=0x107fe4, spsr=0x190
+TRACE:syscall_test:iter=2: result=3
+TRACE:syscall_handler:hi from handler: r0=3, pc=, sp=0x107fe4, spsr=0x190
+TRACE:syscall_test:iter=3: result=4
+TRACE:syscall_handler:hi from handler: r0=4, pc=, sp=0x107fe4, spsr=0x190
+TRACE:syscall_test:iter=4: result=5
+TRACE:syscall_handler:hi from handler: r0=5, pc=, sp=0x107fe4, spsr=0x190
+TRACE:syscall_test:iter=5: result=6
+TRACE:syscall_handler:hi from handler: r0=6, pc=, sp=0x107fe4, spsr=0x190
+TRACE:syscall_test:iter=6: result=7
+TRACE:syscall_handler:hi from handler: r0=7, pc=, sp=0x107fe4, spsr=0x190
+TRACE:syscall_test:iter=7: result=8
+TRACE:syscall_handler:hi from handler: r0=8, pc=, sp=0x107fe4, spsr=0x190
+TRACE:syscall_test:iter=8: result=9
+TRACE:syscall_handler:hi from handler: r0=9, pc=, sp=0x107fe4, spsr=0x190
+TRACE:syscall_test:iter=9: result=10
+TRACE:syscall_test:done! 10 iterations: switching back
+TRACE:notmain:done!
