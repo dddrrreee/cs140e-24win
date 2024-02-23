@@ -45,13 +45,13 @@ Now apply the patch:
 
         # from labs/14-ss-equiv-deux  
         % cp code-patch/* code 
+
+ 2. Make sure tests pass:
+
         % cd code
         % make check
-    
-    This should pass.
 
-Great you now have a working copy that you can modify.
-
+Great you now have a working copy that you can modify!
 
 What's new:
  - `8-syscall-test.c`: a new system call test that shows how to setup
@@ -75,11 +75,17 @@ Maybe the easiest way to start:
      tests pass for each one!  Once all are replaced, comment out our
      `staff-switchto-asm.o` from the Makefile.
 
+     To help understand you should look at `switchto.h` which calls these 
+     routines.
+
   2. Go to `full-except-asm.S` and write the state saving code.  This should
      mirror the system call saving you did last lab. 
      Make sure the tests pass for each one.  Once all calls to our code     
      are removed (I would comment them out so you can flip back if needed)
      remove the link from the Makefile.
+
+     To help understand you should look at the `full-except.c` code which
+     gets called from it.
 
 Now do a "git pull" and hopefully the code for the crazy threads package
 is checked in.
