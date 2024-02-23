@@ -23,20 +23,22 @@
 
 // note: if you want to do big SD cards, probably should make this
 // uint64_t.
+#if 0
 typedef uint32_t off_t;
+#endif
 
 // b - a;
-static inline off_t ptr_diff(const void *b, const void *a) {
+static inline long ptr_diff(const void *b, const void *a) {
     assert(b >= a);
     return (const char *)b - (const char *)a;
 }
 
 // a + off
-static inline const void *ptr_add(const void *a, off_t off) {
+static inline const void *ptr_add(const void *a, long off) {
     return (const char *)a + off;
 }
 
-static inline void *ptr_add_mut(void *a, off_t off) {
+static inline void *ptr_add_mut(void *a, long off) {
     return (char *)a + off;
 }
 
