@@ -1,11 +1,11 @@
 ## Equivalance checking finale.
 
-
 <p align="center">
   <img src="images/pi-threads.jpg" width="700" />
 </p>
 
-
+***NOTE: There is now a complete working copy in `code-complete-staff`.  You
+should be able to just "make check" etc here and copy your files over.***
 
 By the end of the lab we will verify that the state switching assembly you wrote 
 in the last lab is correct by:
