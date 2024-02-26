@@ -66,11 +66,12 @@ common mistakes below.
 
 We discuss common `make` mistakes below (all have burned us).
 
-But first the largest most common mistake I see is that
-Because `make` is a weird language, people seem to forget all
-the methods they learned for debugging programs in all the other
-languages they know.  This is especially a problem b/c `make`
-doesn't have a debugger.
+
+But first the largest, most common general mistake I see is that because
+`make` is a weird language, people seem to forget all the methods they
+learned for writing correct code / debugging programs in all the other
+languages they know.  This is especially a problem b/c `make` doesn't
+have a debugger.
 
  1. They write stuff all-at-once then try to get it to work.
     You should do it just like you do kernel code.  Write the smallest
@@ -178,3 +179,10 @@ More concrete mistakes:
     Solution: just put the `mkdir -p $(BUILD_DIR)` with each rule.
     This is kind of ugly, but the way we do things there aren't many
     locations and it is guaranteed to always work.
+
+### Summary
+
+While the there are a long list of ways that `make` can what you tell
+it but not what you want, the fortunate thing is that you likely only
+small variations of a couple `Makefiles` in your life and we give them
+as examples.
