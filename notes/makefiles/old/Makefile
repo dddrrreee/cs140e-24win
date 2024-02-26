@@ -1,5 +1,5 @@
 # example of how to run make in subdirectories and get results
-SUBDIRS= basic-makefile-unix fancy-makefile-unix 
+SUBDIRS= 5-example  6-example  7-example   full-makefile 
 
 .PHONY: all check clean
 all check clean: $(SUBDIRS)

@@ -50,10 +50,10 @@ Required reading:
 ### Examples:
 
 We give two main examples of `make`:
-  1. `0-basic-unix-makefile` which works through everything
+  1. `basic-makefile-unix` which works through everything
      in a simple way.  The resultant makefile should work
      for most of your projects.
-  2. `make-using-eval`: which is a fancier version that is
+  2. `fancy-makefile-unix`: which is a fancier version that is
       likely the best robust approach for large projects through
       its use of the `eval` function in `GNUmake` to generate
       explicit compilation rules.  This makefile should work
@@ -66,12 +66,11 @@ common mistakes below.
 
 We discuss common `make` mistakes below (all have burned us).
 
-
-But first the largest, most common general mistake I see is that because
-`make` is a weird language, people seem to forget all the methods they
-learned for writing correct code / debugging programs in all the other
-languages they know.  This is especially a problem b/c `make` doesn't
-have a debugger.
+Before getting into the concrete low level mistakes, the largest, most
+common general mistake I see is that because `make` is a weird language,
+people seem to forget all the methods they learned for writing correct
+code / debugging programs in all the other languages they know.  This is
+especially a problem b/c `make` doesn't have a debugger.
 
  1. They write stuff all-at-once then try to get it to work.
     You should do it just like you do kernel code.  Write the smallest
