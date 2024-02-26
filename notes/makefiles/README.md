@@ -172,7 +172,7 @@ More concrete mistakes:
 
   - `make` is deleting intermediate files (e.g., `.list` files)
 
-    Wrong solution: add a .PRECIOUS directive:
+    Wrong solution: add a `.PRECIOUS` directive:
 
         .PRECIOUS: %.list %.elf 
 
