@@ -5,14 +5,14 @@ As projects get large, manually compiling code is a pain.   The Unix
 `make` has a deserved reputation as an unusually ugly and baroque
 input language.  However, it exists everywhere, is used many places,
 and has enough power embedded inside that you can often make it do what
-you want --- compiling based on what changes with automatic depencies,
-producing muiltiple programs or libraries and placing them in
+you want --- compiling based on what changes with automatic dependencies,
+producing multiple programs or libraries and placing them in
 different locations, automatically running regression tests, etc.
 
 We use `make` alot.  Many places you might work or found will as well.
 Despite its baroque weirdness, there is a narrow  slice that will do
 most of what you need.  We cover much of that slice today by doing
-increasingly fancy varions of a `Makefile` that does two things:
+increasingly fancy versions of a `Makefile` that does two things:
 
   1. Produces an executable file `main` by compiling the C source
      files `a.c`, `b.c`, `c.c`, `main.c`.
@@ -111,7 +111,7 @@ Common `make` mistakes (all have burned us):
       3. Generate the `.o` in the same directory as each source file 
          (ugly, but simple).  
 
-      Geneerally all three mean that duplicate files that contain the
+      Generally all three mean that duplicate files that contain the
       same routine will show up with multiple definitions.
 
   - `make` is deleting intermediate files (e.g., `.list` files)
@@ -138,7 +138,9 @@ Common `make` mistakes (all have burned us):
     
         FORCE:
 
+        # tell make FORCE doesn't generate a result.
+        .PHONY: FORCE
+
     Solution: just put the `mkdir -p $(BUILD_DIR)` with each rule.
     This is kind of ugly, but the way we do things there aren't many
     locations and it is guaranteed to always work.
-
