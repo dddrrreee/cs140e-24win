@@ -50,14 +50,15 @@ Required reading:
 ### Examples:
 
 We give two main examples of `make`:
-  1. `basic-makefile-unix` which works through everything
-     in a simple way.  The resultant makefile should work
-     for most of your projects.
-  2. `fancy-makefile-unix`: which is a fancier version that is
-      likely the best robust approach for large projects through
-      its use of the `eval` function in `GNUmake` to generate
-      explicit compilation rules.  This makefile should work
-      for any project you do, afaik. 
+ 1. [basic-makefile-unix](./basic-makefile-unix) which works through
+    everything in a simple way.  The resultant makefile should work for
+    most of your projects.
+
+ 2. [fancy-makefile-unix](./fancy-makefile-unix): which is a fancier
+    version that is likely the best robust approach for large projects
+    through its use of the `eval` function in `GNUmake` to generate
+    explicit compilation rules.  This makefile should work for any
+    project you do, afaik.
 
 Both of these are written to guard against or eliminate the
 common mistakes below.
