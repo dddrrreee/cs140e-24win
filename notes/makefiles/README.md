@@ -64,7 +64,37 @@ common mistakes below.
 
 ### tl;dr of common mistakes
 
-Common `make` mistakes (all have burned us):
+We discuss common `make` mistakes below (all have burned us).
+
+But first the largest most common mistake I see is that
+Because `make` is a weird language, people seem to forget all
+the methods they learned for debugging programs in all the other
+languages they know.  This is especially a problem b/c `make`
+doesn't have a debugger.
+
+ 1. They write stuff all-at-once then try to get it to work.
+    You should do it just like you do kernel code.  Write the smallest
+    thing possible, test it, then do the smallest step, test it, etc.
+    The smaller the step, the more obvious the bug.
+
+    Also, and not unrelated: test it!  `touch` each file and make sure it
+    gets remade.  Delete each result (.o, .d) and make sure the program
+    gets remade.
+
+ 2. A second consequence of it being a weird language is that people
+    get unsually passive when trying to debug.  Most common approach:
+    the stare method, with mixed success).  
+
+    Instead, be active!  Make a copy and try to cut it down to the
+    smallest broken version.  Put in print statements!  For different
+    rules, to print variables, etc.  (You can also run `make -d` or
+    `make --debug` but these are not always intuitive.)
+
+ 3. Program defensively.  You can do `assert` checks in `make` and
+    give errors.  You can write rules to guard against common mistakes.
+    We give examples below.
+
+More concrete mistakes:
 
   - Mispell `make` variables.  this is especially a problem when the
     variable is used as a compilation rule's dependency since it will
