@@ -80,7 +80,10 @@ have a debugger.
 
     Also, and not unrelated: test it!  `touch` each file and make sure it
     gets remade.  Delete each result (.o, .d) and make sure the program
-    gets remade.
+    gets remade.  
+
+    Related: If you have to do `make clean` before every `make`, fix
+    the damn bug.
 
  2. A second consequence of it being a weird language is that people
     get unsually passive when trying to debug.  Most common approach:
@@ -196,7 +199,7 @@ More concrete mistakes:
 
 ### Summary
 
-While the there are a long list of ways that `make` can what you tell
-it but not what you want, the fortunate thing is that you likely only
-small variations of a couple `Makefiles` in your life and we give them
-as examples.
+While the there are a long list of ways that `make` will do what you
+tell it but not what you want, the fortunate thing is that you likely
+only small variations of a couple `Makefiles` in your life and we give
+them as examples.
