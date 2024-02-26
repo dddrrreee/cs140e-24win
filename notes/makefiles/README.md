@@ -14,7 +14,7 @@ are.
     everything in a simple way.  The final `Makefile` should work for
     most of your projects.
 
- 2. [fancy-makefile-unix](./fancy-makefile-unix): which is a fancier
+ 2. [fancy-makefile-unix](./fancy-makefile-unix): a fancier
     version that is likely the best robust approach for large projects
     through its use of the `eval` function (an extension of `GNUmake`)
     that can be used to generate explicit compilation rules.  Tweaks of
@@ -70,9 +70,11 @@ Required reading:
     simple, useful.
 
 
-### tl;dr of common mistakes
+### Common `make` mistakes
 
-We discuss common `make` mistakes below (all have burned us).
+Below is an incomplete list of common `make` mistakes (all have burned
+us) and our current view of how to mitigate / solve them.  Full solutions
+are in the worked-out example `Makefiles`.
 
 Before getting into the concrete low level mistakes, the largest, most
 common general mistake I see is that because `make` is a weird language,
@@ -94,15 +96,18 @@ especially a problem b/c `make` doesn't have a debugger.
 
  2. A second consequence of it being a weird language is that people
     get unsually passive when trying to debug.  Most common approach:
-    the stare method, with mixed success).  
+    the stare method, where they look at their screen without moving, 
+    with mixed success.
 
-    Instead, be active!  Make a copy and try to cut it down to the
-    smallest broken version.  Put in print statements!  For different
-    rules, to print variables, etc.  (You can also run `make -d` or
-    `make --debug` but these are not always intuitive.)
+    Instead, be active!  Make a copy of the `Makefile` (or entire build
+    tree) and try to cut it down to the smallest broken version.  Put in
+    print statements!  For different rules, to print variables, etc.
+
+    You can also run `make -d` or `make --debug` but their outputs are
+    not always intuitive.
 
     Common: if you forget what the many built-in `make` variables
-    mean, just print them.
+    mean, just print them. 
 
  3. Program defensively.  You can do `assert` checks in `make` and
     give errors.  You can write rules to guard against common mistakes.
@@ -116,11 +121,14 @@ especially a problem b/c `make` doesn't have a debugger.
 
 More concrete mistakes:
 
-  - Mispell `make` variables.  this is especially a problem when the
-    variable is used as a compilation rule's dependency since it will
-    be empty, and thus doesn't give a dependency.  The first `make` will
-    work correctly (since it builds from scratch) as will a `make` after
-    `make clean`, but later ones can use stale .o's after modifications.
+  - Mispell `make` variables.  You won't get an error, instead the 
+    mispelled variable will just be empty.
+
+    This is especially a problem when the variable is used as a
+    compilation rule's dependency since it will be empty, and thus
+    doesn't give a dependency.  The first `make` will work correctly
+    (since it builds from scratch) as will a `make` after `make clean`,
+    but later ones can use stale .o's.
 
     Solution: be careful (sorry; `make` sucks for this).  You can
     somewhat guard against this with how you write rules (below).
@@ -136,6 +144,9 @@ More concrete mistakes:
 
     Solution: add each `.d` as an explicit dependency for each `.o` rule.
     If the `.d` doesn't exist, will get an error.
+
+        $(BUILD_DIR)/%.o: %.c $(BUILD_DIR)/%.d  $(DEPS)
+            $(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
   - `make` automatic rules do the wrong thing (e.g., avoid the 
     `.d` safeguard above).
@@ -200,7 +211,6 @@ More concrete mistakes:
 			mkdir -p $(BUILD_DIR)
     
         FORCE:
-
         # tell make FORCE doesn't generate a result.
         .PHONY: FORCE
 
