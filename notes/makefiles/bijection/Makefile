@@ -12,24 +12,27 @@
 #
 NAME := main 
 
-# delete all implicit rules.  among other things this removes
+# delete all implicit rules, removing one of the big causes of make
+# screwing things up.  in addition, this also removes
 # weird errors when making non-existant targets (e.g., if you 
 # have a rule for "foo" and type "make fo" instead of "make foo").
 .SUFFIXES:
 
-# all .c files in this directory and every subdirectory.
-# can change this however you want.
-SRC  :=  $(wildcard ./*.c) $(wildcard ./*/*.c)
+# if you want to do all .c files in this directory and 
+# every subdirectory.
+# SRC  :=  $(wildcard ./*.c) $(wildcard ./*/*.c)
 
-# nice: if you get multiple definitions of a file its because
-# you have duplicate files or duplicate fn's in different
-# files.  this seems to be an improvement.
-SRC  :=  ./a.c ./main.c ./b.c ./foo/foo.c ./bar/bar.c  ../relative-dir/baz.c ./no-include.c
+# we explicitly list out the files we compile --- this tests
+# that if we do not add a file with the same name that it won't
+# appear.
+SRC  :=  ./a.c ./main.c ./b.c ./foo/foo.c ./bar/bar.c ../relative-dir/baz.c ./no-include.c
 # if you uncomment this out look at the warnings.
 # SRC += ./foo.c
-# SRC  :=  ./main.c ./bar/bar.c
 
+# should add checks for bad BUILD_DIR's (e.g. ./)
 BUILD_DIR = ./objs
+
+# the .o and .c for each source file should be in build_dir.
 reloc := $(foreach o, $(SRC), $(BUILD_DIR)/$(notdir $o))
 objs := $(reloc:.c=.o)
 deps := $(reloc:.c=.d)
@@ -43,12 +46,15 @@ trash := $(foreach d, $(dirs), $(wildcard $d/*~ $d/*.bak))
 CFLAGS := -Og -I. -Wall -Werror  
 CFLAGS += -Wno-pointer-sign -Wno-unused-function -Wno-unused-variable
 
+# XXX: unclear if we should have this seperate from the rule below.
+#
 # standard dependency flags so gcc will generate the includes
 # that a file depends on.  "$*.d" places the .d file in the same
 # location as the .c
 # from 'make' maintainer:
 #   https://make.mad-scientist.net/papers/advanced-auto-dependency-generation/
 # DEPFLAGS = -MT $@ -MMD -MP -MF $*.d
+
 
 COMPILE.c = $(CC) $(DEPFLAGS) $(CFLAGS) 
 
@@ -60,8 +66,7 @@ COMPILE.c = $(CC) $(DEPFLAGS) $(CFLAGS)
 # that they will rerun if the makefile ever changes.  
 # eliminates some issues with changing compiler
 # options.
-MK := $(filter-out %.d, $(MAKEFILE_LIST))
-DEPS := $(MK) 
+DPES := $(filter-out %.d, $(MAKEFILE_LIST))
 
 all: $(NAME)
 
@@ -72,18 +77,17 @@ $(NAME): $(objs) $(deps) $(DEPS)
 	@$(COMPILE.c) $(objs) -o $(NAME) \
         || (echo "\n**This error could be b/c you have duplicate files that have collided: did make emit any warnings aboud recipes?**\n"; exit 1)
 
-# remove built in rule for .c->.o
+# remove built in rule for .c->.o -- i think redundant b/ we removed
+# all .SUFFIXES
 %.o : %.c
 
 ###########################################################################
-# we use eval to explicitly generate the makefile rules
-# for each .o so that we have complete
-# control over which .c each .o is generated from.
+# the new trick.
 #
-# a nice side-effect of this is that it can catch 
-# some duplicate file name / definition errors (tho
-# admittedly the errors won't obviously point to it)
-# 
+# we use eval to explicitly generate the makefile rules
+# for each .o/.d so that we have complete
+# control over which .c each .o/.d is generated from.
+#
 define COMPILE_RULE
 $(BUILD_DIR)/$(notdir $(1:.c=.o)): $(1) $(BUILD_DIR)/$(notdir $(1:.c=.d)) $(DEPS)
 	@mkdir -p $(BUILD_DIR)
