@@ -1,7 +1,7 @@
 ### Intro
 
 <p align="center">
-  <img src="../../lab-memes/build-system.jpg" width="400" />
+  <img src="../../labs/lab-memes/build-system.jpg" width="400" />
 </p>
 
 As projects get large, manually compiling code is a pain.   The Unix
