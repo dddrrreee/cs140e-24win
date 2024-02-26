@@ -1,18 +1,52 @@
-## Fancy `Makefile` for a large project.
+## Semi-fancy `Makefile` for a large project.
 
-Current best way I know to 
-  1. take a bunch of source spread across multiple directories (including
-     directories with relative paths)
-  2. have complete control over the rules for generating .o and .d 
-     (through the use of eval).
+Current best way I know to: 
+  1. take a bunch of source files spread across multiple directories 
+     (including directories with relative paths above the build
+     directory).
+  2. Have complete control over the rules for generating .o and .d 
+     (through the use of eval): no vpath, no implicit rules, zero
+     abiguity possible about which .c file is used for which .o file.
   3. put the .o's in a build dir.
   4. put the .d's in a build dir.
-  5. do not use vpath.  
 
 Why:
   1. vpath will eventually cause hard-to-debug problems if the same file
-     name appears in different directories.  ***even if this name is
-     not explicitly included in your source list!***
+     name appears in different directories.  ***Even if this name is
+     not explicitly included in your source list!***   
+
+     Problem:
+       1. Your makefile initially uses `bar/bar.c`.  Let's say
+          your VPATH is the trivial:
+
+                VPATH = bar/
+
+       2. You want to add `foo/foo.c`.
+       3. So you add add `foo/` to your vpath before `bar/`:
+            
+            VPATH = foo/ bar/
+
+       4. This is fine in general, so you get used to doing this.
+          Very easy!
+
+       5. But one day you do so for a `foo/` that just happens to 
+          contain a `bar.c` (that you don't intend to use).
+       5. `make` will silently use `foo/bar.c` instead of `bar/bar.c`.
+       6.  If you reverse the vpath, the same problem happens
+           if `bar/foo.c` exists.
+
+       7. This situation is exceptionally bad if the faux amime
+          that gets silently swapped in behaves *almost* identically to
+          the original.  (This burned us very badly for the UART lab
+          with `cstart.c`.)
+
+     The problem is analogous to adding a directory `foo/` early to
+     your shell PATH variable so your shell can locate a program `foo/`
+     contains, but b/c `foo/` contains other executables as well, the
+     shell will pick these as well, rather than getting the intended
+     executable for a directory that appears later.  It's a fundmamental
+     danger of having a flat list of contexts where the first match wins.
+
 
   2. doing the hack of making the build directory mirror the source
      directory is a pain with relative paths to source go above the
