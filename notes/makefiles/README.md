@@ -55,10 +55,12 @@ We give two main examples of `make`:
       explicit compilation rules.  This makefile should work
       for any project you do, afaik. 
 
+Both of these are written to guard against or eliminate the
+common mistakes below.
+
 ### tl;dr of common mistakes
 
-Common make mistakes that have burned us that the example
-makefiles address:
+Common `make` mistakes (all have burned us):
 
   - Mispell `make` variables.  this is especially a problem when the
     variable is used as a compilation rule's dependency since it will
@@ -66,21 +68,22 @@ makefiles address:
     work correctly (since it builds from scratch) as will a `make` after
     `make clean`, but later ones can use stale .o's after modifications.
 
-    Solution: be careful.  Also when writing makefiles add the warning
-    for unused variables to `make`'s flags:
+    Solution: be careful (sorry; `make` sucks for this).  You can
+    somewhat guard against this with how you write rules (below).
+    Also when writing makefiles add the warning for unused variables to
+    `make`'s flags:
 
         MAKEFLAGS += --warn-undefined-variables
 
-  - Give the wrong path to where you have the automatically
-    generated `.d` dependency files when you `include` them in
-    the `Makefile`: `make` will silently proceed, and you have no
-    dependencies.  Again: will work the first time or after make clean
-    but will allow stale results later.
+  - Give the wrong path when using `include` for automatically
+    generated `.d` dependency files.  `make` will silently proceed, and
+    you have no dependencies.  Again: will work the first time or after
+    `make clean` but will allow stale results later.
 
     Solution: add each `.d` as an explicit dependency for each `.o` rule.
     If the `.d` doesn't exist, will get an error.
 
-  - Makes automatic rules do the wrong thing (e.g., and avoid the 
+  - `make` automatic rules do the wrong thing (e.g., avoid the 
     `.d` safeguard above).
 
     Solution: disable built-in rules either individually or
@@ -89,21 +92,27 @@ makefiles address:
         # disable all built-in rules.
         .SUFFIXES:
 
-  - Change the makefile flags but forget to `make clean; make`.
+    This gives you complete control over the build.
+
+  - Change the `Makefile` but forget to `make clean; make`.
     Often fine, sometimes bad.  
 
     Solution: add a dependency on the `Makefile` itself.  Or do the hack
-    of automatically running `make clean` when the makefile is newer
+    of automatically running `make clean` when the `Makefile` is newer
     than a timestamp file.  (We have examples of both.)
 
-  - A file appears more than once in the directories `VPATH` contains.
-    First resolution will win, no matter if you intended to grab a
-    later one.
+  - A file appears more than once in the list of directories `VPATH`
+    contains.  First resolution will win, no matter if you intended to
+    grab a later one.
 
-    Solution: don't use `VPATH`!  Explicitly generate the rules using
-    `eval`, or have a build directory that mirrors the source directory,
-    or generate the `.o` in the same directory as each source file (ugly,
-    but simple).
+    Solution: don't use `VPATH`!  Several alternatives:
+      1. Explicitly generate the rules using `eval`.
+      2. Have a build directory that mirrors the source directory.
+      3. Generate the `.o` in the same directory as each source file 
+         (ugly, but simple).  
+
+      Geneerally all three mean that duplicate files that contain the
+      same routine will show up with multiple definitions.
 
   - `make` is deleting intermediate files (e.g., `.list` files)
 
@@ -116,3 +125,20 @@ makefiles address:
     Correct solution: explicitly list out the files that are produced
     by rules.  This also partially checks that your internal rules
     work correctly.
+
+  - The build directory you want to put intermediate results in doesn't
+    get created robustly.
+
+    I used to use a target for the build dir, but this is really finicky
+    for reasons I actually don't understand.  
+
+        # <FORCE> forces the rule to run always.
+        $(BUILD_DIR): FORCE
+			mkdir -p $(BUILD_DIR)
+    
+        FORCE:
+
+    Solution: just put the `mkdir -p $(BUILD_DIR)` with each rule.
+    This is kind of ugly, but the way we do things there aren't many
+    locations and it is guaranteed to always work.
+
