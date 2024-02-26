@@ -10,6 +10,10 @@
 # 4. all compilation rules depend on the makefile itself so will
 #    conservatively rerun if the makefile changes.
 #
+
+# the one program we make.  you could also do this automatically
+# if the files that contain main() have some naming convention.
+# or if you seperate out the main() files from the rest.
 NAME := main 
 
 # delete all implicit rules, removing one of the big causes of make
@@ -22,23 +26,24 @@ NAME := main
 # every subdirectory.
 # SRC  :=  $(wildcard ./*.c) $(wildcard ./*/*.c)
 
-# we explicitly list out the files we compile --- this tests
-# that if we do not add a file with the same name that it won't
-# appear.
+# we explicitly list out the files we compile --- we use this to 
+# check that `make` won't grab any synonym file not listed.  (e.g,
+# that ./bar/foo.c doesn't get picked up instead of foo/foo.c)
 SRC  :=  ./a.c ./main.c ./b.c ./foo/foo.c ./bar/bar.c ../relative-dir/baz.c ./no-include.c
-# if you uncomment this out look at the warnings.
+# uncomment this (so we get a duplicate file) and look at the warnings!
 # SRC += ./foo.c
 
 # should add checks for bad BUILD_DIR's (e.g. ./)
 BUILD_DIR = ./objs
 
-# the .o and .c for each source file should be in build_dir.
+# put all .o and .d for each .c source file in <BUILD_DIR>
 reloc := $(foreach o, $(SRC), $(BUILD_DIR)/$(notdir $o))
 objs := $(reloc:.c=.o)
 deps := $(reloc:.c=.d)
 
-# so make clean will remove "*~" and "*.bak" trash files in all the 
-# different source directories.
+# automatically make a list of all "*~" and "*.bak" trash files 
+# in all the different source directories so `make clean` 
+# can delete them.
 dirs := $(sort $(dir $(SRC)))
 trash := $(foreach d, $(dirs), $(wildcard $d/*~ $d/*.bak))
 
@@ -55,7 +60,6 @@ CFLAGS += -Wno-pointer-sign -Wno-unused-function -Wno-unused-variable
 #   https://make.mad-scientist.net/papers/advanced-auto-dependency-generation/
 # DEPFLAGS = -MT $@ -MMD -MP -MF $*.d
 
-
 COMPILE.c = $(CC) $(DEPFLAGS) $(CFLAGS) 
 
 # pull out every Makefile from the confusingly-named
@@ -63,10 +67,11 @@ COMPILE.c = $(CC) $(DEPFLAGS) $(CFLAGS)
 # get included)
 # 
 # we add this as a dependency on each compile rules, so 
-# that they will rerun if the makefile ever changes.  
+# that they will rerun if the Makefile ever changes.  
 # eliminates some issues with changing compiler
-# options.
-DPES := $(filter-out %.d, $(MAKEFILE_LIST))
+# options.  To be even more hygenic we could do the hack of 
+# running `make clean`
+DEPS := $(filter-out %.d, $(MAKEFILE_LIST))
 
 all: $(NAME)
 
@@ -77,12 +82,13 @@ $(NAME): $(objs) $(deps) $(DEPS)
 	@$(COMPILE.c) $(objs) -o $(NAME) \
         || (echo "\n**This error could be b/c you have duplicate files that have collided: did make emit any warnings aboud recipes?**\n"; exit 1)
 
-# remove built in rule for .c->.o -- i think redundant b/ we removed
-# all .SUFFIXES
+# remove built in rule for .c->.o and .c->.d (should be 
+# redundant b/ we removed all .SUFFIXES)
 %.o : %.c
+%.d : %.c
 
 ###########################################################################
-# the new trick.
+# the new trick: eval.
 #
 # we use eval to explicitly generate the makefile rules
 # for each .o/.d so that we have complete
@@ -107,15 +113,18 @@ $(foreach src,$(SRC),$(eval $(call COMPILE_RULE,$(src))))
 # made during compilation. 
 $(deps): %.d: ;
 
-# we include these last so the rules they define don't mess w/ the rules
+# we include these last so the <deps> rules don't mess w/ the rules
 # above.
 include $(deps)
 
-# remove objs/deps and any trash files 
+# remove objs/deps and any trash files, along with 
+# the BUILD_DIR
 clean:
 	rm -f $(deps) $(objs) $(trash) $(NAME)
 	rm -rf $(BUILD_DIR)
 
+# just for debugging: there's no gdb for make, so we
+# resort to printf's :).  
 print:
 	@echo "SRC=<$(SRC)>"
 	@echo "deps=<$(deps)>"

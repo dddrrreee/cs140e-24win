@@ -47,15 +47,18 @@ Why:
      executable for a directory that appears later.  It's a fundmamental
      danger of having a flat list of contexts where the first match wins.
 
-
-  2. doing the hack of making the build directory mirror the source
-     directory is a pain with relative paths to source go above the
-     `Makefile` directory (e.g., as they do if we include lab code
-     into libpi).
+  2. the hack of making the build directory mirror the source
+     directory (as we do in `full-makefile`) is a pain when grabbing
+     source files using relative paths that go above the `Makefile`
+     directory (e.g., as they do if we include lab code into `libpi`).
 
      you can convert to relative paths to absolute, but then you get
      these crazy long directory trees in your build dir.  there does not
      seem to be a nice way prune off the largest common directory prefix.
+     
+     to some degree this is an aesthetic concern, but it makes
+     compilation lines enormous, which makes debugging hard, so is
+     sort-of a correctness issue.
 
   3. the foundational problem is that afaik `make` does not let you map
      from a source file to its .o.  `make` rules require that you can
