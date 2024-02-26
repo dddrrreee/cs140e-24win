@@ -1,8 +1,29 @@
-### Intro
 
 <p align="center">
   <img src="../../labs/lab-memes/build-system.jpg" width="500" />
 </p>
+
+
+### tl;dr
+
+This directory goes over possibly the only two `Makefiles` you
+will need in your career and why they are written the way they
+are.
+
+ 1. [basic-makefile-unix](./basic-makefile-unix) which works through
+    everything in a simple way.  The final `Makefile` should work for
+    most of your projects.
+
+ 2. [fancy-makefile-unix](./fancy-makefile-unix): which is a fancier
+    version that is likely the best robust approach for large projects
+    through its use of the `eval` function (an extension of `GNUmake`)
+    that can be used to generate explicit compilation rules.  Tweaks of
+    this `Makefile` should work for any project you do, afaik.
+
+Both of these are written to guard against or eliminate the
+common mistakes described below.
+
+### Overview
 
 As projects get large, manually compiling code is a pain.   The Unix
 `make` program is one of the oldest ways to automate this process.
@@ -12,6 +33,7 @@ and has enough power embedded inside that you can often make it do what
 you want --- compiling based on what changes with automatic dependencies,
 producing multiple programs or libraries and placing them in
 different locations, automatically running regression tests, etc.
+
 
 We use `make` alot.  Many places you might work or found will as well.
 Despite its baroque weirdness, there is a narrow  slice that will do
@@ -47,21 +69,6 @@ Required reading:
     While the domain name is weird, the `make` examples are concrete,
     simple, useful.
 
-### Examples:
-
-We give two main examples of `make`:
- 1. [basic-makefile-unix](./basic-makefile-unix) which works through
-    everything in a simple way.  The resultant makefile should work for
-    most of your projects.
-
- 2. [fancy-makefile-unix](./fancy-makefile-unix): which is a fancier
-    version that is likely the best robust approach for large projects
-    through its use of the `eval` function in `GNUmake` to generate
-    explicit compilation rules.  This makefile should work for any
-    project you do, afaik.
-
-Both of these are written to guard against or eliminate the
-common mistakes below.
 
 ### tl;dr of common mistakes
 
