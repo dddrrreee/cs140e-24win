@@ -144,9 +144,18 @@ More concrete mistakes:
   - Change the `Makefile` but forget to `make clean; make`.
     Often fine, sometimes bad.  
 
-    Solution: add a dependency on the `Makefile` itself.  Or do the hack
-    of automatically running `make clean` when the `Makefile` is newer
-    than a timestamp file.  (We have examples of both.)
+    Solution: add a dependency on the `Makefile` itself.  You can pull 
+    out the `Makefile` and all the other names as follows:
+
+        # pull out every Makefile from the confusingly-named
+        # <MAKEFILE_LIST> (which can contain .d files if they
+        # get included)
+        MK_LIST := $(filter-out %.d, $(MAKEFILE_LIST))
+
+    Or do the hack of automatically running `make clean` when the
+    `Makefile` is newer than a timestamp file.  (We have examples
+    of both.)
+
 
   - A file appears more than once in the list of directories `VPATH`
     contains.  First resolution will win, no matter if you intended to
@@ -194,7 +203,7 @@ More concrete mistakes:
     like:
 
         $(BUILD_DIR)/%.o: %.c $(BUILD_DIR)/%.d  $(DEPS)
-            @mkdir -p $(dir $@)
+            @mkdir -p $(BUILD_DIR)
             $(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
 ### Summary
