@@ -89,6 +89,7 @@ $(NAME): $(objs) $(deps) $(DEPS)
 
 ###########################################################################
 # the new trick: eval.
+#   https://www.gnu.org/software/make/manual/html_node/Eval-Function.html
 #
 # we use eval to explicitly generate the makefile rules
 # for each .o/.d so that we have complete
