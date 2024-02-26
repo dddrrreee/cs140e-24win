@@ -1,5 +1,9 @@
 ### Intro
 
+<p align="center">
+  <img src="../../lab-memes/build-system.jpg" width="400" />
+</p>
+
 As projects get large, manually compiling code is a pain.   The Unix
 `make` program is one of the oldest ways to automate this process.
 `make` has a deserved reputation as an unusually ugly and baroque
