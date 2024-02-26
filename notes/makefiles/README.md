@@ -1,53 +1,3 @@
-## `make`
-
-***NOTE: this README needs to be updated.  I would suggest
-looking at the following:***
-  1. `0-basic-unix-makefile` which works through everything
-     in a simple way.  The resultant makefile should work
-     for most of your projects.
-  2. `make-using-eval`: which is a fancier version that is
-      likely the best robust approach for large projects through
-      its use of the `eval` function in `GNUmake` to generate
-      explicit compilation rules.  This makefile should work
-      for any project you do, afaik. 
-
-
-
-
-
-Simple `make` note.  Could use more prose, but does have 
-examples.
-
-### tl;dr: Summary
-
-Each `*-example` directory has an example `Makefile` and a `README.md`
-describing how it works.  Typing `make` in this directory should compile
-and check all of the examples.  `make clean` should delete them.
-
-Examples:
-  - [0-example](0-example): simple, hard-coded Makefile that compiles
-    entire program if anything changes.
-  - [1-example](1-example): Slightly more fancy Makefile --- rewritten so that we
-    only compile those `.c` that have changed or include a header that
-    has changed.
-  - [2-example](2-example): add a pattern-matching rule to make our code slightly
-    more automatic and use the `$<` and `$@` variables.
-  - [3-example](3-example):  use wildcards to automatically gather up all source
-     and `make` it.  We avoid the use of dependencies by also using
-     wildcards to get all header files and stating that every source
-     file depends on all header.
-  - [4-example](4-example): use the `-MMD` flag to automatically generate
-    dependencies rather than hardcode a bunch of stuff (which can go
-    wrong in bad way
-  - [5-example](5-example): now gather source from many directories and 
-     put the generated `.o` and `.d` files in a private build 
-     directory.
-
-  - [7-example](7-example): we go entirely the opposite direction and 
-    make the simplest possible cross-compiling makefile that just always
-    remakes everything.  you should definitely understand everything 
-    in it.
-
 ### Intro
 
 As projects get large, manually compiling code is a pain.   The Unix
@@ -93,161 +43,76 @@ Required reading:
     While the domain name is weird, the `make` examples are concrete,
     simple, useful.
 
-If you understand the required reading, feel free to jump to part 4 and
-just implement it.  (You should be able to answer the boldfaced questions
-in the other parts.)
+### Examples:
 
----------------------------------------------------------------------------
-### 0. Example: A simple-minded makefile: `0-example/Makefile`
+We give two main examples of `make`:
+  1. `0-basic-unix-makefile` which works through everything
+     in a simple way.  The resultant makefile should work
+     for most of your projects.
+  2. `make-using-eval`: which is a fancier version that is
+      likely the best robust approach for large projects through
+      its use of the `eval` function in `GNUmake` to generate
+      explicit compilation rules.  This makefile should work
+      for any project you do, afaik. 
 
-As a warm-up, our first makefile in `0-example` hard-codes all dependencies.
-If you type:
+### tl;dr of common mistakes
 
-        % make Makefile
+Common make mistakes that have burned us that the example
+makefiles address:
 
-You should get:
+  - Mispell `make` variables.  this is especially a problem when the
+    variable is used as a compilation rule's dependency since it will
+    be empty, and thus doesn't give a dependency.  The first `make` will
+    work correctly (since it builds from scratch) as will a `make` after
+    `make clean`, but later ones can use stale .o's after modifications.
 
-        # main: rule
-        cc a.c b.c c.c main.c -o main
-        # test: rule
-        cc a.c b.c c.c main.c -o main
-        ./main > out
-        diff out main.ref
-        makefile: program 'main' passed test
-        rm -f out
+    Solution: be careful.  Also when writing makefiles add the warning
+    for unused variables to `make`'s flags:
 
-Stripping out most comments from `0-example/Makefile`:
+        MAKEFLAGS += --warn-undefined-variables
 
-```make
-    # Makefile
-    all: main test
+  - Give the wrong path to where you have the automatically
+    generated `.d` dependency files when you `include` them in
+    the `Makefile`: `make` will silently proceed, and you have no
+    dependencies.  Again: will work the first time or after make clean
+    but will allow stale results later.
 
-    main: a.c b.c c.c main.c header.h
-        # the main rule
-	    $(CC) a.c b.c c.c main.c -o main
+    Solution: add each `.d` as an explicit dependency for each `.o` rule.
+    If the `.d` doesn't exist, will get an error.
 
-    .PHONY: clean test
+  - Makes automatic rules do the wrong thing (e.g., and avoid the 
+    `.d` safeguard above).
 
-    test:
-        # test: rule
-	    ./main > out
-	    diff out main.ref
-	    @echo "makefile: program 'main' passed test"
-	    rm -f out
+    Solution: disable built-in rules either individually or
+    (preferred) en masse:
+    
+        # disable all built-in rules.
+        .SUFFIXES:
 
-    # cleanup remove outputs and temporary files
-    clean:
-	    rm -f main out *~ *.bak
-```
+  - Change the makefile flags but forget to `make clean; make`.
+    Often fine, sometimes bad.  
 
-This `Makefile` has four rules:
+    Solution: add a dependency on the `Makefile` itself.  Or do the hack
+    of automatically running `make clean` when the makefile is newer
+    than a timestamp file.  (We have examples of both.)
 
-  - `all:` --- this rule is the first rule in `Makefile`, so is what 
-    `make`  will run by default, including any rules it
-    recursively depends on.  This first rule does not need to be called `all`.
-    Ours states it depends on `main` and `test` rules so `make` will
-    also run these rules (in that order).  
+  - A file appears more than once in the directories `VPATH` contains.
+    First resolution will win, no matter if you intended to grab a
+    later one.
 
-  - `main:` --- this rule makes the `main` program by invoking the 
-    default compiler (held in the `CC` variable).   It is what we
-    will refine in most of the rest of this document.
+    Solution: don't use `VPATH`!  Explicitly generate the rules using
+    `eval`, or have a build directory that mirrors the source directory,
+    or generate the `.o` in the same directory as each source file (ugly,
+    but simple).
 
-        main: a.c b.c c.c main.c header.h
-	        $(CC) a.c b.c c.c main.c -o main
+  - `make` is deleting intermediate files (e.g., `.list` files)
 
-    It explicitly enumerates all dependencies (`a.c`, `b.c`, `c.c`,
-    `main.c` and `header.h`) and will re-execute if any of the
-    dependencies change.
+    Wrong solution: add a .PRECIOUS directive:
 
-  - `test:` --- this rule runs `diff` to compare the result of `main` to
-    `out.ref`.
+        .PRECIOUS: %.list %.elf 
 
-  - `clean:` --- most makefiles define this rule, which conventionally
-    removes various automatically produced files.  Typically it is the
-    inverse of running `make` by deleting anything `make` produces.
-    It often removes any files temporary produced by your editor.
-    It does not need to be called `clean`.
+    This will leave garbage if you control-c during `make`.
 
-Both `test` and `clean` don't produce any ouput file, so we tell `make`
-they are `PHONY` targets.   (See the `make` 
-[manual pages for why](https://web.mit.edu/gnu/doc/html/make_4.html#SEC31)).
-(The main reason we do this is that you'll get weird behavior if there
-is a `test` or `clean` file or directory.)
-
-***Questions***:
-
-  1. What happens if we changed the `all` rule as follows?
-
-            all: test main
-
-     When does this work the same?  Differently?
-
-     What happens if we changed it as follows?
-
-            all: main
-
-
-  2. What happens if you delete some or all of the `main` rule
-     dependencies?  For example:
-
-            main: 
-	            $(CC) a.c b.c c.c main.c -o main
-
-     When will this work?  What is an example of when it will break?
-
-
-  3. The `@` as part of the `test:` rule suppresses output.   Change
-     the rule so it only prints if the test passed or failed.
-
-  4. If you do:
-
-            % make -f Makefile.0 clean
-            % make -f Makefile.0 test
-
-     What happens and why?  Fix it!
-
----------------------------------------------------------------------------
-### 1. Simple-minded makefile: `1-example/Makefile`
-
-In the previous makefile, we always recompiled all `.c` files even
-if only one changed.  For a small project, this doesn't matter
-(and does make the makefile simple).  However, for big projects you
-don't want to regenerate everything but instead will recompile just
-what you need.  A first, sort-of dumb method:
-
-
-```make
-		# Makefile
-        all: main  test
-
-        main: a.o b.o c.o main.o 
-	        $(CC) a.o b.o c.o main.o -o main
-        a.o: a.c header.h
-	        $(CC) -c a.c -o a.o
-        b.o: b.c header.h
-	        $(CC) -c b.c -o b.o
-        c.o: c.c header.h
-	        $(CC) -c c.c -o c.o
-        main.o: main.c header.h
-	        $(CC) -c main.c -o main.o
-
-        include common.mk
-```
-
-This will re-compile any source file whose dependency changed,
-producing an object file (e.g., `a.c` becomes `a.o`).
-It will then re-generate `main` using only the `.o` files.
-So we don't hvae to keep including the rest of the file, we just
-include `common.mk`.
-
-What to do:
-  1. Rewrite this makefile so that it uses pattern rules  and there is
-     a single rule for how to produce a `.o` from a `.c` file.
-
-     Use the built-in variables `$@` and `$^` --- you can print these
-     out using the `echo` command.
-
----------------------------------------------------------------------------
-### Look in the rest of the directories
-
-We're out of time, so you'll have to look in the example directories.
+    Correct solution: explicitly list out the files that are produced
+    by rules.  This also partially checks that your internal rules
+    work correctly.
