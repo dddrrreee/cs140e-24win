@@ -3,7 +3,15 @@
 # compiling a big multi-language (C, asm) project that spans
 # directories and putting the results in a <BUILD_DIR>
 #
-# [It's long, but it's mostly comments.]
+# Limits:
+#   1. does not handle relative paths that go outside the
+#      makefile directory.
+#
+#      See: `make-using-eval` for how to handle this problem.
+#      likely a better approach overall.
+#
+#   2. Long: but this is mostly b/c of comments and b/c it
+#      shows other tricks (that you can simply delete).
 #
 # Given:
 #   1. <PROGS>: a list of programs to generate.  These are 

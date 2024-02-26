@@ -1,5 +1,20 @@
 ## `make`
 
+***NOTE: this README needs to be updated.  I would suggest
+looking at the following:***
+  1. `0-basic-unix-makefile` which works through everything
+     in a simple way.  The resultant makefile should work
+     for most of your projects.
+  2. `make-using-eval`: which is a fancier version that is
+      likely the best robust approach for large projects through
+      its use of the `eval` function in `GNUmake` to generate
+      explicit compilation rules.  This makefile should work
+      for any project you do, afaik. 
+
+
+
+
+
 Simple `make` note.  Could use more prose, but does have 
 examples.
 
