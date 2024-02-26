@@ -91,9 +91,18 @@ have a debugger.
     rules, to print variables, etc.  (You can also run `make -d` or
     `make --debug` but these are not always intuitive.)
 
+    Common: if you forget what the many built-in `make` variables
+    mean, just print them.
+
  3. Program defensively.  You can do `assert` checks in `make` and
     give errors.  You can write rules to guard against common mistakes.
-    We give examples below.
+    For example:
+
+        ifeq ($(BUILD_DIR),.)
+            $(error "<BUILD_DIR> cannot be '.' or clean will remove everything.")
+        endif
+
+    We give other examples below.
 
 More concrete mistakes:
 
@@ -178,7 +187,12 @@ More concrete mistakes:
 
     Solution: just put the `mkdir -p $(BUILD_DIR)` with each rule.
     This is kind of ugly, but the way we do things there aren't many
-    locations and it is guaranteed to always work.
+    locations and it is guaranteed to always work.  E.g., something
+    like:
+
+        $(BUILD_DIR)/%.o: %.c $(BUILD_DIR)/%.d  $(DEPS)
+            @mkdir -p $(dir $@)
+            $(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
 ### Summary
 
