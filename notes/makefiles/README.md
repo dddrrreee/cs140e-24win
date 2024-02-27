@@ -120,9 +120,8 @@ especially a problem b/c `make` doesn't have a debugger.
     Common: if you forget what the many built-in `make` variables
     mean, just print them. 
 
- 3. Program defensively.  You can do `assert` checks in `make` and
-    give errors.  You can write rules to guard against common mistakes.
-    For example:
+ 3. Program defensively.  Write rules to guard against common mistakes.
+    Write if-statement checks in `make` and give errors.  For example:
 
         ifeq ($(BUILD_DIR),.)
             $(error "<BUILD_DIR> cannot be '.' or clean will remove everything.")
