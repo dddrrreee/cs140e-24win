@@ -223,3 +223,10 @@ paper over quality issues with their writeups.
 [2020]: https://github.com/dddrrreee/cs140e-20win
 [2019]: https://github.com/dddrrreee/cs140e-win19
 [2018]: https://cs140e.sergio.bz
+
+
+<p align="center">
+  <img src="images/labs/lab-memes/feynman-simple.jpg" width="700" />
+</p>
+
+

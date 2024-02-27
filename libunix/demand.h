@@ -1,5 +1,5 @@
-#ifndef __LIBUNIX_DEMAND_H__
-#define __LIBUNIX_DEMAND_H__
+#ifndef __DEMAND_H__
+#define __DEMAND_H__
 // engler, cs140e.
 // various helpful error-checking / debugging macros.
 //

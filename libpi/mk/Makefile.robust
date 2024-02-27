@@ -207,8 +207,8 @@ endif
 DEPS      += $(MK_LIST)
 
 # extra linker dependencies: note we keep $(LPI) first
-# b/c of the lame way we make start (doing a cp from
-# BUILD_DIR)
+# b/c of the lame way we make libpi/staff-start.o 
+# (doing a cp from BUILD_DIR)
 LINK_DEPS := $(LPI) $(START) $(MEMMAP) $(DEPS)
 
 LIBS += $(LPI)
