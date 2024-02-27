@@ -7,8 +7,8 @@
 #   1. does not handle relative paths that go outside the
 #      makefile directory.
 #
-#      See: `make-using-eval` for how to handle this problem.
-#      likely a better approach overall.
+#      See: `fancy-makefile-unix`  for how to handle this 
+#      problem.  likely a better approach overall.
 #
 #   2. Long: but this is mostly b/c of comments and b/c it
 #      shows other tricks (that you can simply delete).

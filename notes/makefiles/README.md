@@ -8,7 +8,8 @@
 
 This directory goes over possibly the only two `Makefiles` you
 will need in your career and why they are written the way they
-are.
+are.  We also give a variant of the fancy one that does thing
+a bit simpler with more error checking.
 
  1. [basic-makefile-unix](./basic-makefile-unix) which works through
     everything in a simple way.  The final `Makefile` should work for
@@ -19,6 +20,12 @@ are.
     through its use of the `eval` function (an extension of `GNUmake`)
     that can be used to generate explicit compilation rules.  Tweaks of
     this `Makefile` should work for any project you do, afaik.
+
+ 3. [less-fancy-makefile-unix](./less-fancy-makefile-unix):
+    we don't use `eval` but instead make the build directory
+    structure mirror the source directory so that it is
+    easy to make a bijection between the source and `.o` and
+    `.d` files.  It has additional error checking and comments.
 
 Both of these are written to guard against or eliminate the
 common mistakes described below.
