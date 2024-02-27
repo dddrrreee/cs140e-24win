@@ -1,7 +1,5 @@
 ## Single step equivalance checking
 
-
-
 <p align="center">
   <img src="images/pi-ss-equiv.jpg" width="700" />
 </p>
@@ -30,7 +28,6 @@ it across two labs so that:
 
 The downside is that today is more of a pre-lab since the cool final
 result will happen thursday.
-
 
 The entire lab (part1 + part 2) will be building a wildly useful trick
 for ruthlessly detecting subtle operating system mistakes.  It will
