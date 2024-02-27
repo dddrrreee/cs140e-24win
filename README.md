@@ -226,7 +226,7 @@ paper over quality issues with their writeups.
 
 
 <p align="center">
-  <img src="labs/lab-memes/feynman-simple.jpg" width="700" />
+  <img src="labs/lab-memes/feynman-simple.jpg" width="550" />
 </p>
 
 
