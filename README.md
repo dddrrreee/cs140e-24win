@@ -1,10 +1,8 @@
 ## CS140E: embedded operating systems (Engler, Winter, 2024)
 
-This repository contains all material for CS140E, winter 2024.
-
-***The 2024 application is at the following link***:
-  - https://forms.gle/q1X7STikN57JS2128
-
+<p align="center">
+  <img src="labs/lab-memes/pi-intro.jpg" width="600" />
+</p>
 
 Tl;dr:
   - It's a lab class, so [jump right to the labs](./labs/README.md).
@@ -226,7 +224,7 @@ paper over quality issues with their writeups.
 
 
 <p align="center">
-  <img src="labs/lab-memes/feynman-simple.jpg" width="550" />
+  <img src="labs/lab-memes/feynman-simple.jpg" width="600" />
 </p>
 
 
