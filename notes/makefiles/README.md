@@ -6,10 +6,10 @@
 
 ### tl;dr
 
-This directory goes over possibly the only two `Makefiles` you
-will need in your career and why they are written the way they
-are.  We also give a variant of the fancy one that does thing
-a bit simpler with more error checking.
+This directory goes over possibly the only two `Makefiles` you will need
+in your career, a simple one and a fancy one, and why they are written
+the way they are.  We also give a third variant that does things with
+less machinery than the fancy version.
 
  1. [basic-makefile-unix](./basic-makefile-unix) which works through
     everything in a simple way.  The final `Makefile` should work for
@@ -22,13 +22,17 @@ a bit simpler with more error checking.
     this `Makefile` should work for any project you do, afaik.
 
  3. [less-fancy-makefile-unix](./less-fancy-makefile-unix):
-    we don't use `eval` but instead make the build directory
-    structure mirror the source directory so that it is
-    easy to make a bijection between the source and `.o` and
-    `.d` files.  It has additional error checking and comments.
+    this version doesn't use `eval` but instead achieves a *mostly*
+    similar result by making the build directory structure mirror the
+    source directory so that it is easy to make a bijection between the
+    source and `.o` and `.d` files.  It has additional error checking
+    and comments.
 
-Both of these are written to guard against or eliminate the
-common mistakes described below.
+    It's good to go through this version even if the `eval` version
+    works for you since it talks about things in a slightly different way.
+
+All of them are written to guard against or eliminate the common mistakes
+described below.
 
 ### Overview
 
