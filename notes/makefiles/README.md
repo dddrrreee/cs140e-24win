@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="../../labs/lab-memes/build-system.jpg" width="500" />
+  <img src="../../labs/lab-memes/build-system.jpg" width="600" />
 </p>
 
 
