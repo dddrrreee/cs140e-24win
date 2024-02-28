@@ -15,6 +15,7 @@ tl;dr: the goal:
   5. NOTE: once you get to `1-test-two-addr.c` you should comment out
      the failing check:
 
+            // pin_mmu_sec
             if(va != pa)
                 panic("for today's lab, va (%x) should equal pa (%x)\n",
                     va,pa);
