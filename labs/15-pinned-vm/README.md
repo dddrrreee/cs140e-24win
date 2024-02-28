@@ -135,7 +135,7 @@ state) there's a bunch of data structure code.   The rough breakdown:
 #### Check-off
 
 You need to show that:
-  1. You replaced all `staff_mmu_*` routines with yours and everything works.
+  1. You aren't linking against `staff-pinned-vm.o`.
   2. You can handle protection and unallowed access faults.
 
 ------------------------------------------------------------------------------
