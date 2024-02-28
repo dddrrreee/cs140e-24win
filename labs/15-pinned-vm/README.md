@@ -337,15 +337,11 @@ Useful domain pages:
   - B4-27: the location / size of the `domain` field in the segment page table entry.
   - B4-42: setting the domain register.
 
-A invalid access fault:
-  1. Write tests that 
-     do load, store, and jump to an unmapped addresss and extend the
-     data abort and prefetch abort handlers above to print out the 
-     reason and faulting address.
 
 
-NOTE: if you delete `staff-mmu-except.o` and your `panic` or `reboot`
-locks up, add this code to your pinned-vm.c`:
+NOTE: (I don't think this applies today, but just in case): if you delete
+`staff-mmu-except.o` and your `panic` or `reboot` locks up, add this
+code to your pinned-vm.c`:
 
         // this is called by reboot: we turn off mmu so that things work.
         void reboot_callout(void) {
