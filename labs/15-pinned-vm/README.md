@@ -232,17 +232,20 @@ If you want to use our stuff, there's a few helpers you implement.
 
 
 ----------------------------------------------------------------------
-## Part 2: implement `pinned-vm.c:pin_mmu_on(procmap_t *p)` 
+## Part 2: implement `pinned-vm.c:pin_mmu_init(uint32_t domain_reg)` 
 
-Actually: I think we basically gave you this.   Just get rid of the
-`staff_pin_mmu_switch`.
+You should be able to pretty easily finish `pin_mmu_unit` using
+the code from the first test case.
+
 
 It will be convenient later to pass in a data structure that contains
 the mapping of the kernel rather than embedding the addresses in a bunch
-of code.  You should be able to pretty easily finish `pin_mmu_on` using
-the code in the previous two tests.
+of code.   You should look through  the code in `procmap.h` to see
+what is going on.  Start with:
 
-Note that you'll have to handle the domains in the domain control register.
+    // procmap.h
+    static inline void procmap_pin_on(procmap_t *p) 
+
 
 ----------------------------------------------------------------------
 ## Part 3: implement `pinned-vm.c:lockdown_print_entries`
