@@ -165,11 +165,11 @@ twice if the instruction is a load or store.  So as you expect we'll
 have one or more caches to keep translations (confusingly called
 "translation lookaside buffers").  And, as you can figure out on your
 own, if we change the function mapping, these caches have to be updated.
-Keeping the contents of a table coherent coherent with a translation
-cache is alot of work, so machines generally (always?) punt on this,
-and it is up to the implementor to flush any needed cache entries when
-the mapping changes. (This flush must either only finish when everything
-is flushed, or the implementor must insert a barrier to wait).
+Keeping the contents of a table coherent with a translation cache is alot
+of work, so machines generally (always?) punt on this, and it is up to the
+implementor to flush any needed cache entries when the mapping changes.
+(This flush must either only finish when everything is flushed, or the
+implementor must insert a barrier to wait).
 
 Finally, as a detail, we have to tell the hardware where to find the
 translations for each different address space.  Typically there is a
