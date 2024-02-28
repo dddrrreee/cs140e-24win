@@ -203,6 +203,7 @@ Where to look:
     which pins a section and `tlb_contains_va` which looks up the virtual address.
 
 The tests for this:
+  - `tests/1-test-basic.c`  :  start here.  Tons of comments.
   - `tests/1-test-setup.c`  :  does a simple setup.
   - `tests/1-test-two-addr.c` :  uses two different address spaces and flips between them.
   - `tests/1-test-lookup.c`  : inserts and then checks that the mappings are in 
