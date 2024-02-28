@@ -211,7 +211,8 @@ Where to look:
 The tests for this:
   - `tests/1-test-basic.c`  :  start here.  Tons of comments.
   - `tests/1-test-setup.c`  :  does a simple setup.
-  - `tests/1-test-two-addr.c` :  uses two different address spaces and flips between them.
+  - `tests/1-test-two-addr.c` :  uses two different address spaces and flips between them.  This one will require removing the assert that checks for
+     the identity map.
   - `tests/1-test-lookup.c`  : inserts and then checks that the mappings are in 
      the TLB.
 
@@ -222,8 +223,8 @@ If you want to use our stuff, there's a few helpers you implement.
 ----------------------------------------------------------------------
 ## Part 2: implement `pinned-vm.c:pin_mmu_on(procmap_t *p)` 
 
-Actually: we basically gave you this.   Just get rid of the `staff_pin_mmu_switch`.
-
+Actually: I think we basically gave you this.   Just get rid of the
+`staff_pin_mmu_switch`.
 
 It will be convenient later to pass in a data structure that contains
 the mapping of the kernel rather than embedding the addresses in a bunch
@@ -279,7 +280,8 @@ Mine is something like:
 ----------------------------------------------------------------------
 ## Part 4: handle a couple exceptions
 
-For this part you'll write all the code.  
+For this part you'll write all the code, but you should be able to 
+start with the exception code from `1-test-basic.c`.
 
 A domain fault.  Write a single test that:
   1. Tags the heap with its own domain id `d`.
@@ -290,13 +292,11 @@ A domain fault.  Write a single test that:
   5. Do (2) and (3) for a jump.  You'll have to write the instruction
      for `bx lr` to a heap location and jump to it.
 
-
 Useful domain pages:
   - B4-10: what the bit values mean for the `domain` field.
   - B4-15: how addresses are translated and checked for faults.
   - B4-27: the location / size of the `domain` field in the segment page table entry.
   - B4-42: setting the domain register.
-
 
 A invalid access fault:
   1. Write tests that 
