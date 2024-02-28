@@ -45,7 +45,7 @@ What to turn in:
 
 
 <p align="center">
-  <img src="lab-memes/group-spite.png" width="400" />
+  <img src="lab-memes/group-spite.jpg" width="400" />
 </p>
 
 
