@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="lab-memes/final-project.png" width="300" />
+  <img src="lab-memes/final-project.png" width="400" />
 </p>
 
 
@@ -43,10 +43,9 @@ What to turn in:
     your name etc.  Ideally over the years we can build up 10s (100s?) of
     new device labs spun out from different final projects.
 
-<p align="center">
-  <img src="lab-memes/group-project.jpg" width="300" />
-</p>
 
-<p align="center">
+<p float="left">
+  <img src="lab-memes/group-project.jpg" width="300" />
   <img src="lab-memes/group-spite.jpg" width="300" />
 </p>
+
