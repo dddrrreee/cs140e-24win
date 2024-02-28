@@ -305,7 +305,9 @@ A domain fault.  Write a single test that:
      fault (using the `dfsr`), re-enables the domain permissions, and returns.
   4. Do (2) and (3) for store.  Use (`PUT32`) so you can check the `pc`.
   5. Do (2) and (3) for a jump.  You'll have to write the instruction
-     for `bx lr` to a heap location and jump to it.
+     for `bx lr` to a heap location and jump to it.  Note: for this 
+     you'll need to also install a `prefetch` abort handler 
+     (just like we did last lab).
 
 Useful domain pages:
   - B4-10: what the bit values mean for the `domain` field.
@@ -384,6 +386,9 @@ Result:
   3. As a nice bonus: All the addresses are the same in both pieces of
   code, which makes many things easier.
 
+You can do this as an extension!
+
+
 ##### Bits to set in Domain
 <table><tr><td>
   <img src="images/part2-domain.png"/>
@@ -393,7 +398,7 @@ Result:
 ### Extension: speed.
 
 One drawback of our arm1176 is that without virtual memory
-we can't turn on data caching.  But, what do you know.  We 
+we can't turn on data caching.  But, what do you know: We 
 now have VM.
 
 So:
