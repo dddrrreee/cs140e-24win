@@ -1,7 +1,7 @@
 /* Miles' little test for tlb_contains_va */
 
 #include "rpi.h"
-#include "pinned-vm.h"
+#include "procmap.h"
 
 void notmain(void) { 
     // map the heap: for lab cksums must be at 0x100000.
@@ -9,7 +9,7 @@ void notmain(void) {
 
     // turn on the pinned MMU: identity map.
     procmap_t p = procmap_default_mk(kern_dom);
-    pin_mmu_on(&p);
+    procmap_pin_on(&p);
 
     // if we got here MMU must be working b/c we have accessed GPIO/UART
     trace("hello: mmu must be on\n");
