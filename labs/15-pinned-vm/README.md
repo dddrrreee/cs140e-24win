@@ -257,7 +257,7 @@ You will have to modify two test cases to call your code instead of ours:
         1-test-two-addr.c:    staff_pin_mmu_init(d);
 ```
 
-These should both get replaced with `pin_mmu_init` and pin_mmu_switch`.
+These should both get replaced with `pin_mmu_init` and `pin_mmu_switch`.
 
 It will be convenient later to pass in a data structure that contains
 the mapping of the kernel rather than embedding the addresses in a bunch
