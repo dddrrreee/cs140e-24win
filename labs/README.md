@@ -4,6 +4,9 @@
   <img src="lab-memes/coding.jpg" width="400" />
 </p>
 
+New:
+  - [Final project logistics](./PROJECTS.md).
+
 Below describes where we're going and why.   The labs themselves have a
 lot more prose on each topic.  There is a pointer to where we currently
 are: the labs after this point can still see significant revisions.
