@@ -237,8 +237,8 @@ If you want to use our stuff, there's a few helpers you implement.
 ## Part 2: implement `pinned-vm.c:pin_mmu_init(uint32_t domain_reg)` 
 
 ***NOTE:***
-  - mostly ignore the comment that says what to do.  You can look
-    at the two test cases (see below) and do a diff against
+  - Mostly ignore the comment in `pinned-vm.c` that says what to do.
+    You can look at the two test cases (see below) and do a diff against
     `1-test-basic.c`.
 
 You should be able to pretty easily finish `pin_mmu_init` using
