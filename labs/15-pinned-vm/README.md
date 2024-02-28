@@ -239,6 +239,16 @@ If you want to use our stuff, there's a few helpers you implement.
 You should be able to pretty easily finish `pin_mmu_init` using
 the code from the first test case.
 
+You will have to modify two test cases to call your code instead of ours:
+
+```
+        code/tests % grep pin_mmu_init *.c
+        1-test-setup.c:    staff_pin_mmu_init(~0);
+        1-test-two-addr.c:    staff_pin_mmu_init(d);
+```
+
+These should both get replaced with `pin_mmu_init`.
+
 It will be convenient later to pass in a data structure that contains
 the mapping of the kernel rather than embedding the addresses in a bunch
 of code.   You should look through  the code in `procmap.h` to see
