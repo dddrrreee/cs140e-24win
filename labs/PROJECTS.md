@@ -43,6 +43,7 @@ What to turn in:
     your name etc.  Ideally over the years we can build up 10s (100s?) of
     new device labs spun out from different final projects.
 
+------------------------------------------------------------------------
 
 <p align="center">
   <img src="lab-memes/group-spite.jpg" width="400" />
