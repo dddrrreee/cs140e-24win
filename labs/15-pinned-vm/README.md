@@ -8,7 +8,9 @@
 tl;dr: the goal:
   1. Get rid of `staff-pinned-vm.o` in the `Makefile`.
   2. `make check` should pass for all the tests.
-  3. I would do the tests in order.  The first one `1-test-basic.c`
+  3. You will also have to write some exception handling code to 
+     disambiguate the cause of exceptions (see part 4).
+  4. I would do the tests in order.  The first one `1-test-basic.c`
      has tons of comments.
 
 Given that it's midterm week we'll do a fairly simple virtual memory
