@@ -248,6 +248,9 @@ what is going on.  Start with:
 ----------------------------------------------------------------------
 ## Part 3: implement `pinned-vm.c:lockdown_print_entries`
 
+***NOTE:***
+  - our `apx` is actually `apx` + `ap`  on page 3-151 (so 3 bits
+    in total).
 
 Mine is something like:
 
