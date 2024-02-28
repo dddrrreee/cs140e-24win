@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="lab-memes/final-project.png" width="700" />
+  <img src="lab-memes/final-project.png" width="300" />
 </p>
 
 
@@ -44,9 +44,9 @@ What to turn in:
     new device labs spun out from different final projects.
 
 <p align="center">
-  <img src="lab-memes/group-project.jpg" width="700" />
+  <img src="lab-memes/group-project.jpg" width="300" />
 </p>
 
 <p align="center">
-  <img src="lab-memes/group-spite.jpg" width="700" />
+  <img src="lab-memes/group-spite.jpg" width="300" />
 </p>
