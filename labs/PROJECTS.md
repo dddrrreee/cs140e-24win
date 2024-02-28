@@ -44,8 +44,8 @@ What to turn in:
     new device labs spun out from different final projects.
 
 
-<p float="left">
-  <img src="lab-memes/group-project.jpg" width="300" />
-  <img src="lab-memes/group-spite.jpg" width="300" />
+<p align="center">
+  <img src="lab-memes/group-spite.png" width="400" />
 </p>
+
 
