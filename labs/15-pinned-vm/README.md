@@ -5,6 +5,12 @@
 </p>
 
 
+tl;dr: the goal:
+  1. Get rid of `staff-pinned-vm.o` in the `Makefile`.
+  2. `make check` should pass for all the tests.
+  3. I would do the tests in order.  The first one `1-test-basic.c`
+     has tons of comments.
+
 Given that it's midterm week we'll do a fairly simple virtual memory
 (VM) lab that side-steps a major source of VM complexity --- the need
 to use a page table --- by instead "pinning" the translations we need
@@ -216,10 +222,13 @@ If you want to use our stuff, there's a few helpers you implement.
 ----------------------------------------------------------------------
 ## Part 2: implement `pinned-vm.c:pin_mmu_on(procmap_t *p)` 
 
-It will be convenient later to pass in a data structure that contains the mapping
-of the kernel rather than embedding the addresses in a bunch of code.  You should
-be able to pretty easily finish `pin_mmu_on` using the code in the previous two
-tests.
+Actually: we basically gave you this.   Just get rid of the `staff_pin_mmu_switch`.
+
+
+It will be convenient later to pass in a data structure that contains
+the mapping of the kernel rather than embedding the addresses in a bunch
+of code.  You should be able to pretty easily finish `pin_mmu_on` using
+the code in the previous two tests.
 
 Note that you'll have to handle the domains in the domain control register.
 
@@ -366,7 +375,52 @@ Result:
 </td></tr></table>
      
 ----------------------------------------------------------------------
-## Extension:
+### Extension: speed.
+
+One drawback of our arm1176 is that without virtual memory
+we can't turn on data caching.  But, what do you know.  We 
+now have VM.
+
+So:
+  1. Write some memory intensive code.  Run it without caching
+      and measure the cycle counts.  
+
+  2. Then turn caching on.
+
+  3. Rerun and see improvments.
+
+How to enable caching: 
+  1. You need to turn on in control reg 1 (see `armv6-cp15.h`).
+  2.  And start turning caching on in the pinned mappings.
+
+You can also overclock etc.  
+
+I'm curious how fast you can make all this.  I'd expect around 5-10x.
+
+----------------------------------------------------------------------
+### Extension: simple processes.
+
+Today was good in that it was relatively straight-forward and gives
+you a working VM system. It's bad in that we don't do anything
+with it.
+
+One nice hack you can do is take the threads from last lab and turn
+them into processes, where you give each some number of entries, and pin
+them on switching.  You'd take the thread code, allocate private memory
+for each (along with the shared kernel memory) and change the context
+switching to also switch the pinned entry and address space identifiers.
+
+I really wanted to do this for this lab, but we went with a smaller
+more manageable piece.  This is useful for the upcoming lab.
+
+This hack is useful for embedded systems where you want to keep each
+driver private so that it can't trash other driver's code / data.
+
+You could go full on where you also run the threads at user level,
+so you have a hard modularity.
+
+----------------------------------------------------------------------
+## Other Extension:
 
 Bunch of possible extensions:
 
@@ -388,3 +442,10 @@ Bunch of possible extensions:
 
    This lets you build many tools that monitor loads or stores with only
    a few hundred lines of code.  Good source of final projects!
+
+
+<p align="center">
+  <img src="images/pi-done.jpg" width="450" />
+</p>
+
+
