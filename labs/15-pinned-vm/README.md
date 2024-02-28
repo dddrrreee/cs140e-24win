@@ -15,9 +15,9 @@ tl;dr: the goal:
   5. NOTE: once you get to `1-test-two-addr.c` you should comment out
      the failing check:
 
-        if(va != pa)
-            panic("for today's lab, va (%x) should equal pa (%x)\n",
-                va,pa);
+            if(va != pa)
+                panic("for today's lab, va (%x) should equal pa (%x)\n",
+                    va,pa);
 
      This was just to catch mistakes in previous tests.
 
