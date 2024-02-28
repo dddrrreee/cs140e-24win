@@ -12,6 +12,14 @@ tl;dr: the goal:
      disambiguate the cause of exceptions (see part 4).
   4. I would do the tests in order.  The first one `1-test-basic.c`
      has tons of comments.
+  5. NOTE: once you get to `1-test-two-addr.c` you should comment out
+     the failing check:
+
+        if(va != pa)
+            panic("for today's lab, va (%x) should equal pa (%x)\n",
+                va,pa);
+
+     This was just to catch mistakes in previous tests.
 
 Given that it's midterm week we'll do a fairly simple virtual memory
 (VM) lab that side-steps a major source of VM complexity --- the need
