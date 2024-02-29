@@ -247,7 +247,7 @@ We'll now do the last block of execution labs.
     that works with full process contexts works correctly.
 
 ---------------------------------------------------------------------
-### virtual memory
+### Virtual memory I
 
 We now build virtual memory which will let us add (1) general memory
 protection and (2) user processes that can safely run with their own
@@ -282,24 +282,28 @@ relatively easy.
     should have a strong grasp of what, exactly, is going on.
 
 
-  - [17-virtual memory coherence](17-vm-coherence): The previous lab
-    defined the main noun in the virtual memory universe (the page
-    table); this lab does the main verbs used to set up the VM hardware,
-    including how to synchronize hardware, translation, and page table
-    state (more subtle than it sounds).  At the end you should be able
-    to delete all our starter code.
-
 ---------------------------------------------------------------------
 ### Networking
 
 Having one pi that can only talk to itself is much less useful even two
 pi's that can talk to each other.   So we'll do some simple networking.
 
-   - [16-nrf-networking](16-nrf-networking): your system gets much
+   - [17-nrf-networking](17-nrf-networking): your system gets much
      more useful if it can control computation remotely.  To this end
      we write a simple bi-directional network implementation using the
      common, cheap NRF24L01+ RF trancievers.   As an extension you will
      build a network bootloader.
+
+---------------------------------------------------------------------
+### Virtual memory II
+
+  - [18-virtual memory coherence](18-vm-coherence): The previous lab
+    defined the main noun in the virtual memory universe (the page
+    table); this lab does the main verbs used to set up the VM hardware,
+    including how to synchronize hardware, translation, and page table
+    state (more subtle than it sounds).  At the end you should be able
+    to delete all our starter code.
+
 
 ---------------------------------------------------------------------
 ### file systems
