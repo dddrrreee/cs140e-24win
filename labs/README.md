@@ -281,7 +281,8 @@ relatively easy.
     your previous system, making it fully general.  After both labs you
     should have a strong grasp of what, exactly, is going on.
 
-  - [14-virtual memory coherence](14-vm-coherence): The previous lab
+
+  - [17-virtual memory coherence](17-vm-coherence): The previous lab
     defined the main noun in the virtual memory universe (the page
     table); this lab does the main verbs used to set up the VM hardware,
     including how to synchronize hardware, translation, and page table
