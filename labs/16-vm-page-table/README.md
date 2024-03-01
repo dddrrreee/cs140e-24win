@@ -152,7 +152,7 @@ When you finish you should be able to:
   - remove `staff-pt-vm.o` from `STAFF_OBJS` in the `Makefile`.
   - `make check` should pass as before.
 
-### NOTE: `pin_t` is just for memory attributes.
+### NOTE: we use `pin_t` to specify memory attributes.
 
 To repeat the discussion above: for today we reuse the memory attribute
 structure `pin_t` (defined in `vm-attr.h`) from last lab.
