@@ -4,6 +4,7 @@
   <img src="images/pi-vm.jpg" width="650" />
 </p>
 
+----------------------------------------------------------------------
 ***NOTE:***
  - The test `.out` files were checked in without hashes of all
    the page table modifications.  This makes them pretty weak and easy to
@@ -15,6 +16,7 @@
         # add this line at the bottom of `Makefile`.
         GREP_STR := 'TRACE:\|HASH:\|ERROR:\|PANIC:\|SUCCESS:'
         include $(CS140E_2024_PATH)/libpi/mk/Makefile.robust
+----------------------------------------------------------------------
 
 Last lab we did a trivial virtual memory system without page tables by pinning
 entries in the TLB.  This approach lets us map a reasonable amount of memory
