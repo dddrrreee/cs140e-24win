@@ -200,6 +200,8 @@ Some simple examples:
    offsets.  So, that va == pa for identity mapped code no matter
    which offset you use (from 0 up to 1MB).
  - Implement 16Mb pages and show they work.
+ - Setup a user mode process and make sure that it can't access
+   kernel memory.
  - Make a stack that automatically grows (e.g., if you write beyond
    the stack pointer it grows the stack automatically).
  - Change memory protection (implement `vm_mprotect`), show it faults,
@@ -214,6 +216,20 @@ Some bigger ones:
    running in another address space.
  - Make threads that have their own page tables and thus private
    memory.
+ - automatically grow the stack (below).
+
+----------------------------------------------------------------------
+### Extension: extend the equivalance checking (lab 14) to have vm.
+
+Pretty straightforward idea: adapt the single stepping equivalance checker
+from lab 14:
+  - `equiv-threads.c` in the `code-patch-2` or `code-complete-staff`.
+
+And use it to show that running with and without VM (where the VM uses
+identity maps) gives the same hashes.  You can then do the fancier version
+of showing you get the same hashes even if you switch between proceses.
+
+You'll learn a ton doing this!  It's what I wanted the final lab to be.
 
 ----------------------------------------------------------------------
 ### Extension: Automatically grow the stack.
