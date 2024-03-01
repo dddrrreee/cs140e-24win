@@ -318,7 +318,7 @@ On the plus side: from a purely mercenary angle, if you do an embedded
 startup, you'll need a FAT32 file system that has no license restrictions
 and these labs will get you much of the way there.
 
-  - [19-fat32-readonly](19-fat32): The SD and virtual memory are the biggest
+  - [19-fat32-readonly](19-fat32-readonly): The SD and virtual memory are the biggest
     unknowns in our universe, so we'll bang out quick versions of each,
     and then circle back around and make your system more real.
 
