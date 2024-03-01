@@ -1,7 +1,7 @@
 ## Simple virtual memory with page tables.
 
 <p align="center">
-  <img src="images/pi-vm.jpg" width="450" />
+  <img src="images/pi-vm.jpg" width="650" />
 </p>
 
 
