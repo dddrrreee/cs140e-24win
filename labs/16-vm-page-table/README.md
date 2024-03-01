@@ -173,7 +173,7 @@ running with virtual memory.
      compute the actual attributes for each type of memory page.
   6. Enable the mmu if `enable_p` is set.
 
-### Hints for implementing `vm_map_section`  (see `armv6-vm.h`)
+### Hints for implementing `vm_map_sec`  (see `armv6-vm.h`)
 
 You'll want to look at your pinned code, since it works about the same.
 
