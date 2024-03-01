@@ -42,7 +42,7 @@ go relatively smoothly and you can get checked off on both.
 
 You can view today's and next VM labs as fetchquests for how-do-I-do-X
 where the goal is to implement everything yourself and delete our
-implementations.    Today will be `staff-pt-mmu.o` (see `pt-vm.c` for the
+implementations.    Today will be `staff-pt-vm.o` (see `pt-vm.c` for the
 corresponding routines) and thursday will be `staff-mmu-asm.o`.
 
 What you modify today:
@@ -57,7 +57,6 @@ What you modify today:
       the 1-level, section-based, page table.  The staff file
       `staff-pt-vm.o` provides working versions you can call.
 
-
 What you modify next time:
 
   - `arm-coprocessor-asm.h`: we don't use this header today, but will
@@ -68,7 +67,7 @@ What you modify next time:
     by looking in this file for a related one so you can see how the
     operands are ordered.
 
-  - `staff-mmu-asm.o`: this has the low level assembly routines used to
+  - `your-mmu-asm.o`: this has the low level assembly routines used to
     update machine state after changing page table mappings or switching
     address spaces.
 
@@ -115,7 +114,7 @@ Provided helper routines:
     that each field is at its correct bit offset, with its correct
     bit width.
 
-  - There is a routine `fld_print` to print all the fields in your
+  - There is a routine `vm_pte_print` to print all the fields in your
     structure.
 
   - HINT: the first field is at offset 0 and the `AssertNow` uses tricks
@@ -129,21 +128,6 @@ Testing:
 <table><tr><td>
   <img src="images/part1-section.png"/>
 </td></tr></table>
-
-----------------------------------------------------------------------
-## Part 1: (fast) fill in `vm-ident.c` so `make check` passes
-
-You should use `mmu_map_section` to identy map the sections we
-are using in `vm-ident.c`.  You should have something that mirrors
-`12-pinned-vm/procmap.h:procmap_default_mk`.  
-
-Testing:
-   - At this point, all the tests in the `Makefile` should pass:
-   
-        PROGS := $(wildcard ./[0-7]-test*.c)
-
-   - Note: the lab's "testing" is ridiculously weak.  A good extension is
-     extending it, possibly starting by pulling in the test from last lab.
 
 ----------------------------------------------------------------------
 ## Part 1: work through the routines in `pt-vm.c` and test cases.
@@ -168,6 +152,8 @@ When you finish you should be able to:
   - `make check` should pass as before.
 
 ### Hints for implementing `mmu_section`  (see `armv6-vm.h`)
+
+You'll want to look at your pinned code, since it works about the same.
 
 Useful pages:
   - B4-9: `S`, `R`, `AXP`, `AP` (given below).
@@ -203,6 +189,31 @@ them for easy reference:
 ### Part: 2: handle a couple exceptions
 
 Port your exception tests from last time and make sure they work.
+
+----------------------------------------------------------------------
+### Part 3: write some kind of functionality and a test.
+
+Do either a couple simple things, or a bigger one.
+
+Some simple examples:
+ - Write a test that checks that you correctly resolve addresses with
+   offsets.  So, that va == pa for identity mapped code no matter
+   which offset you use (from 0 up to 1MB).
+ - Implement 16Mb pages and show they work.
+ - Make a stack that automatically grows (e.g., if you write beyond
+   the stack pointer it grows the stack automatically).
+ - Change memory protection (implement `vm_mprotect`), show it faults,
+   and change back.  (Note: when you modify existing page table entries
+   you will have to call `staff_mmu_sync_pte_mods` after you modify the
+   page table.).
+
+Some bigger ones:
+ - Setup caching and show it makes some matrix operation better.
+ - Implement 4k pages and show they work.
+ - Write a real `vm_fork()` that can fork a page table while
+   running in another address space.
+ - Make threads that have their own page tables and thus private
+   memory.
 
 ----------------------------------------------------------------------
 ### Extension: Automatically grow the stack.
