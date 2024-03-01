@@ -151,26 +151,29 @@ When you finish you should be able to:
   - remove `staff-pt-vm.o` from `STAFF_OBJS` in the `Makefile`.
   - `make check` should pass as before.
 
-For `vm_map_kernel` you'll want to look at `procmap.h` in the last lab
-and just redo it using our current routines.  You should also look at
-today's first test case `1-test-basic.c` to see what has to be done
-to set things up.  Also look at test `2-test-procmap.c` which uses
-`vm_map_kernel`.
+#### Hints for implementing `vm_map_kernel`
+
+For `vm_map_kernel` you'll want to look at the routine
+`procmap.h:procmap_pin_on` in the last lab and just rewrite this routine
+to switch from using pinned routines to our page tables versions.
+You should also look at today's first test case `1-test-basic.c`
+to see what has to be done to set things up.  Also look at test
+`2-test-procmap.c` which uses `vm_map_kernel`.
 
 The goal of `vm_map_kernel` is to wrap up all the code to do the initial
 MMU initialization, and kernel memory mapping setup so that it can start
 running with virtual memory.
 
   1. Compute the domains used in the procmap (same as in pinned).
-  2. Initialize the mmu with these domains (same as in pinned, different
-     routine name).
+  2. Initialize the mmu with these domains (same as in pinned, though
+     different routine name).
   3. Allocate the page table.
   4. Setup all the mappings and check that they are in there (use `vm_lookup`)
      You can call the `attr_mk` routine right above `vm_map_kernel` to 
      compute the actual attributes for each type of memory page.
   6. Enable the mmu if `enable_p` is set.
 
-### Hints for implementing `mmu_section`  (see `armv6-vm.h`)
+### Hints for implementing `vm_map_section`  (see `armv6-vm.h`)
 
 You'll want to look at your pinned code, since it works about the same.
 
