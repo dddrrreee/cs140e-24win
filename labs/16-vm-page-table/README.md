@@ -151,7 +151,7 @@ When you finish you should be able to:
   - remove `staff-pt-vm.o` from `STAFF_OBJS` in the `Makefile`.
   - `make check` should pass as before.
 
-#### Hints for implementing `vm_map_kernel`
+### Hints for implementing `vm_map_kernel`
 
 For `vm_map_kernel` you'll want to look at the routine
 `procmap.h:procmap_pin_on` in the last lab and just rewrite this routine
