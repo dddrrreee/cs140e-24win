@@ -418,5 +418,5 @@ Do a remote put32/get32:
 
 ---------------------------------------------------------------------------
 <p align="center">
-  <img src="images/rpi-cables.png" width="450" />
+  <img src="images/ocd-wires.png" width="450" />
 </p>
