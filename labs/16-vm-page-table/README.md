@@ -239,7 +239,11 @@ Some simple examples:
  - Setup a user mode process and make sure that it can't access
    kernel memory.
  - Make a stack that automatically grows (e.g., if you write beyond
-   the stack pointer it grows the stack automatically).
+   the stack pointer it grows the stack automatically).    As mentioned
+   in the next point, 
+   you should call `staff_mmu_sync_pte_mods()` after you modify 
+   a page table entry.  (This invalidates caches it could be in or
+   influence.)
  - Change memory protection (implement `vm_mprotect`), show it faults,
    and change back.  (Note: when you modify existing page table entries
    you will have to call `staff_mmu_sync_pte_mods` after you modify the
