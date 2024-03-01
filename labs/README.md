@@ -304,9 +304,8 @@ pi's that can talk to each other.   So we'll do some simple networking.
     state (more subtle than it sounds).  At the end you should be able
     to delete all our starter code.
 
-
 ---------------------------------------------------------------------
-### file systems
+### File systems
 
 So far, if you do anything useful on your pi, this work evaporates when
 you unplug it.  We will implement files and directories so that you can
@@ -319,7 +318,7 @@ On the plus side: from a purely mercenary angle, if you do an embedded
 startup, you'll need a FAT32 file system that has no license restrictions
 and these labs will get you much of the way there.
 
-  - [17-fat32-readonly](17-fat32): The SD and virtual memory are the biggest
+  - [19-fat32-readonly](19-fat32): The SD and virtual memory are the biggest
     unknowns in our universe, so we'll bang out quick versions of each,
     and then circle back around and make your system more real.
 
@@ -327,19 +326,6 @@ and these labs will get you much of the way there.
     your SD card. You will use this to do a very OS-style "hello world":
     use your FAT32 to read `hello-fixed.bin` from last lab from your SD
     card, jump to it and run it.
-
-  - [18-fat32-write](18-fat32-write): you will extend your FAT32 file
-    system to add writes.  You'll use a novel model-checking trick
-    to ensure that no write will corrupt the system, no matter where
-    it crashes.
-
----------------------------------------------------------------------
-### Putting it all together.
-
-For the last labs we put everything all together:
-
-  - [19-OS](19-OS): you will combine user-processes, virtual memory,
-    system calls, and threads into a capstone implementation.
 
 ---------------------------------------------------------------------
 
