@@ -132,6 +132,7 @@ Testing:
 ----------------------------------------------------------------------
 ## Part 1: work through the routines in `pt-vm.c` and test cases.
 
+
 Go through and start implementing your own versions of the page table
 routines.  Again these roughly mirror pinned code you did last time.
 You'll write the code to fill in the page table assuming the use of
@@ -150,6 +151,19 @@ The document you'll need for this part is:
 When you finish you should be able to:
   - remove `staff-pt-vm.o` from `STAFF_OBJS` in the `Makefile`.
   - `make check` should pass as before.
+
+### NOTE: `pin_t` is just for memory attributes.
+
+To repeat the discussion above: for today we reuse the memory attribute
+structure `pin_t` (defined in `vm-attr.h`) from last lab.
+
+Even though it has the `pin_` prefix in its name, it is not specific to
+pinning: we use it to define what caching policy, protections,
+etc a given mapping needs.
+
+We reuse the name and type so you don't have to figure out some other
+way of specifying these attributes.  However, it is a little jarring to
+see the `pin_` even though we aren't using pinning.
 
 ### Hints for implementing `vm_map_kernel`
 
