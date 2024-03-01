@@ -13,6 +13,8 @@ SUBDIRS += 10-debug-hw
 SUBDIRS += 11-imu-i2c
 # SUBDIRS += 12-i2c+mailboxes
 SUBDIRS += 13-ss-equiv
+SUBDIRS += 14-ss-equiv-deux
+SUBDIRS += 15-pinned-vm
 
 .PHONY: all check clean
 all check clean: $(SUBDIRS)
