@@ -418,5 +418,5 @@ Do a remote put32/get32:
 
 ---------------------------------------------------------------------------
 <p align="center">
-  <img src="images/ocd-wires.jpeg" width="450" />
+  <img src=" images/ocd-wires.jpeg" width="450" />
 </p>
