@@ -1,7 +1,7 @@
 ## Hooking translation up to hardware
 
 <p align="center">
-  <img src="images/pi-vm-lab2.jpg" width="650" />
+  <img src="images/pi-vm-lab2.jpg" width="700" />
 </p>
 
 Last lab we did the page table, the main noun of the VM universe.  This
@@ -429,5 +429,5 @@ Some additional ones:
 
 ----------------------------------------------------------------------
 <p align="center">
-  <img src="images/pi-roundtable.jpg" width="650" />
+  <img src="images/pi-roundtable.jpg" width="700" />
 </p>
