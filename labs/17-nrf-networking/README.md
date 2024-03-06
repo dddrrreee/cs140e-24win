@@ -75,14 +75,20 @@ Extension:
 --------------------------------------------------------------------------------
 ### Part 0: Implement `nrf-driver.c:nrf_init`.
 
-***tl;dr***:
-- Look at `tests/0-ack-check.c` and `tests/0-no-ack-check.c`
-- Implement `nrf_init`.
-- `make check` for the `tests/0-ack-check.c` and `tests/0-no-ack-check.c`
-   should pass.  Then make sure *all* the tests pass:
+#### tl;dr
 
-            PROGS := $(wildcard tests/[0123]-*.c)
+What to do:
+  1. Look at `tests/0-ack-check.c` and `tests/0-no-ack-check.c`
+  2. Implement `nrf_init`.
+  3. `make check` for the `tests/0-ack-check.c` and `tests/0-no-ack-check.c`
+     should pass.  Then make sure *all* the tests pass.
+  4. NOTE: if there is enough interference (or just bad luck)
+     packets can get lost and the later tests (1-3) can fail.  In this
+     case  you can re-try or just run the test and make sure it does
+     send and receive some packets (versus 0) before panic'ing.
 
+
+#### Description
 
 This is the longest part, since you need to set all the regsiters,
 but it's also probably the most superficial, in that you can just
