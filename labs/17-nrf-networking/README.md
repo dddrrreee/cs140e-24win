@@ -4,6 +4,22 @@
   <img src="images/pi-network.jpg" width="650" />
 </p>
 
+#### To set or get `NRF_RX_ADDR_*` or `NRF_TX_ADDR`
+
+Use the `nrf_set_addr` routine to set the addr for example:
+
+```
+    nrf_set_addr(n, NRF_TX_ADDR, 0, addr_nbytes);
+    ...
+    nrf_set_addr(n, NRF_RX_ADDR_P1, rxaddr, addr_nbytes);
+```
+
+And `nrf_get_addr` to get the address.
+
+The reason is that the address can be 3 bytes, 4 bytes or 5 bytes
+depending on the configuration.   Doing a `put8` or `get8`
+won't work.
+
 
 #### if you're having config problems
 
