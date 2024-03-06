@@ -14,7 +14,7 @@ PROGS += $(wildcard tests/3-*.c)
 
 COMMON_SRC := nrf-hw-support.c nrf-public.c nrf-driver.c
 
-STAFF_OBJS += $(CS140E_2023_PATH)/libpi/staff-objs/new-spi.o
+STAFF_OBJS += $(CS140E_2024_PATH)/libpi/staff-objs/new-spi.o
 STAFF_OBJS += ./staff-nrf-driver.o
 
 # uncomment if you want it to automatically run.
