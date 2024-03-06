@@ -12,7 +12,7 @@
     of the config b/c they don't contain all the `NRF:` prints.
   - If you look in tests-2.0 they have the full test of NRF values 
     in the `.out files`.
-  - If you want to compare these against the ones you have.
+  - You'll want to compare these against the ones you have.
     Either by running the code manually using `my-install`
     or changing your `Makefile` to use the `test-2.0` tests
     for the 0 tests and changing the bottom of your Makefile to have
@@ -23,6 +23,8 @@
             GREP_STR := 'HASH:\|ERROR:\|PANIC:\|SUCCESS:\|NRF:'
             include $(CS140E_2024_PATH)/libpi/mk/Makefile.robust
 
+  - also if you have issues with part 1 part 2 part 3 the first
+    thing to do is to switch to using the `staff_nrf_init` routine.
 
 #### Description
 
