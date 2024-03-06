@@ -76,10 +76,13 @@ Extension:
 ### Part 0: Implement `nrf-driver.c:nrf_init`.
 
 ***tl;dr***:
-  1. Look at `tests/0-ack-check.c` and `tests/0-no-ack-check.c`
-  2. Implement `nrf_init`.
-  3. `make check` for the `tests/0-ack-check.c` and `tests/0-no-ack-check.c`
-     should pass.
+1. Look at `tests/0-ack-check.c` and `tests/0-no-ack-check.c`
+2. Implement `nrf_init`.
+3. `make check` for the `tests/0-ack-check.c` and `tests/0-no-ack-check.c`
+   should pass.  Then make sure *all* the tests pass:
+
+            PROGS := $(wildcard tests/[0123]-*.c)
+
 
 This is the longest part, since you need to set all the regsiters,
 but it's also probably the most superficial, in that you can just
