@@ -5,6 +5,23 @@
 </p>
 
 
+***NOTE***:
+  - Currently we aren't checking the config well for the 0 tests
+    so you can get burned by bugs later: the checked in tests are not
+    checking the `NRF:` prints.
+  - If you look in tests-2.0 they have the full test of NRF values.
+  - If you want to automatically check against these 
+    you'll have to change the bottom of your Makefile to have
+    `GREP_STR`:
+
+            BOOTLOADER = my-install
+            EXCLUDE ?= grep -v simple_boot
+            GREP_STR := 'HASH:\|ERROR:\|PANIC:\|SUCCESS:\|NRF:'
+            include $(CS140E_2024_PATH)/libpi/mk/Makefile.robust
+
+  - Or just manually look at the output.
+
+
 Today you'll build some code to make the NRF chips we have talk to
 each other.   The lab is organized as a fetch-quest where you'll build
 the routines to (1) initialize, (2) receive, (3) send non-acked packets,
