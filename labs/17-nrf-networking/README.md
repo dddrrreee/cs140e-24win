@@ -1,8 +1,9 @@
 ## Get two nrf24l01p RF tranceivers to talk to each other.
 
 <p align="center">
-  <img src="images/rpi-cables.png" width="450" />
+  <img src="images/pi-network.jpg" width="650" />
 </p>
+
 
 Today you'll build some code to make the NRF chips we have talk to
 each other.   The lab is organized as a fetch-quest where you'll build
@@ -95,6 +96,10 @@ Cheat code:
      It should be the case that if you change default values that both
      still agree!
 
+NOTE: 
+   - If you've finished init (and your dump matches the staff), but you can't
+     tx/rx/ack anything, make sure you're setting the CE pin correctly (it's
+     a GPIO pin, so you have to control it manually)
 
 #### Two key helpers: use these.
 
@@ -238,6 +243,10 @@ Second most common bug: in `nrf_init` hardcoding variables as constants.
 --------------------------------------------------------------------------------
 ### Part 2: Implement `nrf-driver.c:nrf_tx_send_noack`.
 
+<p align="center">
+  <img src="images/pi-huge-network.jpg" width="650" />
+</p>
+
 You'll implement sending without acknowledgements.  For a rough reference
 (for ack'd packets), look at Appendix A (page 75): "Enhanced ShockBurst
 transmitting payload".
@@ -315,6 +324,10 @@ issues, it is probably from this mistake.
 
 --------------------------------------------------------------------------------
 ### Part 4: Implement `nrf-driver.c:nrf_tx_send_ack`.
+
+<p align="center">
+  <img src="images/pi-shockwave.jpg" width="450" />
+</p>
 
 You'll implement sending with acknowledgements.  It will look similar to 
 the no-ack version, except:
@@ -420,3 +433,4 @@ Do a remote put32/get32:
 <p align="center">
   <img src="images/ocd-wires.jpg" width="400" />
 </p>
+
