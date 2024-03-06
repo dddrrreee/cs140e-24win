@@ -66,22 +66,26 @@ Pretty simple:
   1.  You should have implemented your own copies of the `staff_` routines
       and removed `staff-nrf-driver.o` from the makefile.
   2. `make check` should pass.
+  3. Adapt a test case to ping pong with your partner.
 
 Extension:
   - You can always do this lab on hard mode and build your own from scratch:
      you'll learn alot.  The tests give reasonable iterfaces.
 
 --------------------------------------------------------------------------------
-### Part 1: Implement `nrf-driver.c:nrf_init`.
+### Part 0: Implement `nrf-driver.c:nrf_init`.
+
+***tl;dr***:
+  1. Look at `tests/0-ack-check.c` and `tests/0-no-ack-check.c`
+  2. Implement `nrf_init`.
+  3. `make check` for the `tests/0-ack-check.c` and `tests/0-no-ack-check.c`
+     should pass.
 
 This is the longest part, since you need to set all the regsiters,
 but it's also probably the most superficial, in that you can just
 use `nrf_dump` to get our hardware configuration and then walk down,
 replicating it.
 
-What to do:
-  - Implement `nrf_init`.
-  - `make check` should pass for the two 0-tests should pass.
 
 As mentioned above, for simplicity, you'll only configure the NRF to use
 a single pipe.  This pipe can either be initialized for acknowledgements
@@ -249,11 +253,20 @@ Second most common bug: in `nrf_init` hardcoding variables as constants.
     used during setup.  Don't hard-code.
 
 --------------------------------------------------------------------------------
-### Part 2: Implement `nrf-driver.c:nrf_tx_send_noack`.
+### Part 1: Implement `nrf-driver.c:nrf_tx_send_noack`.
 
 <p align="center">
   <img src="images/pi-huge-network.jpg" width="650" />
 </p>
+
+***tl;dr***:
+  1. Look at `tests/1-one-way-no-ack-4bytes.c`.
+  2. Implement `nrf_tx_send_noack`.
+  3. `make check` for the `tests/1-one-way-no-ack-4bytes.c` should pass.
+  4. NOTE: if there is enough interference (or just bad luck) 
+     packets can get lost and `make check` won't pass.  In this case
+     just run the test and make sure it does send and receive some 
+     packets (versus 0) before panic'ing.
 
 You'll implement sending without acknowledgements.  For a rough reference
 (for ack'd packets), look at Appendix A (page 75): "Enhanced ShockBurst
