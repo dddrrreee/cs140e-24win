@@ -37,6 +37,8 @@ If you are doing this *without* Parthiv's board and need to wire things
 up with jumpers, the 2022 NRF lab has some discussion 
 on [how to do this](https://github.com/dddrrreee/cs140e-22win/tree/main/labs/17-nrf24l01p).
 
+#### The code
+
 What you will change:
   - `nrf-driver.c`: all the code you write will be in here.
 
@@ -88,7 +90,7 @@ What to do:
      send and receive some packets (versus 0) before panic'ing.
 
 
-#### Description
+#### Longer Description
 
 This is the longest part, since you need to set all the regsiters,
 but it's also probably the most superficial, in that you can just
@@ -268,14 +270,16 @@ Second most common bug: in `nrf_init` hardcoding variables as constants.
   <img src="images/pi-huge-network.jpg" width="650" />
 </p>
 
-***tl;dr***:
+#### tl;dr:
+
+What to do:
   1. Look at `tests/1-one-way-no-ack-4bytes.c`.
   2. Implement `nrf_tx_send_noack`.
   3. `make check` for the `tests/1-one-way-no-ack-4bytes.c` should pass.
-  4. NOTE: if there is enough interference (or just bad luck) 
-     packets can get lost and `make check` won't pass.  In this case
-     just run the test and make sure it does send and receive some 
-     packets (versus 0) before panic'ing.
+  4. NOTE: again, if there is enough interference (or just bad luck) 
+     packets can get lost and `make check` won't pass.
+
+#### Longer description
 
 You'll implement sending without acknowledgements.  For a rough reference
 (for ack'd packets), look at Appendix A (page 75): "Enhanced ShockBurst
@@ -312,7 +316,8 @@ Roughly:
      tests should work.
 
 --------------------------------------------------------------------------------
-### Part 3: Implement `nrf-driver.c:nrf_get_pkts`.
+### Part 2: Implement `nrf-driver.c:nrf_get_pkts`.
+
 
 The basic idea: pull packets off the RX fifo until there are none, and
 push the data into single NRF receive queue `recvq`, and return the count.
@@ -359,6 +364,16 @@ issues, it is probably from this mistake.
   <img src="images/pi-shockwave.jpg" width="450" />
 </p>
 
+#### tl;dr:
+
+What to do:
+  1. Look at the 2 and 3 tests.
+  2. Implement `nrf_tx_send_ack`.
+  3. `make check` for the 2 and 3 tests should pass.
+  4. NOTE: as before, you can get interference, but retry should work. 
+
+#### Longer descrption
+
 You'll implement sending with acknowledgements.  It will look similar to 
 the no-ack version, except:
 
@@ -393,7 +408,8 @@ since the hardware uses that to receive acknowledgements.
 ***NOTE***:
   - make sure you set the server and client address correctly!  (In
     you code your partner should be the client, and you should be server.
-    In your partner's code, this should be reversed.)
+    In your partner's code, you should be the client and they should
+    be the server.)
 
 Write a test that will ping pong packets between your pi and your partner.
 Their RX address should be the TX address you send to and vice-versa.
