@@ -450,6 +450,7 @@ print:
 	@echo "link_deps    =<$(link_deps)>"
 	@echo "elf_objs    =<$(elf_objs)>"
 	@echo "all_bins    =<$(all_bins)>"
+	@echo "all_elf    =<$(all_elf)>"
 	@#echo "all_tags    =<$(all_tags)>"
 	@echo "----------------- aux vars -----------------";
 	@echo "DEPS         =<$(DEPS)>"

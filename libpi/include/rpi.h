@@ -246,4 +246,7 @@ int memiszero(const void *_p, unsigned n);
 
 void custom_loader(void);
 
+// make a symbol weak.
+#define WEAK(fn) __attribute__((weak)) fn
+
 #endif
