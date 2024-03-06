@@ -37,23 +37,28 @@ If you are doing this *without* Parthiv's board and need to wire things
 up with jumpers, the 2022 NRF lab has some discussion 
 on [how to do this](https://github.com/dddrrreee/cs140e-22win/tree/main/labs/17-nrf24l01p).
 
-
 What you will change:
   - `nrf-driver.c`: all the code you write will be in here.
-  - `nrf-default-values.h`: different default values for the NRF.  You 
-    can change these.
 
-What you should not have to change:
-  
-  - `nrf-public.c`: helpers that wrap up the NRF driver interface for
-    clients to send and receive.  These are the routines that will call
-    your call your driver.
-  - `nrf-hw-support.c` and `nrf-hw-support.h`: a bunch of support for
-    reading and writing the NRF over SPI.
-  - `nrf-test.h`: helpers for testing.  Useful to look at to see how
+  - `nrf-default-values.h`: different default values for the NRF.  You 
+    can change these if you want to tweak different decisions, but
+    you don't have to.
+
+Key files that you should not have to change:
+ - `nrf.h`: defines the `nrf_t` the NIC structure and `nrf_config_t`
+   which holds some of the configuration.  
+ - `nrf-hw-support.h`: many accessors for reading and writing
+    NRF registers and SPI interface. You really want to look at this 
+    to save time.
+ - `nrf-hw-support.c`: SPI read/write routine implementation, routines
+    to dump the NRF configuration.
+ - `nrf-default-values.h`: default values for NRF hardware choices.
+    You want to look at to see what we can change and for where
+    to get the requested values.
+ - `nrf-public.c` simple veneer over the top of NRF interface.
+ - `nrf-test.h`: helpers for testing.  Useful to look at to see how
     to use the NRF interfaces.
-  - `tests/*.c`: tests.  Useful to look at to see how
-    to use the NRF interfaces.
+ - `tests/*.c`: tests.  Useful to look at to see how to use the NRF interfaces.
 
 #### Checkoff
 
@@ -73,6 +78,10 @@ This is the longest part, since you need to set all the regsiters,
 but it's also probably the most superficial, in that you can just
 use `nrf_dump` to get our hardware configuration and then walk down,
 replicating it.
+
+What to do:
+  - Implement `nrf_init`.
+  - `make check` should pass for the two 0-tests should pass.
 
 As mentioned above, for simplicity, you'll only configure the NRF to use
 a single pipe.  This pipe can either be initialized for acknowledgements
@@ -135,7 +144,7 @@ When setting up values, use the following two routines
 
 #### Key points: read this before coding.
 
-Some advice:
+Some advice (which should duplicate the comments in `nrf_init`):
 
   0. Before you start reading and writing the NRF you need to setup the 
      structure:
@@ -207,7 +216,6 @@ RX mode:
 
     Thus, RX mode: `CE=1` and `NRF_CONFIG=rx_config`.
     TX mode: `CE=1` and `NRF_CONFIG=tx_config`.
-
 
   - Your code will go back and forth between RX mode and TX modes
     in multiple places. After all the debugging in the lab, I strongly
@@ -360,6 +368,11 @@ since the hardware uses that to receive acknowledgements.
 --------------------------------------------------------------------------------
 ### Part 5: write a test to send to your partner.
 
+***NOTE***:
+  - make sure you set the server and client address correctly!  (In
+    you code your partner should be the client, and you should be server.
+    In your partner's code, this should be reversed.)
+
 Write a test that will ping pong packets between your pi and your partner.
 Their RX address should be the TX address you send to and vice-versa.
 If you the ping-pong test note it flips addresses internally, so you'll
@@ -433,4 +446,3 @@ Do a remote put32/get32:
 <p align="center">
   <img src="images/ocd-wires.jpg" width="400" />
 </p>
-
