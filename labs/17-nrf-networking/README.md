@@ -5,13 +5,17 @@
 </p>
 
 
+#### if you're having config problems
+
 ***NOTE***:
-  - Currently we aren't checking the config well for the 0 tests
-    so you can get burned by bugs later: the checked in tests are not
-    checking the `NRF:` prints.
-  - If you look in tests-2.0 they have the full test of NRF values.
-  - If you want to automatically check against these 
-    you'll have to change the bottom of your Makefile to have
+  - Currently the checked in outputs for the 0 tests ignore most
+    of the config b/c they don't contain all the `NRF:` prints.
+  - If you look in tests-2.0 they have the full test of NRF values 
+    in the `.out files`.
+  - If you want to compare these against the ones you have.
+    Either by running the code manually using `my-install`
+    or changing your `Makefile` to use the `test-2.0` tests
+    for the 0 tests and changing the bottom of your Makefile to have
     `GREP_STR`:
 
             BOOTLOADER = my-install
@@ -19,8 +23,8 @@
             GREP_STR := 'HASH:\|ERROR:\|PANIC:\|SUCCESS:\|NRF:'
             include $(CS140E_2024_PATH)/libpi/mk/Makefile.robust
 
-  - Or just manually look at the output.
 
+#### Description
 
 Today you'll build some code to make the NRF chips we have talk to
 each other.   The lab is organized as a fetch-quest where you'll build
