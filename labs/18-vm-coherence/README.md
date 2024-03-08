@@ -9,6 +9,23 @@
   - The comment for `cp15_domain_ctrl_wr`
     says you need to "flush_btb, dsb, prefetch flush" but I think you
     only need the prefetch flush.
+
+  - The code for `mmu_init` should be something like:
+
+        void mmu_init(void) {
+            mmu_reset();
+
+            struct control_reg1 c1 = cp15_ctrl_reg1_rd();
+            c1.XP_pt = 1;
+            cp15_ctrl_reg1_wr(c1);
+
+            // make sure write succeeded.
+            c1 = cp15_ctrl_reg1_rd();
+            assert(c1.XP_pt);
+            assert(!c1.MMU_enabled);
+        }
+
+
 -----------------------------------------------------------------------
 #### tl;dr
 Today you will:
