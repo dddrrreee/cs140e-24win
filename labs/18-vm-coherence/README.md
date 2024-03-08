@@ -4,11 +4,12 @@
   <img src="images/pi-vm-lab2.jpg" width="700" />
 </p>
 
+-----------------------------------------------------------------------
 ***NOTE***:
   - The comment for `cp15_domain_ctrl_wr`
     says you need to "flush_btb, dsb, prefetch flush" but I think you
     only need the prefetch flush.
-
+-----------------------------------------------------------------------
 #### tl;dr
 Today you will:
 
