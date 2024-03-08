@@ -155,7 +155,6 @@ driver.
     more-likely-to-be-correct protocol.  It has the advantage that it
     will later make it easier to boot over the network.
 
-***We are here*** ===>
 
   - [8-uart](8-uart): the last key bit of code we've given you is for
     controlling the UART (`uart.o`); so this lab has you write your own
@@ -296,6 +295,8 @@ pi's that can talk to each other.   So we'll do some simple networking.
 
 ---------------------------------------------------------------------
 ### Virtual memory II
+
+***We are here*** ===>
 
   - [18-virtual memory coherence](18-vm-coherence): The previous lab
     defined the main noun in the virtual memory universe (the page
