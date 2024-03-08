@@ -129,14 +129,15 @@ but it has to be the right code.
 You will:
 
   1. Replace all our assembly code from labs 12 and 13 lab and show that
-     the previous tests run.  (Note: our "tests" are incredibly weak so
+     the previous tests run. Also upload your `your-vm-asm.S` to Gradescope and
+     make sure you pass the tests.  (Note: our "tests" are incredibly weak so
      this isn't a high bar; apologies.  Next Tuesday will have a more
      ruthless approach)
 
-  2. ***Have detailed comments in your `.S` stating why exactly you did
+  3. ***Have detailed comments in your `.S` stating why exactly you did
      what you did with page numbers.***  This is not optional.
 
-  3. Check-off should be 5-8 people at once where anyone can answer
+  4. Check-off should be 5-8 people at once where anyone can answer
      questions: "why did you do this?"
 
 Extensions:
