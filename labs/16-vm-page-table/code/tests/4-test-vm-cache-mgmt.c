@@ -179,5 +179,19 @@ void notmain(void) {
             panic("lost a write!  have %d, expected=%d!\n", *ptr,i);
     }
 
+    trace("******************************************************\n");
+    trace("6. about to test sync_pte_mods invalides dcache correctly\n");
+
+    // check if we lose writes to cached memory.
+    for(unsigned i =0; i < 512; i++)  {
+        *ptr = i;
+        mmu_sync_pte_mods();
+        assert(caches_all_on_p());
+
+        if(*ptr != i)
+            panic("lost a write!  have %d, expected=%d!\n", *ptr,i);
+    }
+
+
     trace("SUCCESS!\n");
 }
