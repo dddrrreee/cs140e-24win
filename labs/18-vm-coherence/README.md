@@ -369,8 +369,8 @@ are correct.
 ----------------------------------------------------------------------
 ## Part 4: Implement `mmu_sync_pte_mods`
 
-You can follow the recipe on B6-21.  For today just be conservative
-and invalide the icache too.
+You can follow the recipe on B2-23 for modifying page table entries.
+For today just be conservative and invalidate the icache too.
 
 ----------------------------------------------------------------------
 ## Part 5: Implement `cp15_set_procid_ttbr0`
