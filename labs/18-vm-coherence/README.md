@@ -4,7 +4,22 @@
   <img src="images/pi-vm-lab2.jpg" width="700" />
 </p>
 
-Last lab we did the page table, the main noun of the VM universe.  This
+#### tl;dr
+Today you will:
+  - replace `staff-mmu-asm.o` by writing your own versions in `your-mmu-asm.S`
+  - have a thorough set of arguments for why your versions are correct
+    (page numbers etc).
+  - checking that the old tests work.
+  - checking that the new test in `code/tests/4-test-vm-cache-mgmt.c` 
+    works.
+
+  - NOTE: you will have to make sure that your `vm_map_sec` calls
+    `staff_mmu_sync_pte_mods()` after modifying the page table
+    if the MMU is enabled.
+
+#### intro
+
+Last VM lab we did the page table, the main noun of the VM universe.  This
 lab we do the main gerunds needed to hook it up to the hardware: 
    - setting up domains.
    - setting up the page table register and ASID.
@@ -15,8 +30,8 @@ Today we'll write the hardest code of the quarter, but also do so in
 a way where you are surprised if it is broken.
 
 You'll write assembly helper routines implement these (put them in
-`13-vm-page-table/code/your-mmu-asm.S`) and then at the end remove our
-`staff-mmu-asm.o` from the makefiles in labs 12 and 13.  Mechanically,
+`16-vm-page-table/code/your-mmu-asm.S`) and then at the end remove our
+`staff-mmu-asm.o` from the Makefiles in lab 16 and 15 (pinned).  Mechanically,
 you will go through, one-at-a-time and replace every function prefixed
 with `staff_` to be your own code.  The code is setup so that you can
 knock these off one at a time, making sure that things work after each
@@ -109,7 +124,7 @@ but it has to be the right code.
 
 You will:
 
-  1. Replace all of our code from labs 12 and 13 lab and show that
+  1. Replace all our assembly code from labs 12 and 13 lab and show that
      the previous tests run.  (Note: our "tests" are incredibly weak so
      this isn't a high bar; apologies.  Next Tuesday will have a more
      ruthless approach)
@@ -185,27 +200,42 @@ ARMv6 manual (`docs/armv6.b2-memory.annot.pdf`).  Useful pages:
   - B2-24: must flush after a CP15.
 
 ----------------------------------------------------------------------
+## Part 0: The new test.
+
+There is now a new test:
+  - `code/tests/4-test-vm-cache-mgmt.c`.  You should look through
+    it to see what its doing.
+  - You should make sure it works out of the box.  
+  - You may want to enable all the staff code so you start from a 
+    known working (hopefully) state.
+
+  - NOTE: if it fails, make sure that your `vm_map_sec` calls
+    `staff_mmu_sync_pte_mods()` after modifying the page table if the
+    MMU is enabled or the test will fail.
+
+The test uses the arm1176 performance counters to do some simple 
+checks that your invalidation and caching code works correctly.
+The header files used:
+
+  - `armv6-pmu.h` defines the different performance counter
+    routines.  See 3-134 in the arm1176.pdf document for 
+    more discussion.  The big picture is that we can enable
+    two of many counters at a time (e.g., dcache misses.
+    icache misses, write back count etc) and use them
+    to check different properties.  Today we mainly
+    use them to check that key VM operations flushed caches by 
+    counting cache misses.
+
+  - `cache-support.h`: enable different caches on the arm by setting
+    the right bits in the cp15 register.
+
+----------------------------------------------------------------------
 ## Part 1: `domain_access_ctrl_set()` 
 
 Most of you already have this, but in case not:
   - Implement `domain_access_ctrl_set()` 
   - Make sure you obey any requirements for coherence stated in Chapter B2,
     specifically B2-24 (2.7.6).  Make sure the code still works!
-  - Change `staff_domain_access_ctrl_set` to call it.
-
-Compiling:
-  - You'll have to modify your `13-vm-page-table/code/Makefile` so that
-    it starts compiling your assembly.  (`COMMON_SRC += your-vm-asm.S`).
-  - You'll have to modify your `12-pinned-vm/code/Makefile` to
-    start using your assembly as well.  There is now a `Makefile.lab14`
-    that gives an example.
-  - It's possible because of naming you'll get a duplicate warning
-    about this one routine.  You can either change the name, or 
-    make it into a weak symbol.  For example:
-
-        int __attribute__((weak)) domain_access_ctrl_set(uint32_t d) {
-            ...
-        }
 
 Useful pages:
   - B4-10: what the bit values mean for the `domain` field.
@@ -243,8 +273,7 @@ Useful intuition:
 </td></tr></table>
 
 ----------------------------------------------------------------------
-----------------------------------------------------------------------
-## Part 2: Implement `mmu_reset`
+## Part 2: Implement `mmu_reset()`
 
 This routine gets called after booting up to set all caches to a clean
 state by invalidating them.  The MMU is off and should remain off.
@@ -301,8 +330,13 @@ are correct.
 </td></tr></table>
 
 ----------------------------------------------------------------------
+## Part 4: Implement `mmu_sync_pte_mods`
+
+You can follow the recipe on B6-21.  For today just be conservative
+and invalide the icache too.
+
 ----------------------------------------------------------------------
-## Part 4: Implement `cp15_set_procid_ttbr0`
+## Part 5: Implement `cp15_set_procid_ttbr0`
 
 <p align="center">
   <img src="images/robots-inspecting.png" width="450" />
