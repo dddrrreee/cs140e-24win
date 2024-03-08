@@ -1,0 +1,11 @@
+TRACE:notmain:******************************************************
+TRACE:notmain:1. test that the page table enabled dcaching correctly.
+TRACE:notmain:******************************************************
+TRACE:notmain:2. test that the page table enabled icaching correctly.
+TRACE:notmain:******************************************************
+TRACE:notmain:3. test that sync pte mods flushes the dcache.
+TRACE:notmain:******************************************************
+TRACE:notmain:4. test that mmu_on/off flushes the dcache.
+TRACE:notmain:******************************************************
+TRACE:notmain:5. about to test that disable dcache invalidates correctly
+TRACE:notmain:SUCCESS!

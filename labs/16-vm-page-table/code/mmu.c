@@ -20,8 +20,17 @@ int mmu_is_enabled(void) {
 // done by the asm code (you'll write this next time).
 void mmu_disable_set(cp15_ctrl_reg1_t c) {
     assert(!c.MMU_enabled);
-    assert(!c.C_unified_enable);
+    
+    // record if dcache on.
+    uint32_t cache_on_p = c.C_unified_enable;
+
     staff_mmu_disable_set_asm(c);
+
+    // re-enable if it was on.
+    if(cache_on_p) {
+        c.C_unified_enable = 1;
+        cp15_ctrl_reg1_wr(c);
+    }
 }
 
 // disable the MMU by flipping the enable bit.   we 

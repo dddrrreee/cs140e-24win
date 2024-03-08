@@ -22,7 +22,6 @@
 #include "rpi-asm.h"
 #include "armv6-coprocessor-asm.h"
 
-#define UNIMPL mov r0, lr; b asm_not_implemented
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ many page numbers are in 
@@ -77,6 +76,12 @@ MK_FN(mmu_disable_set_asm)
 // void mmu_enable_set_asm(cp15_ctrl_reg1_t c);
 MK_FN(mmu_enable_set_asm)
     b staff_mmu_enable_set_asm
+
+    asm_not_implemented()
+    bx lr
+
+MK_FN(mmu_sync_pte_mods)
+    b staff_mmu_sync_pte_mods
 
     asm_not_implemented()
     bx lr
