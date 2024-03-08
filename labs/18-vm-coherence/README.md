@@ -10,6 +10,12 @@
     says you need to "flush_btb, dsb, prefetch flush" but I think you
     only need the prefetch flush.
 
+  - Note: the test `4-test-vm-cache-mgmt.c` assumes your enable/disable
+    does an icache invalidation.  As the lab discusses below if you 
+    do not want to do this, and have a good argument for why it is ok
+    to elide, you can change the test so it doesn't check this (see
+    the `mmu_enable` part of the lab below.
+
   - The code for `mmu_init` should be something like:
 
         void mmu_init(void) {
@@ -331,8 +337,10 @@ for disable if that is helpful.
    - The data cache is not accessible when the MMU is off.
      Thus, before disabling the MMU you'll need to clean the data cache
      or you'll lose dirty entries.
-   - It doesn't *seem* you have to invalidate the icache, but you
-     should have an argument one way or the other.
+   - It doesn't *seem* you have to invalidate the icache, but the 
+     test assumes you did.  If you don't want to, and have an argument
+     for why not, you are welcome to remove that part of the test
+     (it checks for icache misses after enable/disable).
 
 Make sure you're correctly using:
    - PrefetchBuffer.
