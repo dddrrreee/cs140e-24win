@@ -6,16 +6,16 @@
 
 #### tl;dr
 Today you will:
-  - replace `staff-mmu-asm.o` by writing your own versions in `your-mmu-asm.S`
-  - have a thorough set of arguments for why your versions are correct
-    (page numbers etc).
-  - checking that the old tests work.
-  - checking that the new test in `code/tests/4-test-vm-cache-mgmt.c` 
-    works.
+ - replace `staff-mmu-asm.o` by writing your own versions in `your-mmu-asm.S`
+ - have a thorough set of arguments for why your versions are correct
+   (page numbers etc).
+ - Checking that the old tests work.
+ - Checking that the new test in `code/tests/4-test-vm-cache-mgmt.c` 
+   works.
 
-  - NOTE: you will have to make sure that your `vm_map_sec` calls
-    `staff_mmu_sync_pte_mods()` after modifying the page table
-    if the MMU is enabled.
+   NOTE: you will have to make sure that your `vm_map_sec` calls
+   `staff_mmu_sync_pte_mods()` after modifying the page table if the
+   MMU is enabled.
 
 #### intro
 
