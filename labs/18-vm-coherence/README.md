@@ -318,9 +318,22 @@ Now you can write the code to turn the MMU on/off:
   - `mmu_enable_set_asm`  (called by `mmu_enable` in `mmu.c`).
   - `mmu_disable_set_asm` (called by `mmu_disable` in `mmu.c`).
 
+Note:
+  - We assume the kernel has already called `mmu_reset` to invalidate
+    hardware state (TLB and caches) to they don't contain trash.  Thus
+    enable does not have to do such initialization.
+
 The high-level sequence is given on page 6-9 of the `arm1176.pdf` document
-(screen shot below).  You will also have to flush:
-   - all caches (D/I cache, the I/D TLBs)
+(screen shot below).
+
+   - On enable: Don't invalidate the TLBs or pinned-vm won't work.
+   - The data cache is not accessible when the MMU is off.
+     Thus, before disabling the MMU you'll need to clean the data cache
+     or you'll lose dirty entries.
+   - It doesn't *seem* you have to invalidate the icache, but you
+     should have an argument one way or the other.
+
+Make sure you're correctly using:
    - PrefetchBuffer.
    - BTB
    - and wait for everything correctly.
