@@ -6,18 +6,19 @@
 
 #### tl;dr
 Today you will:
- - replace `staff-mmu-asm.o` by writing your own versions in `your-mmu-asm.S`
- - have a thorough set of arguments for why your versions are correct
-   (page numbers etc).
- - Checking that the old tests work.
- - Checking that the new test in `code/tests/4-test-vm-cache-mgmt.c` 
-   works.
 
-   NOTE: you will have to make sure that your `vm_map_sec` calls
-   `staff_mmu_sync_pte_mods()` after modifying the page table if the
-   MMU is enabled.
+  - replace `staff-mmu-asm.o` by writing your own versions in `your-mmu-asm.S`
+  - have a thorough set of arguments for why your versions are correct
+    (page numbers etc).
+  - Checking that the old tests work.
+  - Checking that the new test in `code/tests/4-test-vm-cache-mgmt.c` 
+    works.
 
-#### intro
+    NOTE: you will have to make sure that your `vm_map_sec` calls
+    `staff_mmu_sync_pte_mods()` after modifying the page table if the
+    MMU is enabled.
+
+#### Lab intro
 
 Last VM lab we did the page table, the main noun of the VM universe.  This
 lab we do the main gerunds needed to hook it up to the hardware: 
