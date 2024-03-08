@@ -324,7 +324,8 @@ Note:
     enable does not have to do such initialization.
 
 The high-level sequence is given on page 6-9 of the `arm1176.pdf` document
-(screen shot below).
+(screen shot below).  B4-6 (`docs/armv6.annot.pdf`) has additional detail
+for disable if that is helpful.
 
    - On enable: Don't invalidate the TLBs or pinned-vm may not work.
    - The data cache is not accessible when the MMU is off.
