@@ -10,6 +10,17 @@
     says you need to "flush_btb, dsb, prefetch flush" but I think you
     only need the prefetch flush.
 
+  - You will also have to write `cp15_ctrl_reg1_rd()` which reads the
+    control reg 1 and returns it as a `struct control_reg1` 
+    (defined in `armv6-cp15.h`) which is exactly 32-bits wide.  
+
+            // struct control_reg1 c1 = cp15_ctrl_reg1_rd();
+            struct control_reg1 c1 = cp15_ctrl_reg1_rd();
+
+    It may be easiest to write it in the assembly file so you don't have
+    to mess with casting.
+
+
   - Note: the test `4-test-vm-cache-mgmt.c` assumes your enable/disable
     does an icache invalidation.  As the lab discusses below if you 
     do not want to do this, and have a good argument for why it is ok
