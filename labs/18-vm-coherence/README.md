@@ -326,7 +326,7 @@ Note:
 The high-level sequence is given on page 6-9 of the `arm1176.pdf` document
 (screen shot below).
 
-   - On enable: Don't invalidate the TLBs or pinned-vm won't work.
+   - On enable: Don't invalidate the TLBs or pinned-vm may not work.
    - The data cache is not accessible when the MMU is off.
      Thus, before disabling the MMU you'll need to clean the data cache
      or you'll lose dirty entries.
