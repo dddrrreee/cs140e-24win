@@ -4,7 +4,7 @@
   - hello-fixed.bin is linked at `0x90000` the code assumes its linked
     at `0x10000000`.  You'll have to update the assertion to:
 
-            assert(addr == 0x900f0);
+            assert(addr == 0x90000);
 
 
 ***NOTE***:
