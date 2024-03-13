@@ -19,6 +19,7 @@
   driver we use.
     - Tests 0 and 1 should work.  Tests 2 will partially work, but some of them
       require you to copy files to the SD card first (described later in the README).
+- If make isn't working, open the makefile and replace `CFLAGS_EXTRA` with `CFLAGS`
 - Once the test works, change the Makefile to not use the staff object files.
 
 We will do a fancy hello world: 
