@@ -17,6 +17,8 @@
 
 #define CLEAN_INV_DCACHE(Rd)    mcr p15, 0, Rd, c7, c14, 0  
 
+// flush everything.
+MK_FN(cache_flush_all)
 MK_FN(flush_caches)
     INV_TLB(r1);
     CLR(r1);

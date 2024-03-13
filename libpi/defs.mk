@@ -32,7 +32,7 @@ OPT_LEVEL ?= -Og
 CFLAGS += -D__RPI__ $(OPT_LEVEL) -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=arm1176jzf-s -mtune=arm1176jzf-s  -std=gnu99 $(INC) -ggdb -Wno-pointer-sign  -Werror  -Wno-unused-function -Wno-unused-variable 
 
 ifdef CFLAGS_EXTRA
-CFLAGS += CFLAGS_EXTRA
+CFLAGS += $(CFLAGS_EXTRA)
 endif
 
 # -ffunction-sections -fdata-sections -Wl,--gc-sections
