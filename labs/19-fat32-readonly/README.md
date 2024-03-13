@@ -2,9 +2,18 @@
 
 ***ERRATA***:
   - hello-fixed.bin is linked at `0x90000` the code assumes its linked
-    at `0x10000000`.  You'll have to update the assertion to:
+    at `0x10000000`.  You'll have to update the assertion in `2-fat32-jump.c`
+    from:
+
+            assert(addr == 0x100000f0);
+
+    to:
 
             assert(addr == 0x90000);
+
+    In the `hello-fixed` directory you should look at the `memmap.fixed` linker file 
+    and the list file `hello-fixed.list` to see how the code is laid out.  Look
+    at the code addresses in the list file and compare them.
 
 
 ***NOTE***:
