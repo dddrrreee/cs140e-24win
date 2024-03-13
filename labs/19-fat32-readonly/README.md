@@ -24,7 +24,7 @@
     the program in `hash-sd/hash-files`  on `hello-f.bin`.  For
     mine I get:
 
-        ./hash-files ../hello-fixed/hello-f.bin
+        hash-sd % ./hash-files ../hello-fixed/hello-f.bin
         about to hash 2 files
         HASH: crc of file=<../hello-fixed/hello-f.bin> (nbytes=2704) = 0xf33f6ff8
 
