@@ -22,11 +22,11 @@ Some (but not all) terms you need:
   - Type code: entry in the MBR that describes a partition type.  For
     FAT32 this is either `0xb` or `0xc`.
 
-    Sort-of side note: In a programming language, you'd use static
-    types to track types.  For on-disk, cross-language data we don't
-    have static types and so use magic numbers (type codes) as a form
-    of dynamic typing.  Same thing happens with network packets, linker
-    files, etc. for similar reasons.
+    Sort-of side note: In a static programming language like C or Rust,
+    you'd use static types to track types.  For on-disk, cross-language
+    data we don't have static types and so use magic numbers (type codes)
+    similar to how dynamically typed languages work.  Same thing happens
+    with network packets, linker files, etc. for similar reasons.
 
   - Sector: the smallest unit a disk can write.  Typically 512 bytes.
     Units smaller than a sector size (or straddling sectors) require
@@ -46,7 +46,6 @@ Some (but not all) terms you need:
     a common cheat by storage companies and disk manufacturers is to lie
     about when these writes complete, since such lies makes them faster
     on benchmarks and typically go undetected.
-
 
   - Clusters: FAT (see below) files are made up of zero or more
     fixed number of contiguous sectors called *clusters*. (Thus,

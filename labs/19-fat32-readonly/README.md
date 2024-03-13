@@ -1,5 +1,12 @@
 ## Build a simple FAT32 read-only file system.
 
+***ERRATA***:
+  - hello-fixed.bin is linked at `0x90000` the code assumes its linked
+    at `0x10000000`.  You'll have to update the assertion to:
+
+            assert(addr == 0x900f0);
+
+
 ***NOTE***:
   - In a poetic irony, my laptop died last night and the m.2 ssd wouldn't
     boot a new spare laptop.  So the code in this lab is identical to 
