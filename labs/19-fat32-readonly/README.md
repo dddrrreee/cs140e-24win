@@ -16,6 +16,9 @@
     `hello-fixed.list` to see how the code is laid out.  Look at the
     code addresses in the list file and compare them to the linker script.
 
+  - Also if you write/delete you should set the first byte to 0xe5 not
+    0x00.  Otherwise it's a subtle bug.
+
 
 ***NOTE***:
   - In a poetic irony, my laptop died last night and the m.2 ssd wouldn't
