@@ -20,7 +20,7 @@
     does not, recall that `fat32_dirent_attr_t` attributes are a
     bitwise-or so in general you'll have to bitwise-and them rather than
     directly compare.  Also make sure you're ignoreing hidden files,
-    volume labels, long file names.
+    volume labels, long file name entries.
 
   - Also if you write/delete you should set the first byte to 0xe5 not
     0x00.  Otherwise it's a subtle bug.
