@@ -16,8 +16,15 @@
     `hello-fixed.list` to see how the code is laid out.  Look at the
     code addresses in the list file and compare them to the linker script.
 
+  - Common mistake: if you get too many files that the staff code
+    does not, recall that `fat32_dirent_attr_t` attributes are a
+    bitwise-or so in general you'll have to bitwise-and them rather than
+    directly compare.  Also make sure you're ignoreing hidden files,
+    volume labels, long file names.
+
   - Also if you write/delete you should set the first byte to 0xe5 not
     0x00.  Otherwise it's a subtle bug.
+
 
 
 ***NOTE***:
