@@ -1,6 +1,7 @@
 ## Build a simple FAT32 read-only file system.
 
-***ERRATA***:
+------------------------------------------------------------------------
+***Note***:
   - hello-fixed.bin is linked at `0x90000` but the checked in test
     `code/tests/2-fat32-jump.c` assumes it's linked at `0x10000000`.
     You'll have to update the assertion in `2-fat32-jump.c` from:
@@ -16,6 +17,17 @@
     `hello-fixed.list` to see how the code is laid out.  Look at the
     code addresses in the list file and compare them to the linker script.
 
+    Note that the README below is for a harder version of the lab
+    where you'd modify the linker script.  Currently we just give
+    you everything for `hello-f.bin` --- you can just compile and
+    copy it to the SDcard.  You can compute its hash by running the 
+    the program in `hash-sd/hash-files`  on `hello-f.bin`.  For
+    mine I get:
+
+        ./hash-files ../hello-fixed/hello-f.bin
+        about to hash 2 files
+        HASH: crc of file=<../hello-fixed/hello-f.bin> (nbytes=2704) = 0xf33f6ff8
+
   - Common mistake: if you get too many files that the staff code
     does not, recall that `fat32_dirent_attr_t` attributes are a
     bitwise-or so in general you'll have to bitwise-and them rather than
@@ -25,6 +37,7 @@
   - Also if you write/delete you should set the first byte to 0xe5 not
     0x00.  Otherwise it's a subtle bug.
 
+------------------------------------------------------------------------
 
 
 ***NOTE***:
