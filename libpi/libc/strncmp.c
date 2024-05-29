@@ -1,11 +1,22 @@
 #include "rpi.h"
 
-// https://clc-wiki.net/wiki/strncmp#Implementation
-int strncmp(const char* _s1, const char* _s2, size_t n) {
-    const unsigned char *s1 = (void*)_s1, *s2 = (void*)_s2;
-    while(n--) {
-        if(*s1++!=*s2++)
-            return s1[-1] - s2[-1];
+// Implementation taken from newlib
+// See: newlib/libc/string/strncmp.c
+int strncmp(const char* s1, const char* s2, size_t n) {
+
+    // Edge case: We don't want to do any dereferencing if the buffers aren't
+    // valid
+    if (n == 0)
+        return 0;
+
+    while (n-- != 0 && *s1 == *s2) {
+        // Don't increment the pointers past the end of the array
+        // Don't increment the pointers past the null-terminator either
+        if (n == 0 || *s1 == '\0')
+            break;
+        s1++;
+        s2++;
     }
-    return 0;
+
+    return (*(unsigned char *) s1) - (*(unsigned char *) s2);
 }
