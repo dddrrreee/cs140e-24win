@@ -49,7 +49,11 @@ static inline void *ptr_add_mut(void *a, long off) {
     (a_t<b_t) ? a_t : b_t;          \
 )}
 
-#define max(a,b) min(b,a)
+#define max(a,b) ({                 \
+    let a_t = a;                    \
+    let b_t = b;                    \
+    (a_t>b_t) ? a_t : b_t;          \
+)}
 
 #if 0
 static inline uint32_t min_u32(uint32_t a, uint32_t b) {
