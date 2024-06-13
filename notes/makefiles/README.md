@@ -80,6 +80,9 @@ Required reading:
     While the domain name is weird, the `make` examples are concrete,
     simple, useful.
 
+Suggestions:
+  - [O'Reilly make book](https://www.oreilly.com/openbook/make3/book/)
+
 
 ### Common `make` mistakes
 
